@@ -758,17 +758,57 @@
   </script>
   <!-- Klaro CSS angepasst an Brandfarben -->
   <style>
-    :root {
-      --klaro-green: #184233;
-      --klaro-light-green: #C8A147;
+    /* Klaro Banner – Satin Gold als Hintergrund */
+    .klaro .cookie-notice,
+    .klaro .cookie-modal .cm-modal {
+      background: #C8A147 !important;
+      color: #184233 !important;
     }
-    .klaro .cookie-modal .cm-btn.cm-btn-success,
-    .klaro .cookie-notice .cn-btn.cm-btn-success { background: #184233 !important; }
-    .klaro .cookie-modal .cm-btn.cm-btn-info,
-    .klaro .cookie-notice .cn-btn { border-color: #184233 !important; color: #184233 !important; }
-    .klaro .cookie-modal a, .klaro .cookie-notice a { color: #C8A147 !important; }
+    .klaro .cookie-notice .cn-title,
+    .klaro .cookie-modal .cm-modal .cm-header h1,
+    .klaro .cookie-modal .cm-modal .cm-header h2 {
+      color: #184233 !important;
+    }
+    .klaro .cookie-notice p,
+    .klaro .cookie-modal p,
+    .klaro .cookie-modal .cm-list-label,
+    .klaro .cookie-modal .cm-list-description {
+      color: #184233 !important;
+    }
+    /* Buttons */
+    .klaro .cookie-notice .cn-btn.cm-btn-success,
+    .klaro .cookie-modal .cm-btn.cm-btn-success {
+      background: #184233 !important;
+      color: #FAFAFA !important;
+      border: none !important;
+    }
+    .klaro .cookie-notice .cn-btn,
+    .klaro .cookie-modal .cm-btn {
+      background: transparent !important;
+      border: 1px solid #184233 !important;
+      color: #184233 !important;
+    }
+    .klaro .cookie-notice .cn-btn:hover,
+    .klaro .cookie-modal .cm-btn:hover {
+      opacity: 0.75 !important;
+    }
+    /* Links */
+    .klaro .cookie-notice a,
+    .klaro .cookie-modal a {
+      color: #184233 !important;
+      text-decoration: underline !important;
+    }
+    /* Toggle */
     .klaro .cookie-modal .cm-toggle-all .slider,
-    .klaro .cookie-modal .cm-list-input:checked + .cm-list-label .slider { background: #184233 !important; }
+    .klaro .cookie-modal .cm-list-input:checked + .cm-list-label .slider {
+      background: #184233 !important;
+    }
+    /* Header/Footer der Modal */
+    .klaro .cookie-modal .cm-modal .cm-header,
+    .klaro .cookie-modal .cm-modal .cm-footer {
+      background: #b8922e !important;
+      border-color: rgba(24,66,51,0.2) !important;
+    }
   </style>
   <script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
 
