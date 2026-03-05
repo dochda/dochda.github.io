@@ -635,6 +635,12 @@
         });
 
         if (res.ok) {
+          // GTM Conversion Event feuern
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            'event': 'generate_lead',
+            'form_name': 'Kontaktformular'
+          });
           document.getElementById('contactForm').innerHTML = `
             <p style="font-family: var(--serif); font-size: 1.5rem; font-weight: 300; color: var(--ink); line-height: 1.4;">
               Danke, ${name}.<br><span style="color: var(--ink-light); font-size: 1.1rem;">Ich melde mich bald.</span>
