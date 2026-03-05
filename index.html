@@ -553,7 +553,7 @@
     <span class="footer-copy">© 2025 Dominik C. Daniels. Alle Rechte vorbehalten.</span>
     <div class="footer-links">
       <a href="impressum.html">Impressum</a>
-      <a href="#">Datenschutz</a>
+      <a href="datenschutz.html">Datenschutz</a>
       <a href="https://linkedin.com" target="_blank">LinkedIn</a>
     </div>
   </footer>
@@ -636,5 +636,95 @@
       }
     }
   </script>
+  <!-- COOKIE BANNER -->
+  <div id="cookieBanner" style="display:none">
+    <div id="cookieText">
+      <strong>Cookies & Tracking</strong>
+      <p>Ich nutze Google Analytics, Google Tag Manager und HubSpot um zu verstehen, wie Besucher diese Seite nutzen. Deine Daten werden nur mit deiner Einwilligung erhoben. <a href="datenschutz.html">Mehr erfahren</a></p>
+    </div>
+    <div id="cookieButtons">
+      <button id="cookieDecline">Ablehnen</button>
+      <button id="cookieAccept">Akzeptieren</button>
+    </div>
+  </div>
+
+  <style>
+    #cookieBanner {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      width: calc(100% - 4rem); max-width: 760px;
+      background: var(--ink); color: var(--cream);
+      padding: 1.5rem 2rem; z-index: 999;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+      animation: slideUpBanner 0.4s ease forwards;
+    }
+    @keyframes slideUpBanner {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    #cookieText strong { font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.3rem; }
+    #cookieText p { font-size: 0.8rem; color: rgba(250,250,250,0.6); line-height: 1.5; }
+    #cookieText a { color: var(--accent); }
+    #cookieButtons { display: flex; gap: 0.8rem; flex-shrink: 0; }
+    #cookieDecline {
+      background: transparent; border: 1px solid rgba(250,250,250,0.3);
+      color: rgba(250,250,250,0.6); padding: 0.6rem 1.2rem;
+      font-family: var(--sans); font-size: 0.75rem; letter-spacing: 0.08em;
+      text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+    }
+    #cookieDecline:hover { border-color: rgba(250,250,250,0.6); color: var(--cream); }
+    #cookieAccept {
+      background: var(--accent); border: none; color: var(--ink);
+      padding: 0.6rem 1.2rem; font-family: var(--sans); font-size: 0.75rem;
+      letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+      font-weight: 600; transition: opacity 0.2s;
+    }
+    #cookieAccept:hover { opacity: 0.85; }
+    @media (max-width: 600px) {
+      #cookieBanner { bottom: 0; left: 0; right: 0; transform: none; width: 100%; border-radius: 0; }
+    }
+  </style>
+
+  <script>
+    // Cookie Consent
+    function loadTrackingScripts() {
+      // Google Tag Manager – ersetze GTM-XXXXXXX mit deiner ID
+      // (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      // new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      // j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      // 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      // })(window,document,'script','dataLayer','GTM-XXXXXXX');
+
+      // HubSpot – ersetze XXXXXXX mit deiner Portal-ID
+      // var hs = document.createElement('script');
+      // hs.src = '//js.hs-scripts.com/XXXXXXX.js';
+      // hs.async = true; hs.defer = true;
+      // document.head.appendChild(hs);
+
+      console.log('Tracking aktiviert');
+    }
+
+    const banner = document.getElementById('cookieBanner');
+    const consent = localStorage.getItem('cookieConsent');
+
+    if (!consent) {
+      banner.style.display = 'flex';
+    } else if (consent === 'accepted') {
+      loadTrackingScripts();
+    }
+
+    document.getElementById('cookieAccept').addEventListener('click', () => {
+      localStorage.setItem('cookieConsent', 'accepted');
+      banner.style.display = 'none';
+      loadTrackingScripts();
+    });
+
+    document.getElementById('cookieDecline').addEventListener('click', () => {
+      localStorage.setItem('cookieConsent', 'declined');
+      banner.style.display = 'none';
+    });
+  </script>
+
 </body>
 </html>
