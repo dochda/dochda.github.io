@@ -53,12 +53,12 @@
     body { cursor: none; }
     #cursor {
       position: fixed; top: 0; left: 0; width: 8px; height: 8px;
-      background: var(--ink); border-radius: 50%;
+      background: var(--accent); border-radius: 50%;
       pointer-events: none; z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: transform 0.1s ease, background 0.2s ease, width 0.2s ease, height 0.2s ease;
+      transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
     }
-    #cursor.hover { width: 40px; height: 40px; background: var(--accent); opacity: 0.5; }
+    #cursor.hover { width: 40px; height: 40px; opacity: 0.5; }
     a, button, input, textarea { cursor: none; }
 
     /* ── NAV ── */
@@ -378,8 +378,11 @@
         Dominik C.<br>
         Daniels
       </h1>
+      <p class="hero-sub" style="font-size:0.8rem; letter-spacing:0.08em; color: var(--accent); text-transform:uppercase; margin-bottom:0.8rem; font-weight:500;">
+        Wie der Whisky.
+      </p>
       <p class="hero-sub">
-        Ich denke in Zusammenhängen, arbeite präzise und kommuniziere so, dass es ankommt. Nicht nur klingt.
+        Ich mache Marketing das deine Kunden nicht verarscht.
       </p>
       <div class="hero-cta">
         <a href="#contact" class="btn btn-primary">Schreib mir</a>
@@ -389,8 +392,8 @@
     <div class="hero-right">
       <div class="hero-card">
         <p class="hero-card-label">Staatl. geprüfter Kommunikationswirt</p>
-        <div class="hero-card-stat">6+</div>
-        <p class="hero-card-desc">Jahre an der Schnittstelle von Kreation, Strategie und Performance</p>
+        <div class="hero-card-stat">8</div>
+        <p class="hero-card-desc">Jahre von Print & Design bis Performance Marketing</p>
         <div class="hero-card-divider"></div>
         <div class="hero-tags">
           <span class="tag">PPC & SEA</span>
@@ -411,18 +414,21 @@
       <div>
         <div class="section-header">
           <span class="section-number">01 — Über mich</span>
-          <h2 class="section-title">Mehr als die<br>Summe der Kanäle</h2>
+          <h2 class="section-title">In den USA geboren.<br>In Deutschland groß geworden.</h2>
           <div class="section-line"></div>
         </div>
         <div class="about-text">
           <p>
-            Ich bin Kommunikationswirt und Marketingspezialist – aufgewachsen zwischen Druckbögen und Dashboards, zwischen CI-Richtlinien und Conversion-Rates.
+            Als Kind der 90er habe ich meine eigene amerikanische Kultur hauptsächlich durch Werbung kennengelernt. Das hat mich geprägt. Ich liebe mutiges Marketing. Das auch mal aneckt.
           </p>
           <p>
-            Was mich antreibt: <strong>Marketing, das tatsächlich etwas bewegt.</strong> Keine Kampagne um der Kampagne willen, kein Content auf Verdacht. Ich verstehe das Handwerk – von der Konzeption bis zur Auswertung – und ich weiß, wo Theorie aufhört und Wirkung anfängt.
+            Ich denke strategisch und kann trotzdem selbst umsetzen. Beide Seiten zu kennen ist seltener als man denkt.
           </p>
           <p>
-            Ich arbeite strukturiert, denke in Systemen und kommuniziere direkt. Wer ein Gegenüber sucht, das mitdenkt, Klartext redet und liefert: der ist hier richtig.
+            Heute helfe ich Unternehmen eine Marke aufzubauen der ihre Kunden wirklich vertrauen. Ohne Dark Patterns, ohne billige Tricks. Marketing das auf Partnerschaft basiert trägt länger als jede kurzfristige Conversion-Taktik.
+          </p>
+          <p>
+            Nebenbei: ich hab eine Schwäche für Grafikdesign, Print und Popkultur. Ich game immer noch viel zu viel. Und mein heimliches Guilty Pleasure ist Lego Architektur.
           </p>
         </div>
       </div>
@@ -436,15 +442,15 @@
           <div class="cv-item">
             <div class="cv-year">Strategie</div>
             <div>
-              <div class="cv-role">Kampagnen & Positionierung</div>
-              <div class="cv-company">PPC, SEO/SEA, Content-Strategie, CRO, Budgetplanung</div>
+              <div class="cv-role">Audits, Workflows & Optimierung</div>
+              <div class="cv-company">Marketing-Audits, Kampagnenplanung, CRO, Budgetplanung – auch mit KI</div>
             </div>
           </div>
           <div class="cv-item">
             <div class="cv-year">Marke</div>
             <div>
               <div class="cv-role">Brand Management</div>
-              <div class="cv-company">CI/CD-Pflege, Markenrichtlinien, Haupt- & Submarken, Webseiten</div>
+              <div class="cv-company">Positionierung, CI/CD, Markenrichtlinien, Tonalität, Webseiten</div>
             </div>
           </div>
           <div class="cv-item">
@@ -458,7 +464,7 @@
             <div class="cv-year">Kreation</div>
             <div>
               <div class="cv-role">Design & Produktion</div>
-              <div class="cv-company">Adobe CC (PS, AI, ID, Premiere, AE) – von der Idee bis zur Reinzeichnung</div>
+              <div class="cv-company">Adobe CC (PS, AI, ID, Premiere, AE) – von der Idee bis zur Umsetzung</div>
             </div>
           </div>
         </div>
@@ -476,18 +482,18 @@
     <div class="services-grid">
       <div class="service-card">
         <div class="service-number">01</div>
-        <div class="service-title">Marketing-Strategie & Kampagnen</div>
-        <p class="service-desc">Von der Kanalauswahl bis zur Budgetverteilung. Ich plane, steuere und optimiere Kampagnen – mit dem Blick auf das, was am Ende zählt: Ergebnis.</p>
+        <div class="service-title">Marketing-Audit & Optimierung</div>
+        <p class="service-desc">Ich schaue mir an was du gerade machst, warum es funktioniert oder nicht – und zeige konkret was besser werden kann. Kein Deck das in der Schublade landet, sondern Vorlagen und erste Schritte die sofort anwendbar sind.</p>
       </div>
       <div class="service-card">
         <div class="service-number">02</div>
-        <div class="service-title">Marke & Kommunikation</div>
-        <p class="service-desc">Positionierung, Tonalität, visuelle Sprache. Ich helfe dabei, eine klare Markenidentität zu entwickeln und konsequent zu führen – auf allen Kanälen.</p>
+        <div class="service-title">Marke & Vertrauen</div>
+        <p class="service-desc">Im B2B gewinnt wer auffällt und verlässlich ist. Ich helfe dir eine Marke zu entwickeln die beides schafft. Positionierung, Tonalität, visuelle Sprache – ohne Buzzwords, mit Haltung.</p>
       </div>
       <div class="service-card">
         <div class="service-number">03</div>
-        <div class="service-title">Beratung & Sparring</div>
-        <p class="service-desc">Kein Berater-Bingo, kein Strategie-Deck ohne Handlungsempfehlung. Ich denke mit, hinterfrage und bringe eigene Perspektiven ein. Direkt und klar.</p>
+        <div class="service-title">Sparring & Umsetzung</div>
+        <p class="service-desc">Ich bin nicht nur strategisch dabei sondern auch operativ. Durch meine Affinität zu Design und UX bin ich gerne direkt in der Maßnahmenumsetzung. Heute auch mit KI – aber immer mit dem Menschen im Mittelpunkt.</p>
       </div>
     </div>
   </section>
@@ -501,21 +507,21 @@
     </div>
     <div class="blog-grid" id="blogGrid">
       <div class="blog-card">
-        <span class="blog-tag">Strategie</span>
-        <h3 class="blog-title"><a href="#">Warum Budget allein keine Kampagne rettet</a></h3>
-        <p class="blog-excerpt">Mehr Geld löst selten das eigentliche Problem. Meistens liegt es früher: an der Botschaft, der Zielgruppe oder dem fehlenden Warum dahinter.</p>
+        <span class="blog-tag">Dark Patterns</span>
+        <h3 class="blog-title"><a href="#">Dark Patterns: Wie du als Nutzer täglich manipuliert wirst</a></h3>
+        <p class="blog-excerpt">Countdown-Timer die sich zurücksetzen, vorausgewählte Checkboxen, versteckte Kosten. Eine Bestandsaufnahme der dreistesten Tricks im digitalen Marketing.</p>
         <span class="blog-date">Demnächst</span>
       </div>
       <div class="blog-card">
-        <span class="blog-tag">Marke</span>
-        <h3 class="blog-title"><a href="#">CI-Dokument gegen Markenrealität: Was wirklich zählt</a></h3>
-        <p class="blog-excerpt">Ein 80-seitiges Markenbuch bringt nichts, wenn im Alltag jeder macht was er will. Über den Unterschied zwischen Richtlinie und gelebter Markenidentität.</p>
+        <span class="blog-tag">B2B Marketing</span>
+        <h3 class="blog-title"><a href="#">Warum B2B-Marken so langweilig sind – und wie man das ändert</a></h3>
+        <p class="blog-excerpt">Im B2B wird Langeweile oft mit Seriosität verwechselt. Dabei ist mutiges Marketing hier besonders wirksam, weil die Konkurrenz die Messlatte so tief hängt.</p>
         <span class="blog-date">Demnächst</span>
       </div>
       <div class="blog-card">
-        <span class="blog-tag">Digital</span>
-        <h3 class="blog-title"><a href="#">SEO, SEA oder beides? Die ehrliche Antwort</a></h3>
-        <p class="blog-excerpt">Es kommt drauf an – aber nicht auf das, woran die meisten zuerst denken. Ein paar Gedanken zur Kanalentscheidung ohne Buzzword-Bingo.</p>
+        <span class="blog-tag">Vertrauen</span>
+        <h3 class="blog-title"><a href="#">Vertrauen als Wachstumsstrategie: Was langfristiges Marketing wirklich bedeutet</a></h3>
+        <p class="blog-excerpt">Kurzfristige Conversion-Taktiken funktionieren einmal. Eine Marke der deine Kunden vertrauen funktioniert immer wieder. Der Unterschied im Marketing-Denken.</p>
         <span class="blog-date">Demnächst</span>
       </div>
     </div>
@@ -550,7 +556,7 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="message">Nachricht</label>
-            <textarea class="form-textarea" id="message" name="message" rows="4" placeholder="Worum geht es?" required></textarea>
+            <textarea class="form-textarea" id="message" name="message" rows="4" placeholder="Beschreib kurz dein Projekt oder deine Frage – ich melde mich persönlich." required></textarea>
           </div>
           <!-- Honeypot spam protection -->
           <input type="text" name="_gotcha" style="display:none" />
