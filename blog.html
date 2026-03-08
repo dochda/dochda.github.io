@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog – Dominik C. Daniels</title>
+  <!-- Google Tag Manager – wird nur nach Cookie-Einwilligung geladen -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { 'analytics_storage': 'denied', 'ad_storage': 'denied', 'wait_for_update': 500 });
+  </script>
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,400i,700|inter:300,400,500,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAFAFA;
+      --ink: #184233;
+      --ink-light: #4a7060;
+      --accent: #C8A147;
+      --line: #D6E2DC;
+      --serif: 'Libre Baskerville', Georgia, serif;
+      --sans: 'Inter', 'Helvetica Neue', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--ink); font-family: var(--sans); font-weight: 400; line-height: 1.7; overflow-x: hidden; }
+
+    /* CURSOR */
+    body { cursor: none; }
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+    }
+    #cursor.hover { width: 40px; height: 40px; opacity: 0.5; }
+    a, button { cursor: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.8rem 4rem;
+      background: rgba(250,250,250,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      transition: padding 0.4s;
+    }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; text-decoration: none; color: var(--ink); letter-spacing: 0.02em; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--ink-light);
+      font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 400;
+      position: relative; transition: color 0.2s;
+    }
+    .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s ease; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--ink); }
+    .nav-links a.active::after { width: 100%; }
+
+    /* HERO */
+    .blog-hero {
+      padding: 10rem 4rem 5rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .blog-hero-inner { max-width: 800px; }
+    .page-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: block; font-weight: 500; }
+    .blog-hero h1 { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.2rem; }
+    .blog-hero p { font-size: 1rem; color: var(--ink-light); max-width: 50ch; line-height: 1.8; }
+
+    /* FILTER */
+    .blog-filter {
+      padding: 2rem 4rem;
+      border-bottom: 1px solid var(--line);
+      display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+    }
+    .filter-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); margin-right: 0.5rem; }
+    .filter-btn {
+      font-size: 0.7rem; padding: 0.35rem 0.9rem;
+      border: 1px solid var(--line); background: transparent;
+      color: var(--ink-light); letter-spacing: 0.05em; font-family: var(--sans);
+      transition: all 0.2s; cursor: none;
+    }
+    .filter-btn:hover, .filter-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+    /* FEATURED POST */
+    .blog-featured {
+      padding: 4rem 4rem 0;
+    }
+    .featured-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: block; font-weight: 500; }
+    .featured-card {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line);
+      transition: border-color 0.3s;
+    }
+    .featured-card:hover { border-color: var(--ink); }
+    .featured-card-content { padding: 3rem; }
+    .featured-card-image {
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; min-height: 300px;
+    }
+    .post-tag { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: block; font-weight: 500; }
+    .featured-title { font-family: var(--serif); font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 700; line-height: 1.25; margin-bottom: 1rem; }
+    .featured-title a { text-decoration: none; color: var(--ink); transition: color 0.2s; }
+    .featured-title a:hover { color: var(--accent); }
+    .post-excerpt { font-size: 0.9rem; color: var(--ink-light); line-height: 1.8; margin-bottom: 1.5rem; }
+    .post-meta { font-size: 0.75rem; color: var(--ink-light); display: flex; gap: 1.5rem; }
+    .read-time::before { content: ''; }
+
+    /* BLOG GRID */
+    .blog-main { padding: 4rem; }
+    .blog-grid-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 2rem; display: block; }
+    .blog-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; border: 1px solid var(--line);
+    }
+    .blog-card {
+      padding: 2rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      transition: background 0.2s;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease, background 0.2s;
+    }
+    .blog-card:hover { background: white; }
+    .blog-card.visible { opacity: 1; transform: translateY(0); }
+    .blog-card:nth-child(3n) { border-right: none; }
+    .card-tag { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; display: block; font-weight: 500; }
+    .card-title { font-family: var(--sans); font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 0.7rem; }
+    .card-title a { text-decoration: none; color: var(--ink); transition: color 0.2s; }
+    .card-title a:hover { color: var(--accent); }
+    .card-excerpt { font-size: 0.82rem; color: var(--ink-light); line-height: 1.7; margin-bottom: 1rem; }
+    .card-meta { font-size: 0.72rem; color: var(--ink-light); }
+
+    /* COMING SOON BADGE */
+    .badge-soon {
+      display: inline-block; font-size: 0.65rem; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem;
+      border: 1px solid var(--line); color: var(--ink-light);
+      margin-bottom: 0.8rem;
+    }
+
+    /* NEWSLETTER */
+    .blog-newsletter {
+      margin: 0 4rem 4rem;
+      background: var(--ink); padding: 3rem 4rem;
+      display: flex; justify-content: space-between; align-items: center; gap: 3rem; flex-wrap: wrap;
+    }
+    .newsletter-text h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--cream); margin-bottom: 0.5rem; }
+    .newsletter-text p { font-size: 0.85rem; color: rgba(250,250,250,0.6); }
+    .newsletter-form { display: flex; gap: 0; flex-shrink: 0; }
+    .newsletter-input {
+      background: transparent; border: 1px solid rgba(250,250,250,0.2);
+      border-right: none; color: var(--cream); font-family: var(--sans);
+      font-size: 0.85rem; padding: 0.8rem 1.2rem; outline: none; width: 260px;
+      transition: border-color 0.3s;
+    }
+    .newsletter-input:focus { border-color: var(--accent); }
+    .newsletter-input::placeholder { color: rgba(250,250,250,0.3); }
+    .newsletter-btn {
+      background: var(--accent); border: none; color: var(--ink);
+      font-family: var(--sans); font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.8rem 1.5rem; transition: opacity 0.2s; cursor: none;
+    }
+    .newsletter-btn:hover { opacity: 0.85; }
+
+    /* FOOTER */
+    footer { background: var(--ink); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 0.75rem; color: rgba(250,250,250,0.3); }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.75rem; color: rgba(250,250,250,0.3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem 1.5rem; }
+      .blog-hero, .blog-featured, .blog-main, .blog-filter { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .blog-newsletter { margin: 0 1.5rem 3rem; padding: 2rem; }
+      .featured-card { grid-template-columns: 1fr; }
+      .featured-card-image { min-height: 160px; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-card { border-right: none; }
+      .newsletter-form { width: 100%; }
+      .newsletter-input { width: 100%; }
+      footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+
+  <nav>
+    <a class="nav-logo" href="index.html">Dominik C. Daniels</a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">Über mich</a></li>
+      <li><a href="index.html#services">Leistungen</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="index.html#contact">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <!-- BLOG HERO -->
+  <div class="blog-hero">
+    <div class="blog-hero-inner">
+      <span class="page-label">Blog</span>
+      <h1>Gedanken zu Marketing,<br>Marke & dem ganzen Rest.</h1>
+      <p>Kein Content-Marketing. Keine SEO-Texte auf Verdacht. Nur Dinge die ich wirklich denke – über ehrliches Marketing, Dark Patterns und warum B2B so viel mutiger sein könnte.</p>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="blog-filter">
+    <span class="filter-label">Thema:</span>
+    <button class="filter-btn active" onclick="filterPosts('all', this)">Alle</button>
+    <button class="filter-btn" onclick="filterPosts('dark-patterns', this)">Dark Patterns</button>
+    <button class="filter-btn" onclick="filterPosts('b2b', this)">B2B Marketing</button>
+    <button class="filter-btn" onclick="filterPosts('marke', this)">Marke & Vertrauen</button>
+    <button class="filter-btn" onclick="filterPosts('tools', this)">Tools & KI</button>
+  </div>
+
+  <!-- FEATURED POST -->
+  <div class="blog-featured">
+    <span class="featured-label">Nächster Artikel</span>
+    <div class="featured-card">
+      <div class="featured-card-content">
+        <span class="post-tag">Dark Patterns</span>
+        <h2 class="featured-title">
+          <a href="#">Dark Patterns: Wie du als Nutzer täglich manipuliert wirst</a>
+        </h2>
+        <p class="post-excerpt">Countdown-Timer die sich zurücksetzen, vorausgewählte Checkboxen, versteckte Kosten. Eine Bestandsaufnahme der dreistesten Tricks im digitalen Marketing – und warum sie kurzfristig funktionieren aber langfristig zerstören.</p>
+        <div class="post-meta">
+          <span>Demnächst</span>
+          <span class="read-time">ca. 8 min Lesezeit</span>
+        </div>
+      </div>
+      <div class="featured-card-image">🥃</div>
+    </div>
+  </div>
+
+  <!-- BLOG GRID -->
+  <div class="blog-main">
+    <span class="blog-grid-label">Alle Beiträge</span>
+    <div class="blog-grid" id="blogGrid">
+
+      <!-- Artikel 1 -->
+      <div class="blog-card" data-category="dark-patterns">
+        <span class="badge-soon">Demnächst</span>
+        <span class="card-tag">Dark Patterns</span>
+        <h3 class="card-title"><a href="#">Dark Patterns: Wie du als Nutzer täglich manipuliert wirst</a></h3>
+        <p class="card-excerpt">Countdown-Timer die sich zurücksetzen, vorausgewählte Checkboxen, versteckte Kosten. Eine Bestandsaufnahme der dreistesten Tricks.</p>
+        <span class="card-meta">Demnächst · 8 min</span>
+      </div>
+
+      <!-- Artikel 2 -->
+      <div class="blog-card" data-category="b2b">
+        <span class="badge-soon">Demnächst</span>
+        <span class="card-tag">B2B Marketing</span>
+        <h3 class="card-title"><a href="#">Warum B2B-Marken so langweilig sind – und wie man das ändert</a></h3>
+        <p class="card-excerpt">Im B2B wird Langeweile oft mit Seriosität verwechselt. Dabei ist mutiges Marketing hier besonders wirksam weil die Konkurrenz die Messlatte so tief hängt.</p>
+        <span class="card-meta">Demnächst · 6 min</span>
+      </div>
+
+      <!-- Artikel 3 -->
+      <div class="blog-card" data-category="marke">
+        <span class="badge-soon">Demnächst</span>
+        <span class="card-tag">Marke & Vertrauen</span>
+        <h3 class="card-title"><a href="#">Vertrauen als Wachstumsstrategie: Was langfristiges Marketing wirklich bedeutet</a></h3>
+        <p class="card-excerpt">Kurzfristige Conversion-Taktiken funktionieren einmal. Eine Marke der deine Kunden vertrauen funktioniert immer wieder.</p>
+        <span class="card-meta">Demnächst · 7 min</span>
+      </div>
+
+      <!-- NEUE ARTIKEL HIER EINFÜGEN -->
+      <!-- Kopiere eine .blog-card von oben, ändere Titel, Text, Kategorie und Datum -->
+
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="blog-newsletter">
+    <div class="newsletter-text">
+      <h3>Neue Artikel direkt ins Postfach.</h3>
+      <p>Kein Spam. Kein Newsletter-Marketing. Nur ein kurzes Mail wenn etwas Neues da ist.</p>
+    </div>
+    <div class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="deine@email.de" id="nlEmail" />
+      <button class="newsletter-btn" onclick="handleNewsletter()">Anmelden</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-copy">© 2026 Dominik C. Daniels. Alle Rechte vorbehalten.</span>
+    <div class="footer-links">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Scroll reveal
+    const cards = document.querySelectorAll('.blog-card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 100);
+        }
+      });
+    }, { threshold: 0.1 });
+    cards.forEach(c => observer.observe(c));
+
+    // Filter
+    function filterPosts(category, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.blog-card').forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Newsletter (Platzhalter – später mit Formspree oder Mailchimp verbinden)
+    function handleNewsletter() {
+      const email = document.getElementById('nlEmail').value;
+      if (!email) return;
+      alert('Danke! Du bekommst eine Mail sobald neue Artikel erscheinen.');
+    }
+  </script>
+
+  <!-- Klaro Cookie Config -->
+  <script>
+    var klaroConfig = { version: 1, lang: 'de', default: false, acceptAll: true,
+      translations: { de: { consentNotice: { description: 'Ich nutze Cookies. {purposes}' }, acceptAll: 'Alle akzeptieren', decline: 'Ablehnen' } },
+      services: [{ name: 'google-analytics', title: 'Google Analytics', purposes: ['analytics'] }]
+    };
+  </script>
+  <script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
+
+  <button id="cookieSettingsBtn" onclick="klaro.show()" title="Cookie-Einstellungen">🍪</button>
+  <style>
+    #cookieSettingsBtn {
+      position: fixed; bottom: 1.5rem; left: 1.5rem; width: 42px; height: 42px;
+      border-radius: 50%; background: #C8A147; border: none; font-size: 1.1rem;
+      cursor: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 998;
+      transition: transform 0.2s, opacity 0.2s; opacity: 0.85;
+    }
+    #cookieSettingsBtn:hover { transform: scale(1.1); opacity: 1; }
+  </style>
+
+</body>
+</html>
