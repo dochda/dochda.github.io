@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 553.61 163.42">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 52.22px;
+        letter-spacing: -.01em;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #c8a147;
+        font-family: RockSalt-Regular, 'Rock Salt';
+      }
+
+      .cls-2 {
+        font-size: 61.98px;
+        letter-spacing: -.02em;
+      }
+    </style>
+  </defs>
+  <text class="cls-2" transform="translate(123.25 65.91)"><tspan x="0" y="0">Daniels </tspan></text>
+  <text class="cls-1" transform="translate(7.29 123.28)"><tspan x="0" y="0" xml:space="preserve">„Wie der  Whisky“</tspan></text>
+</svg>
