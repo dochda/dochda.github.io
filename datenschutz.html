@@ -112,6 +112,38 @@
     document.getElementById('privacy-email').innerHTML = '<a href="mailto:' + user + '@' + domain + '">' + user + '@' + domain + '</a>';
     document.getElementById('rights-email').innerHTML = '<a href="mailto:' + user + '@' + domain + '">' + user + '@' + domain + '</a>';
   </script>
+  <!-- KLARO Cookie Manager -->
+  <script>
+    var klaroConfig = {
+      version: 1, elementID: 'klaro',
+      styling: { theme: ['light', 'bottom', 'wide'] },
+      storageMethod: 'localStorage', cookieName: 'klaro', cookieExpiresAfterDays: 365,
+      default: false, acceptAll: true, lang: 'de',
+      translations: { de: {
+        privacyPolicyUrl: '/datenschutz.html',
+        consentNotice: { description: 'Ich nutze Cookies und externe Dienste. {purposes}', learnMore: 'Einstellungen' },
+        acceptAll: 'Alle akzeptieren', acceptSelected: 'Auswahl speichern', decline: 'Ablehnen', close: 'Schließen',
+        purposes: { analytics: 'Analyse', marketing: 'Marketing' }
+      }},
+      services: [
+        { name: 'google-tag-manager', title: 'Google Tag Manager', purposes: ['analytics'] },
+        { name: 'google-analytics', title: 'Google Analytics 4', purposes: ['analytics'] },
+        { name: 'hubspot', title: 'HubSpot', purposes: ['marketing'] }
+      ]
+    };
+  </script>
+  <style>
+    .klaro .cookie-notice, .klaro .cookie-modal .cm-modal { background: #C8A147 !important; color: #184233 !important; }
+    .klaro .cookie-notice .cn-btn.cm-btn-success, .klaro .cookie-modal .cm-btn.cm-btn-success { background: #184233 !important; color: #FAFAFA !important; border: none !important; }
+    .klaro .cookie-notice .cn-btn, .klaro .cookie-modal .cm-btn { background: transparent !important; border: 1px solid #184233 !important; color: #184233 !important; }
+    .klaro .cookie-modal .cm-modal .cm-header, .klaro .cookie-modal .cm-modal .cm-footer { background: #b8922e !important; }
+  </style>
+  <script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
+  <button id="cookieSettingsBtn" onclick="klaro.show()" title="Cookie-Einstellungen">🍪</button>
+  <style>
+    #cookieSettingsBtn { position: fixed; bottom: 1.5rem; left: 1.5rem; width: 42px; height: 42px; border-radius: 50%; background: #C8A147; border: none; font-size: 1.1rem; cursor: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 998; transition: transform 0.2s, opacity 0.2s; opacity: 0.85; }
+    #cookieSettingsBtn:hover { transform: scale(1.1); opacity: 1; }
+  </style>
 
 </body>
 </html>

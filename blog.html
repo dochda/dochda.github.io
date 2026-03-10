@@ -342,23 +342,82 @@
     }
   </script>
 
-  <!-- Klaro Cookie Config -->
+  <!-- KLARO Cookie Manager -->
   <script>
-    var klaroConfig = { version: 1, lang: 'de', default: false, acceptAll: true,
-      translations: { de: { consentNotice: { description: 'Ich nutze Cookies. {purposes}' }, acceptAll: 'Alle akzeptieren', decline: 'Ablehnen' } },
-      services: [{ name: 'google-analytics', title: 'Google Analytics', purposes: ['analytics'] }]
+    var klaroConfig = {
+      version: 1,
+      elementID: 'klaro',
+      styling: { theme: ['light', 'bottom', 'wide'] },
+      noAutoLoad: false,
+      htmlTexts: true,
+      embedded: false,
+      groupByPurpose: true,
+      storageMethod: 'localStorage',
+      cookieName: 'klaro',
+      cookieExpiresAfterDays: 365,
+      default: false,
+      mustConsent: false,
+      acceptAll: true,
+      hideDeclineAll: false,
+      hideLearnMore: false,
+      noticeAsModal: false,
+      showNoticeTitle: true,
+      showCloseButton: true,
+      lang: 'de',
+      translations: {
+        de: {
+          privacyPolicyUrl: '/datenschutz.html',
+          consentmodal: {
+            title: 'Cookies & Datenschutz',
+            description: 'Ich nutze einige externe Dienste um diese Website zu betreiben und zu verbessern. Du entscheidest selbst welche du aktivierst.',
+          },
+          consentNotice: {
+            description: 'Ich nutze Cookies und externe Dienste. Du kannst selbst entscheiden welche du erlaubst. {purposes}',
+            learnMore: 'Einstellungen',
+          },
+          acceptAll: 'Alle akzeptieren',
+          acceptSelected: 'Auswahl speichern',
+          decline: 'Ablehnen',
+          close: 'Schließen',
+          ok: 'OK',
+          purposes: { analytics: 'Analyse', marketing: 'Marketing' },
+        }
+      },
+      services: [
+        {
+          name: 'google-tag-manager', title: 'Google Tag Manager', purposes: ['analytics'], required: false,
+          onAccept: `gtag('consent','update',{'analytics_storage':'granted','ad_storage':'granted'});(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TT2MLMR5');`,
+          onDecline: `gtag('consent','update',{'analytics_storage':'denied','ad_storage':'denied'});`,
+          translations: { de: { description: 'Verwaltet alle anderen Tracking-Skripte auf dieser Website.' } }
+        },
+        {
+          name: 'google-analytics', title: 'Google Analytics 4', purposes: ['analytics'], required: false,
+          onAccept: `var ga=document.createElement('script');ga.async=true;ga.src='https://www.googletagmanager.com/gtag/js?id=G-QLXTZVP1FH';document.head.appendChild(ga);gtag('js',new Date());gtag('config','G-QLXTZVP1FH',{'anonymize_ip':true});`,
+          translations: { de: { description: 'Anonymisierte Auswertung der Seitenbesuche. IP-Anonymisierung ist aktiviert.' } }
+        },
+        {
+          name: 'hubspot', title: 'HubSpot', purposes: ['marketing'], required: false,
+          onAccept: `/* Portal-ID eintragen wenn vorhanden */`,
+          translations: { de: { description: 'CRM und Marketing-Tracking für Kontaktanfragen.' } }
+        }
+      ]
     };
   </script>
+  <style>
+    .klaro .cookie-notice, .klaro .cookie-modal .cm-modal { background: #C8A147 !important; color: #184233 !important; }
+    .klaro .cookie-notice .cn-title, .klaro .cookie-modal .cm-modal .cm-header h1, .klaro .cookie-modal .cm-modal .cm-header h2 { color: #184233 !important; }
+    .klaro .cookie-notice p, .klaro .cookie-modal p, .klaro .cookie-modal .cm-list-label, .klaro .cookie-modal .cm-list-description { color: #184233 !important; }
+    .klaro .cookie-notice .cn-btn.cm-btn-success, .klaro .cookie-modal .cm-btn.cm-btn-success { background: #184233 !important; color: #FAFAFA !important; border: none !important; }
+    .klaro .cookie-notice .cn-btn, .klaro .cookie-modal .cm-btn { background: transparent !important; border: 1px solid #184233 !important; color: #184233 !important; }
+    .klaro .cookie-notice .cn-btn:hover, .klaro .cookie-modal .cm-btn:hover { opacity: 0.75 !important; }
+    .klaro .cookie-notice a, .klaro .cookie-modal a { color: #184233 !important; text-decoration: underline !important; }
+    .klaro .cookie-modal .cm-toggle-all .slider, .klaro .cookie-modal .cm-list-input:checked + .cm-list-label .slider { background: #184233 !important; }
+    .klaro .cookie-modal .cm-modal .cm-header, .klaro .cookie-modal .cm-modal .cm-footer { background: #b8922e !important; border-color: rgba(24,66,51,0.2) !important; }
+  </style>
   <script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
-
   <button id="cookieSettingsBtn" onclick="klaro.show()" title="Cookie-Einstellungen">🍪</button>
   <style>
-    #cookieSettingsBtn {
-      position: fixed; bottom: 1.5rem; left: 1.5rem; width: 42px; height: 42px;
-      border-radius: 50%; background: #C8A147; border: none; font-size: 1.1rem;
-      cursor: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 998;
-      transition: transform 0.2s, opacity 0.2s; opacity: 0.85;
-    }
+    #cookieSettingsBtn { position: fixed; bottom: 1.5rem; left: 1.5rem; width: 42px; height: 42px; border-radius: 50%; background: #C8A147; border: none; font-size: 1.1rem; cursor: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 998; transition: transform 0.2s, opacity 0.2s; opacity: 0.85; }
     #cookieSettingsBtn:hover { transform: scale(1.1); opacity: 1; }
   </style>
 
