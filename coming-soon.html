@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dominik C. Daniels</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAFAFA;
+      --ink: #184233;
+      --accent: #C8A147;
+    }
+    html, body {
+      height: 100%; background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      cursor: none;
+    }
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+    #cursor.hover { width: 40px; height: 40px; opacity: 0.5; }
+    .logo-wrap {
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards 0.3s;
+    }
+    .logo-wrap img {
+      max-width: 340px;
+      width: 80vw;
+      height: auto;
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+
+  <div class="logo-wrap">
+    <img src="/images/logo.svg" alt="Dominik C. Daniels" />
+  </div>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+
+    // Geheimer Zugang: Logo 5x klicken → zur echten Seite
+    let clicks = 0;
+    document.querySelector('.logo-wrap').addEventListener('click', () => {
+      clicks++;
+      if (clicks >= 5) window.location.href = '/home.html';
+    });
+  </script>
+
+</body>
+</html>
