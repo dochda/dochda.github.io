@@ -57,11 +57,11 @@
       cursor.style.top  = e.clientY + 'px';
     });
 
-    // Geheimer Zugang: Logo 5x klicken → zur echten Seite
+    
     let clicks = 0;
     document.querySelector('.logo-wrap').addEventListener('click', () => {
       clicks++;
-      if (clicks >= 5) window.location.href = '/home.html';
+      if (clicks >= 42) window.location.href = '/home.html';
     });
   </script>
 
