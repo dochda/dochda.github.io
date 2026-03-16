@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Styleguide – Dominik C. Daniels</title>
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,400i,700|inter:300,400,500,700|rock-salt:400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:       #FAFAFA;
+      --ink:         #184233;
+      --ink-light:   #4a7060;
+      --accent:      #C8A147;
+      --accent-pale: #F5EDD0;
+      --line:        #D6E2DC;
+      --white:       #ffffff;
+      --serif:       'Libre Baskerville', Georgia, serif;
+      --sans:        'Inter', 'Helvetica Neue', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    /* ── CURSOR ── */
+    body { cursor: none; }
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+    }
+    #cursor.hover { width: 40px; height: 40px; opacity: 0.5; }
+
+    /* ── LAYOUT ── */
+    .sg-header {
+      background: var(--ink);
+      padding: 4rem;
+      border-bottom: 3px solid var(--accent);
+    }
+    .sg-header-logo {
+      font-family: 'Rock Salt', var(--serif);
+      font-size: 1.2rem;
+      letter-spacing: -0.05em;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: block;
+    }
+    .sg-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+    .sg-header p {
+      font-size: 0.85rem;
+      color: rgba(250,250,250,0.45);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    /* ── NAV ── */
+    .sg-nav {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      padding: 0 4rem;
+      display: flex; gap: 0; overflow-x: auto;
+    }
+    .sg-nav a {
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      font-weight: 500; color: var(--ink-light); text-decoration: none;
+      padding: 1rem 1.5rem; white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .sg-nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    .sg-section {
+      padding: 5rem 4rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .sg-section:nth-child(even) { background: var(--white); }
+    .sg-section-label {
+      font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; margin-bottom: 0.6rem;
+    }
+    .sg-section-title {
+      font-family: var(--sans); font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700; color: var(--ink); margin-bottom: 0.5rem;
+    }
+    .sg-section-desc {
+      font-size: 0.85rem; color: var(--ink-light); margin-bottom: 3rem;
+      max-width: 55ch;
+    }
+    .sg-divider { width: 36px; height: 1px; background: var(--accent); margin: 0.8rem 0 3rem; }
+
+    /* ── COLORS ── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+    .color-card { overflow: hidden; }
+    .color-swatch {
+      height: 100px;
+      border: 1px solid var(--line);
+    }
+    .color-info { padding: 0.8rem 0 0; }
+    .color-name { font-weight: 500; font-size: 0.85rem; color: var(--ink); }
+    .color-hex {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem; color: var(--ink-light); margin-top: 0.2rem;
+    }
+    .color-var {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem; color: var(--accent); margin-top: 0.15rem;
+    }
+    .color-role { font-size: 0.75rem; color: var(--ink-light); margin-top: 0.4rem; line-height: 1.4; }
+
+    /* ── TYPOGRAPHY ── */
+    .type-specimen { margin-bottom: 3rem; }
+    .type-meta {
+      display: flex; gap: 2rem; align-items: baseline;
+      border-bottom: 1px solid var(--line); padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .type-meta-name { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .type-meta-detail { font-size: 0.7rem; color: var(--ink-light); }
+
+    .sg-h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(3rem, 6vw, 5.5rem); line-height: 1.1; letter-spacing: -0.01em; color: var(--ink); }
+    .sg-h1-label { font-size: 0.72rem; color: var(--ink-light); margin-top: 0.5rem; }
+
+    .sg-h2 { font-family: var(--sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.2; color: var(--ink); }
+    .sg-h3 { font-family: var(--sans); font-weight: 700; font-size: 1.5rem; line-height: 1.3; color: var(--ink); }
+    .sg-h4 { font-family: var(--sans); font-weight: 700; font-size: 1.1rem; line-height: 1.4; color: var(--ink); }
+
+    .type-row {
+      display: grid; grid-template-columns: 1fr 220px;
+      gap: 2rem; align-items: start;
+      padding: 2rem 0; border-bottom: 1px solid var(--line);
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-specs { padding-top: 0.5rem; }
+    .type-spec-item {
+      display: flex; justify-content: space-between;
+      font-size: 0.75rem; color: var(--ink-light);
+      padding: 0.25rem 0; border-bottom: 1px solid var(--line);
+    }
+    .type-spec-item span:last-child { font-family: 'Courier New', monospace; color: var(--ink); }
+
+    .eyebrow-demo {
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; font-family: var(--sans);
+    }
+    .body-demo { font-size: 0.95rem; color: var(--ink-light); line-height: 1.8; max-width: 60ch; }
+    .body-small-demo { font-size: 0.85rem; color: var(--ink-light); line-height: 1.7; }
+    .caption-demo { font-size: 0.75rem; color: var(--ink-light); letter-spacing: 0.05em; }
+    .label-demo {
+      font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--ink-light); font-weight: 400;
+    }
+    .nav-link-demo {
+      font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-light); font-weight: 400;
+    }
+
+    /* ── FONT SHOWCASE ── */
+    .font-showcase {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    }
+    .font-block { padding: 2rem; border: 1px solid var(--line); }
+    .font-block-serif { background: var(--ink); }
+    .font-block-sans { background: var(--white); }
+    .font-block-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+    .font-block-serif .font-block-label { color: var(--accent); }
+    .font-block-sans .font-block-label { color: var(--accent); }
+    .font-block-name { font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; }
+    .font-block-serif .font-block-name { color: var(--cream); font-family: var(--serif); }
+    .font-block-sans .font-block-name { color: var(--ink); font-family: var(--sans); }
+    .font-block-abc {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.1; margin: 1.2rem 0;
+      letter-spacing: -0.01em;
+    }
+    .font-block-serif .font-block-abc { font-family: var(--serif); font-weight: 700; color: var(--cream); }
+    .font-block-sans .font-block-abc { font-family: var(--sans); font-weight: 700; color: var(--ink); }
+    .font-block-abc-italic {
+      font-family: var(--serif); font-style: italic; font-weight: 400;
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      color: var(--accent); line-height: 1.2;
+    }
+    .font-chars {
+      font-size: 0.8rem; letter-spacing: 0.05em; opacity: 0.5;
+      line-height: 1.8; word-break: break-all;
+    }
+    .font-block-serif .font-chars { color: var(--cream); font-family: var(--serif); }
+    .font-block-sans .font-chars { color: var(--ink); font-family: var(--sans); }
+
+    /* ── BUTTONS ── */
+    .btn-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; }
+    .btn {
+      display: inline-block; padding: 0.85rem 2rem;
+      text-decoration: none; font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+      font-family: var(--sans); cursor: none;
+      transition: all 0.25s ease;
+    }
+    .btn-primary { background: var(--ink); color: var(--cream); }
+    .btn-primary:hover { background: var(--accent); }
+    .btn-outline { border: 1px solid var(--ink); color: var(--ink); }
+    .btn-outline:hover { background: var(--ink); color: var(--cream); }
+    .btn-accent { background: var(--accent); color: var(--ink); }
+    .btn-accent:hover { background: var(--ink); color: var(--cream); }
+    .btn-ghost { border: 1px solid rgba(250,250,250,0.3); color: rgba(250,250,250,0.7); }
+    .btn-ghost:hover { background: rgba(250,250,250,0.1); }
+
+    .btn-row-dark {
+      background: var(--ink); padding: 2rem; display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;
+      margin-top: 1rem;
+    }
+
+    /* ── COMPONENTS ── */
+    .component-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+    /* Tag */
+    .tag {
+      font-size: 0.7rem; padding: 0.3rem 0.8rem;
+      border: 1px solid rgba(250,250,250,0.2); color: rgba(250,250,250,0.7);
+      letter-spacing: 0.05em; display: inline-block;
+    }
+    .blog-tag {
+      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); display: inline-block;
+    }
+
+    /* Form */
+    .form-demo { max-width: 420px; }
+    .form-group-demo { margin-bottom: 1.5rem; }
+    .form-label-demo {
+      display: block; font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.5rem;
+    }
+    .form-input-demo {
+      width: 100%; background: transparent; border: none;
+      border-bottom: 1px solid var(--line); color: var(--ink);
+      font-family: var(--sans); font-size: 0.95rem; font-weight: 300;
+      padding: 0.6rem 0; outline: none;
+    }
+
+    /* Card */
+    .hero-card-demo {
+      background: var(--ink); padding: 2rem; max-width: 280px; color: var(--cream);
+    }
+    .hcd-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+    .hcd-stat { font-family: var(--serif); font-size: 3rem; font-weight: 300; line-height: 1; margin-bottom: 0.2rem; }
+    .hcd-desc { font-size: 0.8rem; color: rgba(250,250,250,0.5); }
+
+    /* Nav demo */
+    .nav-demo {
+      background: var(--ink); padding: 1.2rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border: 1px solid rgba(250,250,250,0.1);
+    }
+    .nav-demo-logo {
+      font-family: 'Rock Salt', var(--serif);
+      font-size: 0.9rem; letter-spacing: -0.05em; color: var(--accent);
+    }
+    .nav-demo-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-demo-links a {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(250,250,250,0.5); text-decoration: none; font-weight: 400;
+    }
+
+    /* Section number */
+    .section-number-demo {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); display: block; margin-bottom: 0.6rem;
+    }
+    .section-line-demo { width: 36px; height: 1px; background: var(--accent); margin-top: 0.8rem; }
+
+    /* CV item */
+    .cv-demo {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 1.5rem; padding: 1.2rem 0; border-bottom: 1px solid var(--line);
+    }
+    .cv-demo-year { font-size: 0.72rem; color: var(--accent); letter-spacing: 0.05em; font-weight: 500; text-transform: uppercase; padding-top: 0.15rem; }
+    .cv-demo-role { font-weight: 500; font-size: 0.9rem; margin-bottom: 0.15rem; }
+    .cv-demo-co { font-size: 0.82rem; color: var(--ink-light); }
+
+    /* Blog card */
+    .blog-card-demo { border-top: 1px solid var(--line); padding-top: 1.2rem; }
+    .blog-card-demo-title { font-family: var(--sans); font-size: 1rem; font-weight: 700; line-height: 1.4; margin-bottom: 0.6rem; color: var(--ink); }
+    .blog-card-demo-excerpt { font-size: 0.82rem; color: var(--ink-light); margin-bottom: 0.8rem; }
+    .blog-card-demo-date { font-size: 0.72rem; color: var(--ink-light); letter-spacing: 0.05em; }
+
+    /* ── SPACING ── */
+    .spacing-row {
+      display: flex; align-items: stretch; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem;
+    }
+    .spacing-item { display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .spacing-bar { background: var(--accent); width: 4px; }
+    .spacing-label { font-size: 0.7rem; color: var(--ink-light); font-family: 'Courier New', monospace; }
+    .spacing-px { font-size: 0.7rem; color: var(--ink); font-weight: 500; }
+
+    /* ── LOGO ── */
+    .logo-demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .logo-block { padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 1rem; }
+    .logo-block-light { background: var(--cream); border: 1px solid var(--line); }
+    .logo-block-dark { background: var(--ink); }
+    .logo-text {
+      font-family: 'Rock Salt', var(--serif);
+      letter-spacing: -0.05em; color: var(--accent);
+      font-weight: 400;
+    }
+    .logo-size-lg { font-size: 1.5rem; }
+    .logo-size-md { font-size: 1rem; }
+    .logo-size-sm { font-size: 0.75rem; }
+    .logo-caption { font-size: 0.7rem; color: var(--ink-light); letter-spacing: 0.1em; text-transform: uppercase; }
+    .logo-block-dark .logo-caption { color: rgba(250,250,250,0.3); }
+
+    /* ── CURSOR DEMO ── */
+    .cursor-demo-wrap { display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
+    .cursor-pill {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      padding: 0.8rem 1.5rem; border: 1px solid var(--line);
+      font-size: 0.8rem; color: var(--ink-light);
+    }
+    .cursor-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .cursor-dot-lg { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); opacity: 0.5; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    .sg-footer {
+      background: var(--ink); padding: 2.5rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 3px solid var(--accent);
+    }
+    .sg-footer-text { font-size: 0.72rem; color: rgba(250,250,250,0.25); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .sg-header, .sg-section { padding: 3rem 1.5rem; }
+      .sg-nav { padding: 0 1rem; }
+      .font-showcase, .component-grid, .logo-demo-grid { grid-template-columns: 1fr; }
+      .type-row { grid-template-columns: 1fr; }
+      .sg-footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- HEADER -->
+<header class="sg-header">
+  <span class="sg-header-logo">Daniels</span>
+  <h1>Brand Styleguide</h1>
+  <p>dominikdaniels.com &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; 2026</p>
+</header>
+
+<!-- NAV -->
+<nav class="sg-nav">
+  <a href="#farben">Farben</a>
+  <a href="#logo">Logo</a>
+  <a href="#typografie">Typografie</a>
+  <a href="#buttons">Buttons</a>
+  <a href="#komponenten">Komponenten</a>
+  <a href="#abstände">Abstände</a>
+  <a href="#cursor">Cursor</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════ FARBEN -->
+<section class="sg-section" id="farben">
+  <div class="sg-section-label">01 &mdash; Brand Colors</div>
+  <h2 class="sg-section-title">Farbpalette</h2>
+  <p class="sg-section-desc">Die gesamte Farbgebung basiert auf fünf Kernfarben. Gold als Akzent, Dunkelgrün als dominante Hauptfarbe, Cremeweiß als Hintergrund.</p>
+  <div class="sg-divider"></div>
+
+  <div class="color-grid">
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#C8A147;"></div>
+      <div class="color-info">
+        <div class="color-name">Accent / Gold</div>
+        <div class="color-hex">#C8A147</div>
+        <div class="color-var">--accent</div>
+        <div class="color-role">Logo, Eyebrows, Akzentlinien, Hover-States, Jahreszahlen</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#184233; border-color:transparent;"></div>
+      <div class="color-info">
+        <div class="color-name">Ink / Dunkelgrün</div>
+        <div class="color-hex">#184233</div>
+        <div class="color-var">--ink</div>
+        <div class="color-role">Primäre Schriftfarbe, Hintergrund Services, Footer, Buttons</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#4a7060; border-color:transparent;"></div>
+      <div class="color-info">
+        <div class="color-name">Ink Light / Grün</div>
+        <div class="color-hex">#4a7060</div>
+        <div class="color-var">--ink-light</div>
+        <div class="color-role">Sekundärtext, Subheadings, Labels, Nav-Links</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#FAFAFA;"></div>
+      <div class="color-info">
+        <div class="color-name">Cream / Hintergrund</div>
+        <div class="color-hex">#FAFAFA</div>
+        <div class="color-var">--cream</div>
+        <div class="color-role">Primärer Seitenhintergrund, Schrift auf dunklen Flächen</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#F5EDD0;"></div>
+      <div class="color-info">
+        <div class="color-name">Accent Pale</div>
+        <div class="color-hex">#F5EDD0</div>
+        <div class="color-var">--accent-pale</div>
+        <div class="color-role">Heller Gold-Ton, Hintergrundflächen mit Akzent</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#D6E2DC;"></div>
+      <div class="color-info">
+        <div class="color-name">Line / Border</div>
+        <div class="color-hex">#D6E2DC</div>
+        <div class="color-var">--line</div>
+        <div class="color-role">Trennlinien, Borders, Card-Kanten, Divider</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#ffffff;"></div>
+      <div class="color-info">
+        <div class="color-name">White</div>
+        <div class="color-hex">#ffffff</div>
+        <div class="color-role">Blog-Abschnitt, About-Background</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#111111; border-color:transparent;"></div>
+      <div class="color-info">
+        <div class="color-name">Near Black</div>
+        <div class="color-hex">#111111</div>
+        <div class="color-role">Hero Name Full (Uppercase-Display)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Color Combinations -->
+  <div style="margin-top:3rem;">
+    <div class="sg-section-label" style="margin-bottom:1.2rem;">Farbkombinationen</div>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:1rem;">
+      <div style="background:var(--ink); padding:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+        <span style="color:var(--cream); font-weight:500; font-size:0.9rem;">Cream auf Ink</span>
+        <span style="color:rgba(250,250,250,0.5); font-size:0.75rem;">Services, Footer, Hero-Card</span>
+      </div>
+      <div style="background:var(--accent); padding:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+        <span style="color:var(--ink); font-weight:500; font-size:0.9rem;">Ink auf Accent</span>
+        <span style="color:rgba(24,66,51,0.6); font-size:0.75rem;">Btn-Hover, Highlights</span>
+      </div>
+      <div style="background:var(--cream); padding:1.5rem; display:flex; flex-direction:column; gap:0.4rem; border:1px solid var(--line);">
+        <span style="color:var(--ink); font-weight:500; font-size:0.9rem;">Ink auf Cream</span>
+        <span style="color:var(--ink-light); font-size:0.75rem;">Standard-Lesefläche</span>
+      </div>
+      <div style="background:var(--accent-pale); padding:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+        <span style="color:var(--ink); font-weight:500; font-size:0.9rem;">Ink auf Accent Pale</span>
+        <span style="color:var(--ink-light); font-size:0.75rem;">Subtile Flächen mit Wärme</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ LOGO -->
+<section class="sg-section" id="logo">
+  <div class="sg-section-label">02 &mdash; Identity</div>
+  <h2 class="sg-section-title">Logo &amp; Wortmarke</h2>
+  <p class="sg-section-desc">Font: Rock Salt. Letter-spacing: -0.05em. Farbe: #C8A147. Immer in der Akzentfarbe, nie in Schwarz oder Weiß.</p>
+  <div class="sg-divider"></div>
+
+  <div class="logo-demo-grid">
+    <div class="logo-block logo-block-light">
+      <span class="logo-text logo-size-lg">Daniels</span>
+      <span class="logo-text logo-size-md">Daniels</span>
+      <span class="logo-text logo-size-sm">Daniels</span>
+      <span class="logo-caption">Hell &mdash; auf Cream</span>
+    </div>
+    <div class="logo-block logo-block-dark">
+      <span class="logo-text logo-size-lg">Daniels</span>
+      <span class="logo-text logo-size-md">Daniels</span>
+      <span class="logo-text logo-size-sm">Daniels</span>
+      <span class="logo-caption">Dunkel &mdash; auf Ink</span>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem; padding:1.5rem; border:1px solid var(--line); background:var(--accent-pale);">
+    <div class="sg-section-label" style="margin-bottom:0.5rem;">Catchphrase</div>
+    <p style="font-family:var(--serif); font-style:italic; font-size:1.3rem; color:var(--ink);">🥃 &ldquo;Daniels wie der Whisky.&rdquo;</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ TYPOGRAFIE -->
+<section class="sg-section" id="typografie">
+  <div class="sg-section-label">03 &mdash; Typography</div>
+  <h2 class="sg-section-title">Typografie</h2>
+  <p class="sg-section-desc">Zwei Schriften: Libre Baskerville (Serif) für H1 und Display, Inter (Sans-Serif) für alles weitere.</p>
+  <div class="sg-divider"></div>
+
+  <!-- Font Showcases -->
+  <div class="font-showcase" style="margin-bottom:3.5rem;">
+    <div class="font-block font-block-serif">
+      <div class="font-block-label">Display &mdash; Libre Baskerville</div>
+      <div class="font-block-name">Libre Baskerville</div>
+      <div class="font-block-abc">Aa Bb Cc</div>
+      <div class="font-block-abc-italic">Kursiv &amp; Eleganz</div>
+      <div class="font-chars" style="margin-top:1.2rem;">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        abcdefghijklmnopqrstuvwxyz<br>
+        0123456789 !@#$%&amp;().,
+      </div>
+    </div>
+    <div class="font-block font-block-sans">
+      <div class="font-block-label">Text &mdash; Inter</div>
+      <div class="font-block-name">Inter</div>
+      <div class="font-block-abc">Aa Bb Cc</div>
+      <div style="font-family:var(--sans); font-size:1.2rem; color:var(--ink-light); margin-top:0.5rem;">300 · 400 · 500 · 700</div>
+      <div class="font-chars" style="margin-top:1.2rem;">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        abcdefghijklmnopqrstuvwxyz<br>
+        0123456789 !@#$%&amp;().,
+      </div>
+    </div>
+  </div>
+
+  <!-- Type Scale -->
+  <div class="sg-section-label" style="margin-bottom:1.5rem;">Type Scale</div>
+
+  <div class="type-row">
+    <div>
+      <div class="sg-h1">H1 Display</div>
+      <div class="sg-h1-label">Libre Baskerville · 700 · Serif</div>
+    </div>
+    <div class="type-specs">
+      <div class="type-spec-item"><span>Font</span><span>Libre Baskerville</span></div>
+      <div class="type-spec-item"><span>Weight</span><span>700</span></div>
+      <div class="type-spec-item"><span>Size</span><span>clamp(3rem, 6vw, 5.5rem)</span></div>
+      <div class="type-spec-item"><span>Line-height</span><span>1.1</span></div>
+      <div class="type-spec-item"><span>Letter-spacing</span><span>-0.01em</span></div>
+      <div class="type-spec-item"><span>Farbe</span><span>--ink</span></div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div>
+      <div class="sg-h2">H2 Section Title</div>
+    </div>
+    <div class="type-specs">
+      <div class="type-spec-item"><span>Font</span><span>Inter</span></div>
+      <div class="type-spec-item"><span>Weight</span><span>700</span></div>
+      <div class="type-spec-item"><span>Size</span><span>clamp(2rem, 4vw, 3.2rem)</span></div>
+      <div class="type-spec-item"><span>Line-height</span><span>1.2</span></div>
+      <div class="type-spec-item"><span>Farbe</span><span>--ink</span></div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div>
+      <div class="sg-h3">H3 Subheading</div>
+    </div>
+    <div class="type-specs">
+      <div class="type-spec-item"><span>Font</span><span>Inter</span></div>
+      <div class="type-spec-item"><span>Weight</span><span>700</span></div>
+      <div class="type-spec-item"><span>Size</span><span>1.5rem</span></div>
+      <div class="type-spec-item"><span>Line-height</span><span>1.3</span></div>
+      <div class="type-spec-item"><span>Farbe</span><span>--ink</span></div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div>
+      <div class="sg-h4">H4 Card Title</div>
+    </div>
+    <div class="type-specs">
+      <div class="type-spec-item"><span>Font</span><span>Inter</span></div>
+      <div class="type-spec-item"><span>Weight</span><span>700</span></div>
+      <div class="type-spec-item"><span>Size</span><span>1.1rem</span></div>
+      <div class="type-spec-item"><span>Farbe</span><span>--ink</span></div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div>
+      <div class="eyebrow-demo">Eyebrow / Label</div>
+    </div>
+    <div class="type-specs">
+      <div class="type-spec-item"><span>Font</span><span>Inter</span></div>
+      <div class="type-spec-item"><span>Weight</span><span>500</span></div>
+      <div class="type-spec-item"><span>Size</span><span>0.75rem</span></div>
+      <div class="type-spec-item"><span>Transform</span><span>UPPERCASE</span></div>
+      <div class="type-spec-item"><span>Letter-spacing</span><span>0.2em</span></div>
+      <div class="type-spec-item"><span>Farbe</span><span>--accent</span></div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div>
+      <div class="nav-link-demo">Nav Link Style</div>
+    </div>
+    <div class="type-specs">
+      <div class="type-spec-item"><span>Font</span><span>Inter</span></div>
+      <div class="type-spec-item"><span>Weight</span><span>400</span></div>
+      <div class="type-spec-item"><span>Size</span><span>0.8rem</span></div>
+      <div class="type-spec-item"><span>Transform</span><span>UPPERCASE</span></div>
+      <div class="type-spec-item"><span>Letter-spacing</span><span>0.12em</span></div>
+      <div class="type-spec-item"><span>Farbe</span><span>--ink-light</span></div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div>
+      <div class="body-demo">Fließtext. Marketing, das Kunden nicht verarscht. Klarer Blick auf das, was wirklich wirkt.</div>
+    </div>
+    <div class="type-specs">
+      <div class="type-spec-item"><span>Font</span><span>Inter</span></div>
+      <div class="type-spec-item"><span>Weight</span><span>400</span></div>
+      <div class="type-spec-item"><span>Size</span><span>0.95rem</span></div>
+      <div class="type-spec-item"><span>Line-height</span><span>1.8</span></div>
+      <div class="type-spec-item"><span>Farbe</span><span>--ink-light</span></div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div>
+      <div class="caption-demo">Caption / Datum &mdash; März 2026</div>
+    </div>
+    <div class="type-specs">
+      <div class="type-spec-item"><span>Font</span><span>Inter</span></div>
+      <div class="type-spec-item"><span>Weight</span><span>400</span></div>
+      <div class="type-spec-item"><span>Size</span><span>0.75rem</span></div>
+      <div class="type-spec-item"><span>Letter-spacing</span><span>0.05em</span></div>
+      <div class="type-spec-item"><span>Farbe</span><span>--ink-light</span></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════ BUTTONS -->
+<section class="sg-section" id="buttons">
+  <div class="sg-section-label">04 &mdash; Buttons</div>
+  <h2 class="sg-section-title">Buttons &amp; CTAs</h2>
+  <p class="sg-section-desc">Alle Buttons: uppercase, 0.8rem, letter-spacing 0.1em, font-weight 500. Kein border-radius.</p>
+  <div class="sg-divider"></div>
+
+  <div class="btn-grid">
+    <a class="btn btn-primary" href="#">Primary Button</a>
+    <a class="btn btn-outline" href="#">Outline Button</a>
+    <a class="btn btn-accent" href="#">Accent Button</a>
+  </div>
+
+  <div class="btn-row-dark">
+    <a class="btn btn-primary" href="#" style="background:var(--cream); color:var(--ink);">Light auf Dark</a>
+    <a class="btn btn-ghost" href="#">Ghost Button</a>
+    <a class="btn btn-accent" href="#">Accent auf Dark</a>
+  </div>
+
+  <div style="margin-top:2rem; display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:1rem;">
+    <div style="padding:1rem; border:1px solid var(--line);">
+      <div class="sg-section-label" style="margin-bottom:0.5rem;">Hover States</div>
+      <div class="body-small-demo">
+        <strong>btn-primary hover:</strong> background → --accent<br>
+        <strong>btn-outline hover:</strong> background → --ink, color → --cream<br>
+        <strong>btn-send hover:</strong> background → --accent, color → --ink
+      </div>
+    </div>
+    <div style="padding:1rem; border:1px solid var(--line);">
+      <div class="sg-section-label" style="margin-bottom:0.5rem;">Spacing</div>
+      <div class="body-small-demo">
+        padding: 0.85rem 2rem<br>
+        border-radius: 0 (keine Rundung)<br>
+        transition: all 0.25s ease
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ KOMPONENTEN -->
+<section class="sg-section" id="komponenten">
+  <div class="sg-section-label">05 &mdash; Components</div>
+  <h2 class="sg-section-title">Komponenten</h2>
+  <p class="sg-section-desc">Wiederkehrende UI-Elemente der gesamten Website.</p>
+  <div class="sg-divider"></div>
+
+  <div class="component-grid">
+
+    <!-- Nav Demo -->
+    <div>
+      <div class="sg-section-label" style="margin-bottom:0.8rem;">Navigation</div>
+      <div class="nav-demo">
+        <span class="nav-demo-logo">Daniels</span>
+        <ul class="nav-demo-links">
+          <li><a href="#">Leistungen</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Hero Card Demo -->
+    <div>
+      <div class="sg-section-label" style="margin-bottom:0.8rem;">Hero Stat-Card</div>
+      <div class="hero-card-demo">
+        <div class="hcd-label">Erfahrung</div>
+        <div class="hcd-stat">8+</div>
+        <div class="hcd-desc">Jahre Marketingpraxis in B2B und B2C</div>
+      </div>
+    </div>
+
+    <!-- Section Header Demo -->
+    <div>
+      <div class="sg-section-label" style="margin-bottom:0.8rem;">Section Header</div>
+      <div style="padding:1.5rem; border:1px solid var(--line);">
+        <span class="section-number-demo">01 &mdash; Über mich</span>
+        <div class="sg-h3" style="font-size:2rem;">Ehrlichkeit ist mein Produkt.</div>
+        <div class="section-line-demo"></div>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div>
+      <div class="sg-section-label" style="margin-bottom:0.8rem;">Tags &amp; Labels</div>
+      <div style="padding:1.5rem; border:1px solid var(--line); display:flex; flex-direction:column; gap:1rem;">
+        <div>
+          <span class="blog-tag">Strategie</span>
+          <span class="blog-tag" style="margin-left:0.8rem;">Dark Patterns</span>
+          <span class="blog-tag" style="margin-left:0.8rem;">Audit</span>
+        </div>
+        <div style="background:var(--ink); padding:0.8rem; display:inline-flex; gap:0.5rem;">
+          <span class="tag">B2B</span>
+          <span class="tag">Kassel</span>
+          <span class="tag">Print</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CV Item Demo -->
+    <div>
+      <div class="sg-section-label" style="margin-bottom:0.8rem;">CV / Timeline Item</div>
+      <div>
+        <div class="cv-demo">
+          <div class="cv-demo-year">2020–Heute</div>
+          <div>
+            <div class="cv-demo-role">Marketing Manager</div>
+            <div class="cv-demo-co">Unternehmen GmbH, Kassel</div>
+          </div>
+        </div>
+        <div class="cv-demo">
+          <div class="cv-demo-year">2018–2020</div>
+          <div>
+            <div class="cv-demo-role">Grafik & Marketing</div>
+            <div class="cv-demo-co">Pharma Etiketten AG</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog Card Demo -->
+    <div>
+      <div class="sg-section-label" style="margin-bottom:0.8rem;">Blog Card</div>
+      <div class="blog-card-demo">
+        <span class="blog-tag">Strategie</span>
+        <div class="blog-card-demo-title">Dark Patterns: Was Agenturen dir nicht sagen</div>
+        <div class="blog-card-demo-excerpt">Wie Agenturen mit Intransparenz Kunden binden, statt sie zu überzeugen.</div>
+        <div class="blog-card-demo-date">15. März 2026</div>
+      </div>
+    </div>
+
+    <!-- Form Demo -->
+    <div>
+      <div class="sg-section-label" style="margin-bottom:0.8rem;">Form Fields</div>
+      <div class="form-demo">
+        <div class="form-group-demo">
+          <label class="form-label-demo">Name</label>
+          <input class="form-input-demo" type="text" placeholder="Max Mustermann" />
+        </div>
+        <div class="form-group-demo">
+          <label class="form-label-demo">E-Mail</label>
+          <input class="form-input-demo" type="email" placeholder="max@firma.de" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Service Card Demo -->
+    <div>
+      <div class="sg-section-label" style="margin-bottom:0.8rem;">Service Card (auf --ink)</div>
+      <div style="background:var(--ink); padding:2rem;">
+        <div style="font-family:var(--serif); font-size:2.5rem; font-weight:300; color:rgba(250,250,250,0.12); line-height:1; margin-bottom:0.8rem;">01</div>
+        <div style="font-weight:500; font-size:1rem; color:var(--cream); margin-bottom:0.6rem;">Marketing Audit</div>
+        <div style="font-size:0.82rem; color:rgba(250,250,250,0.5); line-height:1.7;">Einmaliger Blick von außen: was wirkt, was kostet nur Geld, was fehlt komplett.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ ABSTÄNDE -->
+<section class="sg-section" id="abstände">
+  <div class="sg-section-label">06 &mdash; Spacing</div>
+  <h2 class="sg-section-title">Abstände &amp; Layout</h2>
+  <p class="sg-section-desc">Konsequentes Spacing-System. Section-Padding 7rem vertikal, 4rem horizontal.</p>
+  <div class="sg-divider"></div>
+
+  <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:2rem; margin-bottom:2.5rem;">
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:4px;"></div>
+      <div class="spacing-label">0.25rem</div>
+      <div class="spacing-px">4px</div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:8px;"></div>
+      <div class="spacing-label">0.5rem</div>
+      <div class="spacing-px">8px</div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:12px;"></div>
+      <div class="spacing-label">0.8rem</div>
+      <div class="spacing-px">~13px</div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:16px;"></div>
+      <div class="spacing-label">1rem</div>
+      <div class="spacing-px">16px</div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:24px;"></div>
+      <div class="spacing-label">1.5rem</div>
+      <div class="spacing-px">24px</div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:32px;"></div>
+      <div class="spacing-label">2rem</div>
+      <div class="spacing-px">32px</div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:48px;"></div>
+      <div class="spacing-label">3rem</div>
+      <div class="spacing-px">48px</div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:64px;"></div>
+      <div class="spacing-label">4rem</div>
+      <div class="spacing-px">64px</div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:96px;"></div>
+      <div class="spacing-label">6rem</div>
+      <div class="spacing-px">96px</div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-bar" style="height:112px;"></div>
+      <div class="spacing-label">7rem</div>
+      <div class="spacing-px">112px</div>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:1rem;">
+    <div style="padding:1rem; border:1px solid var(--line);">
+      <div class="sg-section-label" style="margin-bottom:0.5rem;">Section Padding</div>
+      <div class="body-small-demo">7rem 4rem (desktop)<br>5rem 2rem (mobile)</div>
+    </div>
+    <div style="padding:1rem; border:1px solid var(--line);">
+      <div class="sg-section-label" style="margin-bottom:0.5rem;">Grid Gaps</div>
+      <div class="body-small-demo">3-Col Grid: 1px (Services)<br>2-Col Grid: 6rem<br>Blog Grid: 3rem</div>
+    </div>
+    <div style="padding:1rem; border:1px solid var(--line);">
+      <div class="sg-section-label" style="margin-bottom:0.5rem;">Section Line</div>
+      <div class="body-small-demo">width: 40px<br>height: 1px<br>color: --accent</div>
+    </div>
+    <div style="padding:1rem; border:1px solid var(--line);">
+      <div class="sg-section-label" style="margin-bottom:0.5rem;">Border Radius</div>
+      <div class="body-small-demo">0 (keine Rundungen)<br>Bewusst kantiges Design</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ CURSOR -->
+<section class="sg-section" id="cursor">
+  <div class="sg-section-label">07 &mdash; Interaction</div>
+  <h2 class="sg-section-title">Custom Cursor</h2>
+  <p class="sg-section-desc">Gold-Punkt als Cursor. Default: 8px. Hover auf Links/Buttons: 40px, 50% opacity.</p>
+  <div class="sg-divider"></div>
+
+  <div class="cursor-demo-wrap">
+    <div class="cursor-pill">
+      <div class="cursor-dot"></div>
+      <span>Default &mdash; 8×8px, #C8A147</span>
+    </div>
+    <div class="cursor-pill">
+      <div class="cursor-dot-lg"></div>
+      <span>Hover &mdash; 40×40px, 50% opacity</span>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem; padding:1.5rem; border:1px solid var(--line); max-width:480px;">
+    <div class="sg-section-label" style="margin-bottom:0.8rem;">CSS Snippet</div>
+    <pre style="font-size:0.75rem; color:var(--ink-light); line-height:1.7; overflow-x:auto;">body { cursor: none; }
+#cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: #C8A147;
+  border-radius: 50%;
+  pointer-events: none;
+}
+#cursor.hover {
+  width: 40px; height: 40px;
+  opacity: 0.5;
+}</pre>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="sg-footer">
+  <span class="sg-footer-text">Dominik C. Daniels &mdash; Brand Styleguide 2026</span>
+  <span class="sg-footer-text">dominikdaniels.com</span>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, input, textarea').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+</script>
+</body>
+</html>
