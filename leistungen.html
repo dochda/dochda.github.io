@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leistungen – Dominik C. Daniels</title>
+  <meta name="description" content="Zwei Angebote. Kein Retainer. Marketing-Audit für B2B-Entscheider und Digitaler Neustart für lokale Betriebe die online endlich sichtbar werden wollen." />
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { 'analytics_storage': 'denied', 'ad_storage': 'denied', 'wait_for_update': 500 });
+  </script>
+
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,400i,700|inter:300,400,500,700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAFAFA;
+      --ink: #184233;
+      --ink-light: #4a7060;
+      --accent: #C8A147;
+      --accent-pale: #F5EDD0;
+      --line: #D6E2DC;
+      --serif: 'Libre Baskerville', Georgia, serif;
+      --sans: 'Inter', 'Helvetica Neue', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--ink); font-family: var(--sans); font-size: 1rem; line-height: 1.8; overflow-x: hidden; cursor: none; }
+
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+    #cursor.hover { width: 40px; height: 40px; opacity: 0.5; }
+    a, button { cursor: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.8rem 4rem;
+      background: rgba(250,250,250,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-logo { text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--ink-light);
+      font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+      position: relative; transition: color 0.2s;
+    }
+    .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a.active { color: var(--ink); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 10rem 4rem 5rem;
+      border-bottom: 1px solid var(--line);
+      max-width: 780px;
+    }
+    .page-label {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem; display: block; font-weight: 500;
+    }
+    .page-title {
+      font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700; line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .page-intro {
+      font-size: 1rem; color: var(--ink-light); max-width: 52ch; line-height: 1.8;
+    }
+
+    /* SERVICES WRAPPER */
+    .services-wrapper {
+      padding: 5rem 4rem;
+      display: flex; flex-direction: column; gap: 0;
+    }
+
+    /* SERVICE BLOCK */
+    .service-block {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; border: 1px solid var(--line);
+      margin-bottom: 3rem;
+    }
+    .service-block-content { padding: 3.5rem; }
+    .service-block-sidebar {
+      background: var(--ink); padding: 3.5rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+
+    .service-tag {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; display: block; margin-bottom: 1rem;
+    }
+    .service-name {
+      font-family: var(--serif); font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem;
+    }
+    .service-desc {
+      font-size: 0.9rem; color: var(--ink-light); line-height: 1.8; margin-bottom: 1.5rem;
+    }
+
+    /* WHAT YOU GET LIST */
+    .what-you-get { margin: 2rem 0; }
+    .what-you-get-label {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-light); font-weight: 600; margin-bottom: 1rem; display: block;
+    }
+    .what-item {
+      display: flex; gap: 0.8rem; align-items: flex-start;
+      padding: 0.7rem 0; border-bottom: 1px solid var(--line);
+      font-size: 0.88rem; color: var(--ink); line-height: 1.5;
+    }
+    .what-item:last-child { border-bottom: none; }
+    .what-item-check {
+      color: var(--accent); font-size: 0.8rem; margin-top: 0.15rem; flex-shrink: 0;
+    }
+
+    /* SIDEBAR CONTENT */
+    .sidebar-price-label {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(250,250,250,0.4); margin-bottom: 0.5rem; display: block;
+    }
+    .sidebar-price {
+      font-family: var(--serif); font-size: 3rem; font-weight: 700;
+      color: var(--accent); line-height: 1; margin-bottom: 0.3rem;
+    }
+    .sidebar-price-note {
+      font-size: 0.78rem; color: rgba(250,250,250,0.4); margin-bottom: 2.5rem;
+    }
+    .sidebar-for-label {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(250,250,250,0.4); margin-bottom: 0.8rem; display: block;
+    }
+    .sidebar-for-item {
+      font-size: 0.85rem; color: rgba(250,250,250,0.7);
+      padding: 0.4rem 0; border-bottom: 1px solid rgba(250,250,250,0.08);
+      line-height: 1.5;
+    }
+    .sidebar-for-item:last-child { border-bottom: none; }
+    .sidebar-note {
+      font-size: 0.78rem; color: rgba(250,250,250,0.35);
+      line-height: 1.6; margin-top: 2rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(250,250,250,0.08);
+    }
+
+    /* CTA BUTTON */
+    .service-cta {
+      display: inline-block; margin-top: 2rem;
+      padding: 0.9rem 2rem; background: var(--accent);
+      color: var(--ink); font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .service-cta:hover { opacity: 0.85; }
+
+    /* BOTTOM NOTE */
+    .bottom-note {
+      padding: 0 4rem 5rem;
+      max-width: 640px;
+    }
+    .bottom-note p {
+      font-size: 0.88rem; color: var(--ink-light); line-height: 1.8;
+    }
+    .bottom-note strong { color: var(--ink); font-weight: 600; }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink); padding: 2rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(250,250,250,0.05);
+    }
+    .footer-copy { font-size: 0.75rem; color: rgba(250,250,250,0.3); }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.75rem; color: rgba(250,250,250,0.3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem; }
+      .page-header, .services-wrapper, .bottom-note { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .service-block { grid-template-columns: 1fr; }
+      .service-block-sidebar { order: -1; }
+      footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<nav>
+  <a class="nav-logo" href="index.html"><img src="/images/logo.svg" alt="D.C. Daniels" style="height:32px; width:auto; display:block;"></a>
+  <ul class="nav-links">
+    <li><a href="home.html#about">Über mich</a></li>
+    <li><a href="leistungen.html" class="active">Leistungen</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="home.html#contact">Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <span class="page-label">Leistungen</span>
+  <h1 class="page-title">Zwei Angebote.<br>Kein Retainer.</h1>
+  <p class="page-intro">Ich arbeite projektbasiert und selektiv. Kein monatlicher Vertrag, keine Dauerverfügbarkeit. Wenn das Projekt und die Person passen, arbeite ich gerne. Wenn nicht, sage ich das auch.</p>
+</div>
+
+<!-- SERVICES -->
+<div class="services-wrapper">
+
+  <!-- AUDIT -->
+  <div class="service-block">
+    <div class="service-block-content">
+      <span class="service-tag">Für B2B-Entscheider</span>
+      <h2 class="service-name">Marketing-Audit</h2>
+      <p class="service-desc">Du machst Marketing, aber du weißt nicht genau ob es das Richtige ist. Eine Agentur hat dir etwas gebaut das niemand versteht. Oder du hast intern Dinge aufgesetzt die funktionieren, aber du willst wissen was du übersiehst.</p>
+      <p class="service-desc">Ich schaue mir an was du gerade machst, warum es funktioniert oder nicht, und zeige dir konkret was besser werden kann. Kein Folienstapel der in der Schublade landet. Vorlagen, Priorisierung und erste Schritte die du intern selbst weiterführen kannst.</p>
+
+      <div class="what-you-get">
+        <span class="what-you-get-label">Was du bekommst</span>
+        <div class="what-item"><span class="what-item-check">→</span> Ehrliche Einschätzung deiner aktuellen Marketing-Situation</div>
+        <div class="what-item"><span class="what-item-check">→</span> Priorisierte Liste der dringendsten Baustellen</div>
+        <div class="what-item"><span class="what-item-check">→</span> Konkrete Vorlagen und Frameworks die sofort einsetzbar sind</div>
+        <div class="what-item"><span class="what-item-check">→</span> Einen Fahrplan den du intern ohne mich weiterführen kannst</div>
+        <div class="what-item"><span class="what-item-check">→</span> Kein Folge-Retainer, kein versteckter Upsell</div>
+      </div>
+
+      <a href="home.html#contact" class="service-cta">Anfrage stellen</a>
+    </div>
+    <div class="service-block-sidebar">
+      <div>
+        <span class="sidebar-price-label">Preis</span>
+        <div class="sidebar-price">Auf Anfrage</div>
+        <p class="sidebar-price-note">Abhängig von Größe und Komplexität</p>
+        <span class="sidebar-for-label">Für wen</span>
+        <div class="sidebar-for-item">B2B-Unternehmen im Mittelstand</div>
+        <div class="sidebar-for-item">Entscheider die schon schlechte Agenturerfahrungen gemacht haben</div>
+        <div class="sidebar-for-item">Marketing-Teams die eine externe Perspektive brauchen</div>
+      </div>
+      <p class="sidebar-note">Ich nehme nicht jeden Auftrag an. Wenn ich denke dass ich dir nicht wirklich helfen kann, sage ich das im ersten Gespräch.</p>
+    </div>
+  </div>
+
+  <!-- DIGITALER NEUSTART -->
+  <div class="service-block">
+    <div class="service-block-content">
+      <span class="service-tag">Für Handwerk, Gewerbe & lokale Dienstleister</span>
+      <h2 class="service-name">Digitaler Neustart</h2>
+      <p class="service-desc">Deine Website stammt aus 2014 und wurde seitdem nicht mehr angefasst. Du hast keinen Google-Eintrag, oder er ist halbfertig. Wenn jemand nach dir sucht, findet er dich nicht, oder er findet etwas das nicht mehr stimmt.</p>
+      <p class="service-desc">Ich richte das einmal sauber ein. Danach bist du sichtbar, erreichbar und kannst alles selbst weiterpflegen. Kein Techniker nötig, kein monatlicher Vertrag.</p>
+
+      <div class="what-you-get">
+        <span class="what-you-get-label">Was du bekommst</span>
+        <div class="what-item"><span class="what-item-check">→</span> Google Business Profile vollständig eingerichtet und optimiert</div>
+        <div class="what-item"><span class="what-item-check">→</span> Einfache Landingpage oder Fix der bestehenden Website</div>
+        <div class="what-item"><span class="what-item-check">→</span> Anleitung für eigene Fotos, die nicht peinlich sind</div>
+        <div class="what-item"><span class="what-item-check">→</span> Einfaches CRM eingerichtet damit Anfragen nicht verloren gehen</div>
+        <div class="what-item"><span class="what-item-check">→</span> Übergabe-Dokument: was wurde gemacht, wo liegt was, was tust du selbst</div>
+      </div>
+
+      <a href="home.html#contact" class="service-cta">Anfrage stellen</a>
+    </div>
+    <div class="service-block-sidebar">
+      <div>
+        <span class="sidebar-price-label">Einmaliger Festpreis</span>
+        <div class="sidebar-price">800 €</div>
+        <p class="sidebar-price-note">Einmalig, kein Folgevertrag</p>
+        <span class="sidebar-for-label">Für wen</span>
+        <div class="sidebar-for-item">Handwerker & Gewerbetreibende</div>
+        <div class="sidebar-for-item">Lokale Dienstleister: Ärzte, Steuerberater, Therapeuten</div>
+        <div class="sidebar-for-item">Betriebe die online unsichtbar sind und das ändern wollen</div>
+      </div>
+      <p class="sidebar-note">Nach der Übergabe kannst du alles selbst weiterpflegen. Das ist Absicht, kein Versehen.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NOTE -->
+<div class="bottom-note">
+  <p><strong>Noch unsicher welches Angebot passt?</strong> Schreib mir kurz worum es geht. Ich melde mich persönlich und sage dir ehrlich ob und wie ich helfen kann.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2026 Dominik C. Daniels. Alle Rechte vorbehalten.</span>
+  <div class="footer-links">
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="https://www.linkedin.com/in/dominik-daniels/" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+</script>
+
+<!-- KLARO Cookie Manager -->
+<script>
+  var klaroConfig = {
+    version: 1, elementID: 'klaro',
+    styling: { theme: ['light', 'bottom', 'wide'] },
+    noAutoLoad: false, htmlTexts: true, embedded: false,
+    groupByPurpose: true, storageMethod: 'localStorage',
+    cookieName: 'klaro', cookieExpiresAfterDays: 365,
+    default: false, mustConsent: false, acceptAll: true,
+    hideDeclineAll: false, hideLearnMore: false,
+    noticeAsModal: false, showNoticeTitle: true,
+    showCloseButton: true, lang: 'de',
+    translations: {
+      de: {
+        privacyPolicyUrl: '/datenschutz.html',
+        consentmodal: {
+          title: 'Cookies & Datenschutz',
+          description: 'Ich nutze einige externe Dienste um diese Website zu betreiben und zu verbessern. Du entscheidest selbst welche du aktivierst.',
+        },
+        consentNotice: {
+          description: 'Ich nutze Cookies und externe Dienste. Du kannst selbst entscheiden welche du erlaubst. {purposes}',
+          learnMore: 'Einstellungen',
+        },
+        acceptAll: 'Alle akzeptieren', acceptSelected: 'Auswahl speichern',
+        decline: 'Ablehnen', close: 'Schließen', ok: 'OK',
+        purposes: { analytics: 'Analyse', marketing: 'Marketing' },
+      }
+    },
+    services: [
+      {
+        name: 'google-tag-manager', title: 'Google Tag Manager', purposes: ['analytics'], required: false,
+        onAccept: `gtag('consent','update',{'analytics_storage':'granted','ad_storage':'granted'});(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TT2MLMR5');`,
+        onDecline: `gtag('consent','update',{'analytics_storage':'denied','ad_storage':'denied'});`,
+        translations: { de: { description: 'Verwaltet alle anderen Tracking-Skripte auf dieser Website.' } }
+      },
+      {
+        name: 'google-analytics', title: 'Google Analytics 4', purposes: ['analytics'], required: false,
+        onAccept: `var ga=document.createElement('script');ga.async=true;ga.src='https://www.googletagmanager.com/gtag/js?id=G-QLXTZVP1FH';document.head.appendChild(ga);gtag('js',new Date());gtag('config','G-QLXTZVP1FH',{'anonymize_ip':true});`,
+        translations: { de: { description: 'Anonymisierte Auswertung der Seitenbesuche. IP-Anonymisierung ist aktiviert.' } }
+      },
+      {
+        name: 'hubspot', title: 'HubSpot', purposes: ['marketing'], required: false,
+        onAccept: `/* Portal-ID eintragen wenn vorhanden */`,
+        translations: { de: { description: 'CRM und Marketing-Tracking für Kontaktanfragen.' } }
+      }
+    ]
+  };
+</script>
+<style>
+  .klaro .cookie-notice, .klaro .cookie-modal .cm-modal { background: #C8A147 !important; color: #184233 !important; }
+  .klaro .cookie-notice .cn-title, .klaro .cookie-modal .cm-modal .cm-header h1, .klaro .cookie-modal .cm-modal .cm-header h2 { color: #184233 !important; }
+  .klaro .cookie-notice p, .klaro .cookie-modal p, .klaro .cookie-modal .cm-list-label, .klaro .cookie-modal .cm-list-description { color: #184233 !important; }
+  .klaro .cookie-notice .cn-btn.cm-btn-success, .klaro .cookie-modal .cm-btn.cm-btn-success { background: #184233 !important; color: #FAFAFA !important; border: none !important; }
+  .klaro .cookie-notice .cn-btn, .klaro .cookie-modal .cm-btn { background: transparent !important; border: 1px solid #184233 !important; color: #184233 !important; }
+  .klaro .cookie-notice .cn-btn:hover, .klaro .cookie-modal .cm-btn:hover { opacity: 0.75 !important; }
+  .klaro .cookie-notice a, .klaro .cookie-modal a { color: #184233 !important; text-decoration: underline !important; }
+  .klaro .cookie-modal .cm-toggle-all .slider, .klaro .cookie-modal .cm-list-input:checked + .cm-list-label .slider { background: #184233 !important; }
+  .klaro .cookie-modal .cm-modal .cm-header, .klaro .cookie-modal .cm-modal .cm-footer { background: #b8922e !important; border-color: rgba(24,66,51,0.2) !important; }
+</style>
+<script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
+<button id="cookieSettingsBtn" onclick="klaro.show()" title="Cookie-Einstellungen">🍪</button>
+<style>
+  #cookieSettingsBtn { position: fixed; bottom: 1.5rem; left: 1.5rem; width: 42px; height: 42px; border-radius: 50%; background: #C8A147; border: none; font-size: 1.1rem; cursor: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 998; transition: transform 0.2s, opacity 0.2s; opacity: 0.85; }
+  #cookieSettingsBtn:hover { transform: scale(1.1); opacity: 1; }
+</style>
+
+</body>
+</html>
