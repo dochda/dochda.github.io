@@ -170,26 +170,21 @@
       position: relative; z-index: 1;
       opacity: 0; animation: fadeIn 1.2s ease 0.5s forwards;
     }
-    .hero-card {
-      background: var(--ink); border: 1px solid var(--ink);
-      padding: 2.5rem; max-width: 320px; width: 100%;
-      color: var(--cream);
+    .hero-photo-wrap {
+      position: relative; width: 380px; height: 380px; flex-shrink: 0;
     }
-    .hero-card-label {
-      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 1rem;
+    .hero-photo-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; border-radius: 50%;
+      border: 3px solid var(--accent);
+      filter: grayscale(15%);
     }
-    .hero-card-stat {
-      font-family: var(--serif); font-size: 3.5rem; font-weight: 300;
-      line-height: 1; margin-bottom: 0.3rem;
-    }
-    .hero-card-desc { font-size: 0.85rem; color: rgba(250,250,250,0.6); margin-bottom: 1.5rem; }
-    .hero-card-divider { height: 1px; background: rgba(250,250,250,0.15); margin-bottom: 1.5rem; }
-    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .tag {
-      font-size: 0.7rem; padding: 0.3rem 0.8rem;
-      border: 1px solid rgba(250,250,250,0.2); color: rgba(250,250,250,0.7);
-      letter-spacing: 0.05em;
+    .hero-photo-badge {
+      position: absolute; bottom: 1.2rem; right: -1rem;
+      background: var(--ink); color: var(--accent);
+      font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.5rem 1rem; font-weight: 500; white-space: nowrap;
+      border: 1px solid var(--accent);
     }
 
     /* ── SECTION BASE ── */
@@ -228,6 +223,23 @@
     .cv-role { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.2rem; }
     .cv-company { font-size: 0.85rem; color: var(--ink-light); }
 
+    /* ── PROOF ── */
+    #proof { background: var(--accent-pale); }
+    #proof .section-number { color: var(--accent); }
+    .proof-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; border: 1px solid rgba(200,161,71,0.3);
+    }
+    .proof-item {
+      padding: 2.5rem; border-right: 1px solid rgba(200,161,71,0.3);
+    }
+    .proof-item:last-child { border-right: none; }
+    .proof-number {
+      font-family: var(--serif); font-size: 2.4rem; font-weight: 700;
+      color: var(--ink); display: block; margin-bottom: 0.8rem; line-height: 1.1;
+    }
+    .proof-desc { font-size: 0.85rem; color: var(--ink-light); line-height: 1.7; }
+
     /* ── SERVICES ── */
     #services { background: var(--ink); }
     #services .section-number { color: var(--accent); }
@@ -237,17 +249,25 @@
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
       background: rgba(250,250,250,0.1); border: 1px solid rgba(250,250,250,0.1);
     }
+    .services-grid-single {
+      grid-template-columns: 1fr; max-width: 640px;
+    }
     .service-card {
       background: var(--ink); padding: 2.5rem;
       transition: background 0.3s;
     }
     .service-card:hover { background: #1e5040; }
+    .service-card-featured { border: 1px solid rgba(200,161,71,0.3); }
     .service-number {
       font-family: var(--serif); font-size: 3rem; font-weight: 300;
       color: rgba(250,250,250,0.15); line-height: 1; margin-bottom: 1rem;
     }
     .service-title { font-weight: 500; font-size: 1rem; margin-bottom: 0.8rem; color: var(--cream); }
     .service-desc { font-size: 0.85rem; color: rgba(250,250,250,0.55); line-height: 1.7; }
+    .service-avail {
+      margin-top: 1.5rem; font-size: 0.78rem; color: var(--accent);
+      letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500;
+    }
 
     /* ── BLOG ── */
     #blog { background: white; }
@@ -374,36 +394,24 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-content">
-      <p class="hero-eyebrow">Marketing · Strategie · Kommunikation</p>
+      <p class="hero-eyebrow">Dominik C. Daniels · Wie der Whisky 🥃</p>
       <h1 class="hero-title">
-        Dominik C.<br>
-        Daniels
+        Marketing das<br>
+        <em>Menschen</em><br>
+        ernst nimmt.
       </h1>
-      <p class="hero-sub" style="font-size:0.8rem; letter-spacing:0.08em; color: var(--accent); text-transform:uppercase; margin-bottom:0.8rem; font-weight:500;">
-        Wie der Whisky. 🥃
-      </p>
       <p class="hero-sub">
-        Ich mache Marketing das deine Kunden nicht verarscht.
+        Ich schreibe über ehrliches B2B-Marketing und nehme gelegentlich Projekte an bei denen ich wirklich helfen kann.
       </p>
       <div class="hero-cta">
-        <a href="#contact" class="btn btn-primary">Schreib mir</a>
-        <a href="#about" class="btn btn-outline">Mehr erfahren</a>
+        <a href="blog.html" class="btn btn-primary">Zum Blog</a>
+        <a href="#contact" class="btn btn-outline">Schreib mir</a>
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-card">
-        <p class="hero-card-label">Staatl. geprüfter Kommunikationswirt</p>
-        <div class="hero-card-stat">8</div>
-        <p class="hero-card-desc">Jahre von Print & Design bis Performance Marketing</p>
-        <div class="hero-card-divider"></div>
-        <div class="hero-tags">
-          <span class="tag">PPC & SEA</span>
-          <span class="tag">SEO</span>
-          <span class="tag">Branding</span>
-          <span class="tag">CRO</span>
-          <span class="tag">Content</span>
-          <span class="tag">CRM</span>
-        </div>
+      <div class="hero-photo-wrap">
+        <img src="/images/profil.jpg" alt="Dominik C. Daniels" />
+        <span class="hero-photo-badge">Kommunikationswirt & Marketing Manager</span>
       </div>
     </div>
     <div class="hero-bg-text" aria-hidden="true">DCD</div>
@@ -473,28 +481,43 @@
     </div>
   </section>
 
+  <!-- PROOF -->
+  <section id="proof">
+    <div class="section-header">
+      <span class="section-number">Was ich in der Praxis gemacht habe</span>
+      <h2 class="section-title">Keine Theorie.<br>Ergebnisse.</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="proof-grid">
+      <div class="proof-item">
+        <span class="proof-number">ROAS 10</span>
+        <p class="proof-desc">Google Ads von Grund auf neu aufgesetzt und optimiert, nachdem eine externe Agentur übernommen hatte. Ergebnis: zehnfacher Return on Ad Spend.</p>
+      </div>
+      <div class="proof-item">
+        <span class="proof-number">30–70 %</span>
+        <p class="proof-desc">Organisches Traffic-Wachstum durch strukturierte SEO-Maßnahmen und Content-Strategie im B2B-Umfeld.</p>
+      </div>
+      <div class="proof-item">
+        <span class="proof-number">Von Null</span>
+        <p class="proof-desc">HubSpot CRM vollständig aufgebaut und eingeführt. Rebranding und zweigleisige Markenarchitektur allein entwickelt und umgesetzt, mit voller Budgetverantwortung.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- SERVICES -->
   <section id="services">
     <div class="section-header">
       <span class="section-number">02 — Was ich anbiete</span>
-      <h2 class="section-title">Womit ich helfen kann</h2>
+      <h2 class="section-title">Ein Angebot.<br>Kein Retainer.</h2>
       <div class="section-line"></div>
     </div>
-    <div class="services-grid">
-      <div class="service-card">
+    <div class="services-grid services-grid-single">
+      <div class="service-card service-card-featured">
         <div class="service-number">01</div>
-        <div class="service-title">Marketing-Audit & Optimierung</div>
-        <p class="service-desc">Ich schaue mir an was du gerade machst, warum es funktioniert oder nicht – und zeige konkret was besser werden kann. Kein Deck das in der Schublade landet, sondern Vorlagen und erste Schritte die sofort anwendbar sind.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-number">02</div>
-        <div class="service-title">Marke & Vertrauen</div>
-        <p class="service-desc">Im B2B gewinnt wer auffällt und verlässlich ist. Ich helfe dir eine Marke zu entwickeln die beides schafft. Positionierung, Tonalität, visuelle Sprache – ohne Buzzwords, mit Haltung.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-number">03</div>
-        <div class="service-title">Sparring & Umsetzung</div>
-        <p class="service-desc">Ich bin nicht nur strategisch dabei sondern auch operativ. Durch meine Affinität zu Design und UX bin ich gerne direkt in der Maßnahmenumsetzung. Heute auch mit KI – aber immer mit dem Menschen im Mittelpunkt.</p>
+        <div class="service-title">Marketing-Audit</div>
+        <p class="service-desc">Ich schaue mir an was du gerade machst, warum es funktioniert oder nicht, und zeige konkret was besser werden kann. Du bekommst keinen Folienstapel der in der Schublade landet, sondern eine ehrliche Einschätzung, Vorlagen und erste Schritte die du intern selbst weiterführen kannst.</p>
+        <p class="service-desc" style="margin-top:1rem;">Ich arbeite projektbasiert und selektiv. Kein Retainer, keine monatliche Betreuung. Wenn das Projekt und die Person passen, arbeite ich gerne. Wenn nicht, sage ich das auch.</p>
+        <p class="service-avail">Anfragen über das Kontaktformular. Ich melde mich persönlich.</p>
       </div>
     </div>
   </section>
@@ -509,21 +532,21 @@
     <div class="blog-grid" id="blogGrid">
       <div class="blog-card">
         <span class="blog-tag">Dark Patterns</span>
-        <h3 class="blog-title"><a href="#">Dark Patterns: Wie du als Nutzer täglich manipuliert wirst</a></h3>
+        <h3 class="blog-title"><a href="blog/dark-patterns.html">Dark Patterns: Wie du als Nutzer täglich manipuliert wirst</a></h3>
         <p class="blog-excerpt">Countdown-Timer die sich zurücksetzen, vorausgewählte Checkboxen, versteckte Kosten. Eine Bestandsaufnahme der dreistesten Tricks im digitalen Marketing.</p>
-        <span class="blog-date">Demnächst</span>
+        <span class="blog-date">März 2026 · 8 min</span>
       </div>
       <div class="blog-card">
         <span class="blog-tag">B2B Marketing</span>
-        <h3 class="blog-title"><a href="#">Warum B2B-Marken so langweilig sind – und wie man das ändert</a></h3>
+        <h3 class="blog-title"><a href="blog/b2b-langweilig.html">Warum B2B-Marken so langweilig sind – und wie man das ändert</a></h3>
         <p class="blog-excerpt">Im B2B wird Langeweile oft mit Seriosität verwechselt. Dabei ist mutiges Marketing hier besonders wirksam, weil die Konkurrenz die Messlatte so tief hängt.</p>
-        <span class="blog-date">Demnächst</span>
+        <span class="blog-date">März 2026 · 6 min</span>
       </div>
       <div class="blog-card">
-        <span class="blog-tag">Vertrauen</span>
-        <h3 class="blog-title"><a href="#">Vertrauen als Wachstumsstrategie: Was langfristiges Marketing wirklich bedeutet</a></h3>
+        <span class="blog-tag">Marke & Vertrauen</span>
+        <h3 class="blog-title"><a href="blog/vertrauen-wachstumsstrategie.html">Vertrauen als Wachstumsstrategie: Was langfristiges Marketing wirklich bedeutet</a></h3>
         <p class="blog-excerpt">Kurzfristige Conversion-Taktiken funktionieren einmal. Eine Marke der deine Kunden vertrauen funktioniert immer wieder. Der Unterschied im Marketing-Denken.</p>
-        <span class="blog-date">Demnächst</span>
+        <span class="blog-date">März 2026 · 7 min</span>
       </div>
     </div>
     <div class="blog-more">
