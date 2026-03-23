@@ -311,10 +311,11 @@
     .newsletter-input:focus { border-color: var(--accent); }
     .newsletter-input::placeholder { color: rgba(250,250,250,0.3); }
     .newsletter-btn {
+      display: inline-block;
       background: var(--accent); border: none; color: var(--ink);
       font-family: var(--sans); font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 0.8rem 1.5rem; transition: opacity 0.2s; cursor: none;
+      letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+      padding: 0.9rem 2rem; transition: opacity 0.2s; cursor: none; white-space: nowrap;
     }
     .newsletter-btn:hover { opacity: 0.85; }
     .newsletter-note { font-size: 0.72rem; color: rgba(250,250,250,0.25); margin-top: 0.6rem; }
@@ -590,15 +591,7 @@
       <h3>Neue Artikel direkt ins Postfach.</h3>
       <p>Kein Spam. Kein Newsletter-Marketing. Nur ein kurzes Mail wenn etwas Neues da ist.</p>
     </div>
-    <div>
-      <form action="https://308acf86.sibforms.com/serve/MUIFAC3f-ukZ5g8TX_lPjobpSvIYDheq-mEG7j5u4FGV5fs3atFCO-VwU7URL7iRYqyOyNWGOpC0N_FxjETGwrN5GZro4rC6XGjPe865RgD7iuANj0QwNT-KebixKSHMbRd4LKnTjJDDC1iH_7W_NeDQ6teaiRTvr6h4GXLoK3zdBxqvjWIQZhw_gizawCdwrV_KnJVVHC8RjKso6Q==" method="POST" target="_blank">
-        <div class="newsletter-form">
-          <input class="newsletter-input" type="email" name="EMAIL" placeholder="deine@email.de" required />
-          <button class="newsletter-btn" type="submit">Anmelden</button>
-        </div>
-      </form>
-      <p class="newsletter-note">Abmeldung jederzeit möglich.</p>
-    </div>
+    <a href="https://308acf86.sibforms.com/serve/MUIFAC3f-ukZ5g8TX_lPjobpSvIYDheq-mEG7j5u4FGV5fs3atFCO-VwU7URL7iRYqyOyNWGOpC0N_FxjETGwrN5GZro4rC6XGjPe865RgD7iuANj0QwNT-KebixKSHMbRd4LKnTjJDDC1iH_7W_NeDQ6teaiRTvr6h4GXLoK3zdBxqvjWIQZhw_gizawCdwrV_KnJVVHC8RjKso6Q==" target="_blank" class="newsletter-btn">Anmelden</a>
   </div>
 
   <!-- CONTACT -->
