@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SynthID: Googles unsichtbares Wasserzeichen gegen AI Slop – Dominik C. Daniels</title>
+  <meta name="description" content="AI-generierte Bilder werden immer besser und schwerer erkennbar. Google hat mit SynthID ein Werkzeug das direkt in Gemini steckt. Was es kann, was es nicht kann, und warum es trotzdem relevant ist." />
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { 'analytics_storage': 'denied', 'ad_storage': 'denied', 'wait_for_update': 500 });
+  </script>
+
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,400i,700|inter:300,400,500,700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAFAFA;
+      --ink: #184233;
+      --ink-light: #4a7060;
+      --accent: #C8A147;
+      --accent-pale: #F5EDD0;
+      --line: #D6E2DC;
+      --serif: 'Libre Baskerville', Georgia, serif;
+      --sans: 'Inter', 'Helvetica Neue', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--ink); font-family: var(--sans); font-size: 1rem; line-height: 1.8; overflow-x: hidden; cursor: none; }
+
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+    #cursor.hover { width: 40px; height: 40px; opacity: 0.5; }
+    a, button { cursor: none; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.8rem 4rem;
+      background: rgba(250,250,250,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-logo { text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--ink-light);
+      font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+      position: relative; transition: color 0.2s;
+    }
+    .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a.active { color: var(--ink); }
+
+    #readProgress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: var(--accent); width: 0%; z-index: 200;
+      transition: width 0.1s linear;
+    }
+
+    .article-header {
+      padding: 10rem 4rem 4rem;
+      max-width: 780px; margin: 0 auto;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; color: var(--ink-light);
+      margin-bottom: 2rem; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+    .article-tag {
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; display: block; margin-bottom: 1rem;
+    }
+    .article-title {
+      font-family: var(--serif); font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem;
+    }
+    .article-meta {
+      display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
+      font-size: 0.8rem; color: var(--ink-light);
+      padding-bottom: 2rem; border-bottom: 1px solid var(--line);
+      margin-bottom: 2.5rem;
+    }
+    .author { font-weight: 500; color: var(--ink); }
+
+    .tldr {
+      background: var(--ink); color: var(--cream);
+      padding: 2rem 2.5rem; margin-bottom: 3rem;
+      border-left: 4px solid var(--accent);
+    }
+    .tldr-label {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 0.8rem; display: block;
+    }
+    .tldr ul { padding-left: 1.2rem; }
+    .tldr li { font-size: 0.9rem; line-height: 1.7; margin-bottom: 0.4rem; color: rgba(250,250,250,0.85); }
+
+    .article-body {
+      max-width: 780px; margin: 0 auto;
+      padding: 0 4rem 6rem;
+    }
+    .article-body h2 {
+      font-family: var(--serif); font-size: 1.6rem; font-weight: 700;
+      margin: 3rem 0 1rem; line-height: 1.3;
+    }
+    .article-body p { margin-bottom: 1.4rem; color: var(--ink); }
+    .article-body strong { font-weight: 700; }
+    .article-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .article-body a:hover { color: var(--ink); }
+
+    .pullquote {
+      border-left: 3px solid var(--accent);
+      padding: 1rem 2rem; margin: 2.5rem 0;
+      font-family: var(--serif); font-size: 1.15rem; font-style: italic;
+      color: var(--ink-light); line-height: 1.6;
+    }
+
+    .article-image {
+      width: 100%; margin: 2.5rem 0;
+      overflow: hidden; line-height: 0;
+    }
+    .article-image img {
+      width: 100%; height: auto; display: block;
+      aspect-ratio: 40 / 21; object-fit: cover;
+    }
+
+    .how-to-box {
+      background: var(--accent-pale); border-left: 4px solid var(--accent);
+      padding: 1.8rem 2rem; margin: 2.5rem 0;
+    }
+    .how-to-label {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); font-weight: 700; margin-bottom: 1rem; display: block;
+    }
+    .how-to-box ol { padding-left: 1.2rem; }
+    .how-to-box li { font-size: 0.9rem; color: var(--ink); line-height: 1.7; margin-bottom: 0.4rem; }
+
+    .limitation-box {
+      border: 1px solid var(--line); padding: 2rem; margin: 2rem 0; background: white;
+    }
+    .limitation-label {
+      font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--ink-light); margin-bottom: 1rem; display: block; font-weight: 500;
+    }
+    .limitation-box p { font-size: 0.88rem; color: var(--ink-light); margin: 0; line-height: 1.7; }
+    .limitation-box p + p { margin-top: 0.7rem; }
+
+    .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+    .sources-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 1rem; display: block; }
+    .sources ol { padding-left: 1.2rem; }
+    .sources li { font-size: 0.78rem; color: var(--ink-light); margin-bottom: 0.3rem; line-height: 1.6; }
+
+    .author-bio { max-width: 780px; margin: 0 auto; padding: 0 4rem 6rem; }
+    .author-bio-inner {
+      background: white; border: 1px solid var(--line);
+      padding: 2rem 2.5rem; display: flex; gap: 2rem; align-items: flex-start;
+    }
+    .author-avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+    .author-bio-text h4 { font-weight: 700; margin-bottom: 0.3rem; }
+    .author-bio-text p { font-size: 0.85rem; color: var(--ink-light); margin: 0; line-height: 1.6; }
+
+    .next-posts { background: var(--ink); padding: 4rem; }
+    .next-posts-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; display: block; }
+    .next-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 780px; margin: 0 auto; }
+    .next-card { border: 1px solid rgba(250,250,250,0.1); padding: 1.8rem; transition: border-color 0.2s; }
+    .next-card:hover { border-color: var(--accent); }
+    .next-tag { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; display: block; }
+    .next-title { font-weight: 700; font-size: 0.95rem; color: var(--cream); margin-bottom: 0.5rem; line-height: 1.4; }
+    .next-title a { text-decoration: none; color: inherit; }
+    .next-title a:hover { color: var(--accent); }
+    .next-meta { font-size: 0.75rem; color: rgba(250,250,250,0.3); }
+
+    footer { background: var(--ink); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(250,250,250,0.05); }
+    .footer-copy { font-size: 0.75rem; color: rgba(250,250,250,0.3); }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.75rem; color: rgba(250,250,250,0.3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem; }
+      .article-header, .article-body, .author-bio { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .next-posts { padding: 2.5rem 1.5rem; }
+      .next-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="readProgress"></div>
+
+<nav>
+  <a class="nav-logo" href="../index.html"><img src="../images/logo.svg" alt="D.C. Daniels" style="height:32px; width:auto; display:block;"></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">Über mich</a></li>
+    <li><a href="../leistungen.html">Leistungen</a></li>
+    <li><a href="../blog.html" class="active">Blog</a></li>
+    <li><a href="../index.html#contact">Kontakt</a></li>
+  </ul>
+</nav>
+
+<header class="article-header">
+  <a class="back-link" href="../blog.html">← Zurück zum Blog</a>
+  <span class="article-tag">Tools & KI</span>
+  <h1 class="article-title">SynthID: Googles unsichtbares Wasserzeichen gegen AI Slop</h1>
+  <div class="article-meta">
+    <span class="author">Dominik C. Daniels</span>
+    <span>März 2026</span>
+    <span>ca. 4 min Lesezeit</span>
+  </div>
+
+  <div class="tldr">
+    <span class="tldr-label">TL;DR – Das Wichtigste in 30 Sekunden</span>
+    <ul>
+      <li>AI-generierte Bilder, Videos und Audio werden immer schwerer erkennbar.</li>
+      <li>SynthID ist Googles unsichtbares Wasserzeichen das direkt in KI-generierten Inhalten steckt.</li>
+      <li>Seit November 2025 kann jeder es direkt in Gemini nutzen, einfach Datei hochladen und fragen.</li>
+      <li>Es erkennt nur Google-AI-Content, nicht Midjourney, DALL-E oder andere Tools.</li>
+      <li>Trotzdem: ein erster sinnvoller Schritt in Richtung digitale Medienkompetenz.</li>
+    </ul>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>Wer die letzte Zeit auf Social Media oder im Internet generell unterwegs war, weiß: AI Slop nimmt zu. Und er wird besser. Vor allem was Bildqualität und Details angeht. Durch Nano Banana Pro wurde das Ganze nochmal schwieriger. Bilder die vorher an Händen oder Hintergründen auffällig wurden, sehen heute täuschend echt aus.</p>
+
+  <p>Wenigstens hat Google einen eigenen Check gebaut: SynthID.</p>
+
+  <div class="article-image">
+    <img src="../images/blog/synthid-hero.jpeg" alt="Digitales Wasserzeichen visualisiert in einem abstrakten Bild" style="width:100%; height:auto; display:block; aspect-ratio:40/21; object-fit:cover;" />
+  </div>
+
+  <h2>Was ist SynthID eigentlich?</h2>
+
+  <p>SynthID ist ein digitales Wasserzeichen das Google DeepMind entwickelt hat. Es wird unsichtbar in jeden Inhalt eingebettet der mit Googles KI-Tools erstellt oder bearbeitet wird. Bilder, Videos, Audio, sogar Text. Das Wasserzeichen ist für Menschen nicht sichtbar und verändert die Qualität des Inhalts nicht. Es steckt einfach drin.</p>
+
+  <p>Die Idee dahinter ist einfach: wenn ein Bild mit Google AI generiert wurde, bleibt dieses Wasserzeichen erhalten, auch wenn das Bild skaliert, komprimiert oder leicht bearbeitet wird. Es ist kein Stempel den man wegcroppen kann, sondern ein Signal das direkt in den Pixeln kodiert ist.</p>
+
+  <div class="pullquote">
+    Über 20 Milliarden Inhalte wurden bereits mit SynthID markiert. Seit November 2025 kann das jeder selbst überprüfen.
+  </div>
+
+  <h2>Was kann man damit konkret tun?</h2>
+
+  <p>Seit November 2025 ist SynthID-Verifizierung direkt in der Gemini App verfügbar, für jeden eingeloggten Nutzer. Du lädst ein Bild, Video oder eine Audiodatei hoch und fragst einfach ob es mit Google AI erstellt wurde. Gemini scannt den Inhalt und gibt dir eine Antwort.</p>
+
+  <div class="how-to-box">
+    <span class="how-to-label">So geht es</span>
+    <ol>
+      <li>Geh auf gemini.google.com und logge dich ein.</li>
+      <li>Lade die Datei hoch die du prüfen willst (max. 100 MB, Videos max. 90 Sekunden).</li>
+      <li>Frag: "Wurde das mit Google AI erstellt?" oder tippe einfach @synthid.</li>
+      <li>Gemini zeigt dir ob und wo ein SynthID-Wasserzeichen gefunden wurde.</li>
+    </ol>
+  </div>
+
+  <p>Bei Videos geht das sogar segmentweise. Gemini sagt dir zum Beispiel: "SynthID zwischen Sekunde 10 und 20 im Audio erkannt, kein SynthID in den Bildern." Das ist nützlich weil oft nur Teile eines Videos KI-generiert sind.</p>
+
+  <h2>Warum ist das relevant für Medienkompetenz?</h2>
+
+  <p>Die meisten Menschen verlassen sich noch auf ihr Bauchgefühl wenn sie entscheiden ob etwas echt ist. Hände, Hintergründe, Schrift im Bild, das waren lange die klassischen Erkennungsmerkmale. Diese Lücken werden kleiner. Nano Banana Pro hat gezeigt wie schnell sich das entwickelt.</p>
+
+  <p>SynthID gibt dir ein konkretes Werkzeug statt Bauchgefühl. Du fragst nicht mehr "sieht das komisch aus?", sondern du überprüfst es. Das ist ein anderes Verhältnis zu dem was du online siehst, aktiver, kritischer, informierter.</p>
+
+  <p>Das ist genau das was digitale Medienkompetenz bedeutet: nicht blind vertrauen, nicht blind misstrauen, sondern einordnen können.</p>
+
+  <div class="limitation-box">
+    <span class="limitation-label">Was SynthID nicht kann</span>
+    <p>SynthID erkennt nur Inhalte die mit Google AI erstellt wurden. Midjourney, DALL-E, Stable Diffusion, Meta AI, alle anderen Tools bleiben unsichtbar. Kein Wasserzeichen gefunden heißt nicht "echt", es heißt nur "nicht von Google AI".</p>
+    <p>Außerdem: nach sehr vielen Bearbeitungen kann das Wasserzeichen verloren gehen. Und sehr einfache oder abstrakte Inhalte werden manchmal gar nicht erst markiert.</p>
+  </div>
+
+  <h2>Der größere Kontext</h2>
+
+  <p>Google ist nicht allein. Midjourney, OpenAI und Meta setzen auf einen anderen Standard namens C2PA, eine Art Herkunftsnachweis der im Dateimetadaten steckt. Google arbeitet ebenfalls daran und will C2PA-Unterstützung bald in Gemini einbauen. Nvidia nutzt SynthID bereits für eigene Modelle.</p>
+
+  <p>Das Ziel wäre ein universeller Standard bei dem egal welches Tool du nutzt, der Inhalt erkennbar markiert ist. Wir sind noch nicht dort. Aber die Richtung stimmt.</p>
+
+  <p>SynthID ist kein perfektes Werkzeug. Es ist ein erster sinnvoller Schritt von einem der großen Player. Und bis der Rest der Industrie nachzieht, ist es zumindest eine Möglichkeit um Google-AI-Content zu identifizieren. Das ist mehr als vorher.</p>
+
+  <div class="sources">
+    <span class="sources-label">Quellen</span>
+    <ol>
+      <li>Google Blog: How we're bringing AI image verification to the Gemini app (Januar 2026)</li>
+      <li>Google DeepMind: SynthID (deepmind.google/models/synthid)</li>
+      <li>Google Blog: SynthID Detector (Januar 2026)</li>
+      <li>Social Media Today: Google Adds AI Content Detection Tools to Gemini (Dezember 2025)</li>
+      <li>Google Gemini Help: Verify Google AI-generated images, videos, and audio with SynthID</li>
+    </ol>
+  </div>
+
+</article>
+
+<div class="author-bio">
+  <div class="author-bio-inner">
+    <div class="author-avatar">
+      <img src="../images/profil.jpg" alt="Dominik C. Daniels" style="width:56px;height:56px;border-radius:50%;object-fit:cover;">
+    </div>
+    <div class="author-bio-text">
+      <h4>Dominik C. „wie der Whisky" Daniels</h4>
+      <p>Staatl. geprüfter Kommunikationswirt und Marketing Manager. Ich mache Marketing, das Kunden nicht verarscht, und schreibe über alles, was mich in der Branche abf*ckt.</p>
+    </div>
+  </div>
+</div>
+
+<div class="next-posts">
+  <div style="max-width:780px; margin:0 auto;">
+    <span class="next-posts-label">Weitere Artikel</span>
+    <div class="next-grid">
+      <div class="next-card">
+        <span class="next-tag">Dark Patterns</span>
+        <p class="next-title"><a href="dark-patterns.html">Dark Patterns: Wie du als Nutzer täglich manipuliert wirst</a></p>
+        <span class="next-meta">März 2026 · 8 min</span>
+      </div>
+      <div class="next-card">
+        <span class="next-tag">B2B Marketing</span>
+        <p class="next-title"><a href="b2b-langweilig.html">Warum B2B-Marken so langweilig sind – und wie man das ändert</a></p>
+        <span class="next-meta">März 2026 · 6 min</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-copy">© 2026 Dominik C. Daniels. Alle Rechte vorbehalten.</span>
+  <div class="footer-links">
+    <a href="../impressum.html">Impressum</a>
+    <a href="../datenschutz.html">Datenschutz</a>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    document.getElementById('readProgress').style.width = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100) + '%';
+  });
+</script>
+
+<!-- KLARO Cookie Manager -->
+<script>
+  var klaroConfig = {
+    version: 1, elementID: 'klaro',
+    styling: { theme: ['light', 'bottom', 'wide'] },
+    noAutoLoad: false, htmlTexts: true, embedded: false,
+    groupByPurpose: true, storageMethod: 'localStorage',
+    cookieName: 'klaro', cookieExpiresAfterDays: 365,
+    default: false, mustConsent: false, acceptAll: true,
+    hideDeclineAll: false, hideLearnMore: false,
+    noticeAsModal: false, showNoticeTitle: true,
+    showCloseButton: true, lang: 'de',
+    translations: {
+      de: {
+        privacyPolicyUrl: '/datenschutz.html',
+        consentmodal: { title: 'Cookies & Datenschutz', description: 'Ich nutze einige externe Dienste um diese Website zu betreiben und zu verbessern. Du entscheidest selbst welche du aktivierst.' },
+        consentNotice: { description: 'Ich nutze Cookies und externe Dienste. Du kannst selbst entscheiden welche du erlaubst. {purposes}', learnMore: 'Einstellungen' },
+        acceptAll: 'Alle akzeptieren', acceptSelected: 'Auswahl speichern',
+        decline: 'Ablehnen', close: 'Schließen', ok: 'OK',
+        purposes: { analytics: 'Analyse', marketing: 'Marketing' },
+      }
+    },
+    services: [
+      {
+        name: 'google-tag-manager', title: 'Google Tag Manager', purposes: ['analytics'], required: false,
+        onAccept: `gtag('consent','update',{'analytics_storage':'granted','ad_storage':'granted'});(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TT2MLMR5');`,
+        onDecline: `gtag('consent','update',{'analytics_storage':'denied','ad_storage':'denied'});`,
+        translations: { de: { description: 'Verwaltet alle anderen Tracking-Skripte auf dieser Website.' } }
+      },
+      {
+        name: 'google-analytics', title: 'Google Analytics 4', purposes: ['analytics'], required: false,
+        onAccept: `var ga=document.createElement('script');ga.async=true;ga.src='https://www.googletagmanager.com/gtag/js?id=G-QLXTZVP1FH';document.head.appendChild(ga);gtag('js',new Date());gtag('config','G-QLXTZVP1FH',{'anonymize_ip':true});`,
+        translations: { de: { description: 'Anonymisierte Auswertung der Seitenbesuche. IP-Anonymisierung ist aktiviert.' } }
+      }
+    ]
+  };
+</script>
+<style>
+  .klaro .cookie-notice, .klaro .cookie-modal .cm-modal { background: #C8A147 !important; color: #184233 !important; }
+  .klaro .cookie-notice .cn-title, .klaro .cookie-modal .cm-modal .cm-header h1, .klaro .cookie-modal .cm-modal .cm-header h2 { color: #184233 !important; }
+  .klaro .cookie-notice p, .klaro .cookie-modal p, .klaro .cookie-modal .cm-list-label, .klaro .cookie-modal .cm-list-description { color: #184233 !important; }
+  .klaro .cookie-notice .cn-btn.cm-btn-success, .klaro .cookie-modal .cm-btn.cm-btn-success { background: #184233 !important; color: #FAFAFA !important; border: none !important; }
+  .klaro .cookie-notice .cn-btn, .klaro .cookie-modal .cm-btn { background: transparent !important; border: 1px solid #184233 !important; color: #184233 !important; }
+  .klaro .cookie-notice .cn-btn:hover, .klaro .cookie-modal .cm-btn:hover { opacity: 0.75 !important; }
+  .klaro .cookie-notice a, .klaro .cookie-modal a { color: #184233 !important; text-decoration: underline !important; }
+  .klaro .cookie-modal .cm-toggle-all .slider, .klaro .cookie-modal .cm-list-input:checked + .cm-list-label .slider { background: #184233 !important; }
+  .klaro .cookie-modal .cm-modal .cm-header, .klaro .cookie-modal .cm-modal .cm-footer { background: #b8922e !important; border-color: rgba(24,66,51,0.2) !important; }
+</style>
+<script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
+<button id="cookieSettingsBtn" onclick="klaro.show()" title="Cookie-Einstellungen">🍪</button>
+<style>
+  #cookieSettingsBtn { position: fixed; bottom: 1.5rem; left: 1.5rem; width: 42px; height: 42px; border-radius: 50%; background: #C8A147; border: none; font-size: 1.1rem; cursor: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 998; transition: transform 0.2s, opacity 0.2s; opacity: 0.85; }
+  #cookieSettingsBtn:hover { transform: scale(1.1); opacity: 1; }
+</style>
+
+</body>
+</html>
