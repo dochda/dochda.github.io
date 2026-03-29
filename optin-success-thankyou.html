@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cheers – Dominik C. Daniels</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,700|inter:300,400,500&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥃</text></svg>">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAFAFA;
+      --ink: #184233;
+      --ink-light: #4a7060;
+      --accent: #C8A147;
+      --line: #D6E2DC;
+      --serif: 'Libre Baskerville', Georgia, serif;
+      --sans: 'Inter', 'Helvetica Neue', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--sans);
+      cursor: none;
+    }
+
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+    #cursor.hover { width: 40px; height: 40px; opacity: 0.5; }
+    a { cursor: none; }
+
+    .wrap {
+      text-align: center;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.2s forwards;
+    }
+
+    .emoji {
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 2rem;
+      animation: tilt 2s ease-in-out infinite;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      font-size: 1rem;
+      color: rgba(250,250,250,0.55);
+      max-width: 36ch;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-light); text-decoration: none;
+      border-bottom: 1px solid var(--ink-light);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes tilt {
+      0%, 100% { transform: rotate(0deg); }
+      25%       { transform: rotate(-8deg); }
+      75%       { transform: rotate(8deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+
+  <div class="wrap">
+    <span class="emoji">🥃</span>
+    <h1>Cheers.</h1>
+    <p>Willkommen in meinem Newsletter. Du bekommst eine Mail wenn etwas Neues da ist. Kein Spam, versprochen.</p>
+    <a class="back-link" href="/index.html">Zurück zur Startseite</a>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+  </script>
+
+</body>
+</html>
