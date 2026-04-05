@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Micro Compliance: Wie Social Media dich Schritt für Schritt umprogrammiert – Dominik C. Daniels</title>
+  <meta name="description" content="Jedes Mal wenn du einem harmlosen Post zustimmst, öffnest du eine Tür. Micro Compliance ist das mächtigste Manipulationswerkzeug der Gegenwart – und es funktioniert genau dann am besten wenn du glaubst, selbst zu denken." />
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { 'analytics_storage': 'denied', 'ad_storage': 'denied', 'wait_for_update': 500 });
+  </script>
+
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,400i,700|inter:300,400,500,700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥃</text></svg>">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAFAFA;
+      --ink: #184233;
+      --ink-light: #4a7060;
+      --accent: #C8A147;
+      --accent-pale: #F5EDD0;
+      --line: #D6E2DC;
+      --red: #C0392B;
+      --serif: 'Libre Baskerville', Georgia, serif;
+      --sans: 'Inter', 'Helvetica Neue', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--ink); font-family: var(--sans); font-size: 1rem; line-height: 1.8; overflow-x: hidden; cursor: none; }
+
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+    #cursor.hover { width: 40px; height: 40px; opacity: 0.5; }
+    a, button { cursor: none; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.8rem 4rem;
+      background: rgba(250,250,250,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-logo { text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--ink-light);
+      font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+      position: relative; transition: color 0.2s;
+    }
+    .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a.active { color: var(--ink); }
+    .hamburger { display: none; }
+
+    #readProgress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: var(--accent); width: 0%; z-index: 200;
+      transition: width 0.1s linear;
+    }
+
+    .article-header { padding: 10rem 4rem 4rem; max-width: 780px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; color: var(--ink-light);
+      margin-bottom: 2rem; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+    .article-tag {
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; display: block; margin-bottom: 1rem;
+    }
+    .article-title {
+      font-family: var(--serif); font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem;
+    }
+    .article-meta {
+      display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
+      font-size: 0.8rem; color: var(--ink-light);
+      padding-bottom: 2rem; border-bottom: 1px solid var(--line);
+      margin-bottom: 2.5rem;
+    }
+    .author { font-weight: 500; color: var(--ink); }
+
+    .tldr {
+      background: var(--ink); color: var(--cream);
+      padding: 2rem 2.5rem; margin-bottom: 3rem;
+      border-left: 4px solid var(--accent);
+    }
+    .tldr-label {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 0.8rem; display: block;
+    }
+    .tldr ul { padding-left: 1.2rem; }
+    .tldr li { font-size: 0.9rem; line-height: 1.7; margin-bottom: 0.4rem; color: rgba(250,250,250,0.85); }
+
+    .article-body { max-width: 780px; margin: 0 auto; padding: 0 4rem 6rem; }
+    .article-body h2 {
+      font-family: var(--serif); font-size: 1.6rem; font-weight: 700;
+      margin: 3rem 0 1rem; line-height: 1.3;
+    }
+    .article-body p { margin-bottom: 1.4rem; color: var(--ink); }
+    .article-body strong { font-weight: 700; }
+    .article-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .article-body a:hover { color: var(--ink); }
+
+    .pullquote {
+      border-left: 3px solid var(--accent);
+      padding: 1rem 2rem; margin: 2.5rem 0;
+      font-family: var(--serif); font-size: 1.15rem; font-style: italic;
+      color: var(--ink-light); line-height: 1.6;
+    }
+
+    /* ARTICLE IMAGE */
+    .article-image { width: 100%; margin: 2.5rem 0; overflow: hidden; line-height: 0; }
+    .article-image img { width: 100%; height: auto; display: block; aspect-ratio: 40/21; object-fit: cover; }
+
+    /* PIPELINE DEMO */
+    .pipeline-demo {
+      border: 1px solid var(--line); margin: 2.5rem 0; background: white; overflow: hidden;
+    }
+    .pipeline-label {
+      font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--ink-light); font-weight: 500; padding: 1rem 2rem;
+      background: var(--cream); border-bottom: 1px solid var(--line);
+    }
+    .pipeline-step {
+      padding: 1.5rem 2rem; border-bottom: 1px solid var(--line);
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      opacity: 0.35; transition: opacity 0.4s ease;
+    }
+    .pipeline-step.active { opacity: 1; }
+    .pipeline-step:last-child { border-bottom: none; }
+    .step-number {
+      font-family: var(--serif); font-size: 1.8rem; font-weight: 700;
+      color: var(--line); line-height: 1; flex-shrink: 0; min-width: 2rem;
+      transition: color 0.4s;
+    }
+    .pipeline-step.active .step-number { color: var(--accent); }
+    .step-content { flex: 1; }
+    .step-post {
+      font-size: 0.9rem; color: var(--ink); margin-bottom: 0.8rem;
+      font-weight: 500; line-height: 1.5;
+    }
+    .step-buttons { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .step-btn {
+      font-size: 0.75rem; padding: 0.4rem 1.2rem;
+      border: 1px solid var(--line); background: transparent;
+      color: var(--ink-light); font-family: var(--sans);
+      letter-spacing: 0.05em; transition: all 0.2s; cursor: none;
+    }
+    .step-btn.yes { border-color: var(--ink); color: var(--ink); font-weight: 600; }
+    .step-btn.yes:hover { background: var(--ink); color: var(--cream); }
+    .step-btn.no:hover { background: var(--line); }
+    .step-escalation {
+      font-size: 0.72rem; color: var(--ink-light);
+      margin-top: 0.6rem; font-style: italic;
+    }
+    .pipeline-step.danger .step-post { color: var(--red); }
+    .pipeline-step.danger .step-number { color: var(--red) !important; }
+    .pipeline-step.danger { background: #fef5f5; }
+    .pipeline-note {
+      padding: 1rem 2rem; background: var(--ink); 
+      font-size: 0.82rem; color: rgba(250,250,250,0.65); line-height: 1.6;
+    }
+    .pipeline-note strong { color: var(--accent); }
+
+    /* OPINION BOX */
+    .opinion-box {
+      background: var(--accent-pale); border-left: 4px solid var(--accent);
+      padding: 1.8rem 2rem; margin: 2.5rem 0;
+    }
+    .opinion-label {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); font-weight: 700; margin-bottom: 0.8rem; display: block;
+    }
+    .opinion-box p { font-size: 0.92rem; color: var(--ink); margin-bottom: 0.9rem; line-height: 1.75; }
+    .opinion-box p:last-child { margin-bottom: 0; }
+
+    /* STAT ROW */
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 2.5rem 0; border: 1px solid var(--line); }
+    .stat-item { padding: 1.8rem; border-right: 1px solid var(--line); text-align: center; }
+    .stat-item:last-child { border-right: none; }
+    .stat-number { font-family: var(--serif); font-size: 2.2rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 0.3rem; }
+    .stat-desc { font-size: 0.78rem; color: var(--ink-light); line-height: 1.5; }
+
+    /* SOURCES */
+    .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+    .sources-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 1rem; display: block; }
+    .sources ol { padding-left: 1.2rem; }
+    .sources li { font-size: 0.78rem; color: var(--ink-light); margin-bottom: 0.3rem; line-height: 1.6; }
+
+    /* AUTHOR BIO */
+    .author-bio { max-width: 780px; margin: 0 auto; padding: 0 4rem 6rem; }
+    .author-bio-inner { background: white; border: 1px solid var(--line); padding: 2rem 2.5rem; display: flex; gap: 2rem; align-items: flex-start; }
+    .author-avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+    .author-bio-text h4 { font-weight: 700; margin-bottom: 0.3rem; }
+    .author-bio-text p { font-size: 0.85rem; color: var(--ink-light); margin: 0; line-height: 1.6; }
+
+    /* NEXT POSTS */
+    .next-posts { background: var(--ink); padding: 4rem; }
+    .next-posts-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; display: block; }
+    .next-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 780px; margin: 0 auto; }
+    .next-card { border: 1px solid rgba(250,250,250,0.1); padding: 1.8rem; transition: border-color 0.2s; }
+    .next-card:hover { border-color: var(--accent); }
+    .next-tag { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; display: block; }
+    .next-title { font-weight: 700; font-size: 0.95rem; color: var(--cream); margin-bottom: 0.5rem; line-height: 1.4; }
+    .next-title a { text-decoration: none; color: inherit; }
+    .next-title a:hover { color: var(--accent); }
+    .next-meta { font-size: 0.75rem; color: rgba(250,250,250,0.3); }
+
+    footer { background: var(--ink); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(250,250,250,0.05); }
+    .footer-copy { font-size: 0.75rem; color: rgba(250,250,250,0.3); }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.75rem; color: rgba(250,250,250,0.3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem 2rem; }
+      .nav-links {
+        display: none; flex-direction: column; gap: 0;
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--ink); z-index: 99;
+        justify-content: center; align-items: center;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { border-bottom: 1px solid rgba(250,250,250,0.08); width: 100%; text-align: center; }
+      .nav-links a { display: block; padding: 1.5rem 2rem; font-size: 1rem; letter-spacing: 0.15em; color: var(--cream); }
+      .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+      .nav-links a::after { display: none; }
+      .hamburger { display: flex; flex-direction: column; justify-content: space-between; width: 24px; height: 16px; background: none; border: none; cursor: none; z-index: 100; }
+      .hamburger span { display: block; height: 2px; background: var(--ink); transition: transform 0.3s ease, opacity 0.3s ease; transform-origin: center; }
+      .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--accent); }
+      .hamburger.open span:nth-child(2) { opacity: 0; }
+      .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--accent); }
+      .article-header, .article-body, .author-bio { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .next-posts { padding: 2.5rem 1.5rem; }
+      .next-grid { grid-template-columns: 1fr; }
+      .stat-row { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--line); }
+      .pipeline-step { flex-direction: column; gap: 0.5rem; }
+      footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
+    }
+    @media (min-width: 901px) { .hamburger { display: none; } }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="readProgress"></div>
+
+<nav>
+  <a class="nav-logo" href="../index.html"><img src="../images/logo.svg" alt="D.C. Daniels" style="height:32px; width:auto; display:block;"></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html#about">Über mich</a></li>
+    <li><a href="../leistungen.html">Leistungen</a></li>
+    <li><a href="../blog.html" class="active">Blog</a></li>
+    <li><a href="../index.html#contact">Kontakt</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menü öffnen">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<header class="article-header">
+  <a class="back-link" href="../blog.html">← Zurück zum Blog</a>
+  <span class="article-tag">Dark Patterns</span>
+  <h1 class="article-title">Micro Compliance: Wie Social Media dich Schritt für Schritt umprogrammiert</h1>
+  <div class="article-meta">
+    <span class="author">Dominik C. Daniels</span>
+    <span>April 2026</span>
+    <span>ca. 6 min Lesezeit</span>
+  </div>
+
+  <div class="tldr">
+    <span class="tldr-label">TL;DR – Das Wichtigste in 30 Sekunden</span>
+    <ul>
+      <li>Micro Compliance ist eine Kette kleiner, harmloser Zustimmungen die dich schrittweise in eine Richtung ziehen, ohne dass du es merkst.</li>
+      <li>Social Media ist dafür gebaut. Nicht als Nebeneffekt – sondern weil Empörung und Zustimmung profitabler sind als ruhiger Diskurs.</li>
+      <li>Das Prinzip wird von Marketern, Politikern und staatlichen Akteuren aktiv als Manipulation eingesetzt.</li>
+      <li>Der erste Schritt zur Gegenwehr: deinen eigenen Algorithmus hinterfragen. Was zeigt er dir, und warum?</li>
+    </ul>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>Du scrollst. Ein Post. Harmlos. Du stimmst zu, tippst kurz drauf, scrollst weiter. Nichts Besonderes.</p>
+
+  <p>Aber genau das ist der Plan.</p>
+
+  <p>Micro Compliance beschreibt eine Technik bei der nicht eine große Forderung gestellt wird, sondern viele kleine. So klein, dass du sie nicht als Aufforderung wahrnimmst. Jede Zustimmung verändert leise dein Selbstbild, deine Toleranzschwelle, deine Bereitschaft beim nächsten Schritt mitzumachen. Bis du irgendwann bei einer Aussage ankommst, der du vor sechs Monaten niemals zugestimmt hättest.</p>
+
+  <div class="article-image">
+    <img src="../images/blog/micro-compliance-hero.jpeg" alt="Endloser Social-Media-Feed im Dunkeln, Bildschirmlicht auf Gesicht" style="width:100%; height:auto; display:block; aspect-ratio:40/21; object-fit:cover;" />
+  </div>
+
+  <h2>Was Micro Compliance ist und warum es funktioniert</h2>
+
+  <p>Die Sozialpsychologie kennt das Grundprinzip seit Jahrzehnten. Die sogenannte Foot-in-the-Door-Technik zeigt: wer einmal einer kleinen Bitte nachgekommen ist, stimmt mit deutlich höherer Wahrscheinlichkeit einer größeren Forderung zu. Der Grund ist banal. Wir wollen mit uns selbst konsistent sein. Wer sich einmal als jemanden definiert der "Ja" sagt, will das Selbstbild aufrechterhalten.</p>
+
+  <p>Micro Compliance treibt das auf die Spitze. Anstatt einer erkennbaren Eskalation gibt es eine Kette trivialer Interaktionen, die so klein sind, dass der kritische Verstand sie nicht als Manipulation identifiziert. Verhaltensexperte Chase Hughes, der diese Technik für Nachrichtendienste und Verhörspezialisten entwickelt hat, nennt das den "Compliance Wedge": ein Keil der so dünn beginnt, dass er unsichtbar ist, aber tief eindringt.</p>
+
+  <div class="pullquote">
+    Wer einmal einem harmlosen Post zugestimmt hat, hat die erste Tür geöffnet. Was dahinter kommt, entscheidet nicht er.
+  </div>
+
+  <h2>Das Beispiel: Limo, Bayern und der Bierkrug</h2>
+
+  <p>Klingt abstrakt? Hier ist es konkret. So könnte eine Social-Media-Kampagne aussehen die auf Micro Compliance basiert. Beobachte wie die Fragen eskalieren, und wie jede Zustimmung die nächste Stufe normalisiert:</p>
+
+  <div class="pipeline-demo">
+    <div class="pipeline-label">Live-Demo: Micro Compliance Pipeline</div>
+
+    <div class="pipeline-step active" id="step1">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <p class="step-post">😊 Magst du Limo? Hinterlasse ein Ja oder Nein!</p>
+        <div class="step-buttons">
+          <button class="step-btn yes">Ja, klar!</button>
+          <button class="step-btn no">Nicht so sehr</button>
+        </div>
+        <p class="step-escalation">Harmlose Umfrage. Du gibst etwas über dich preis. Das System lernt.</p>
+      </div>
+    </div>
+
+    <div class="pipeline-step" id="step2">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <p class="step-post">🍺 Wusstest du: In Bayern trinken die meisten lieber Bier als Limo. Ist das nicht irgendwie fair, dass Bayern selbst entscheiden darf was bei ihnen angeboten wird?</p>
+        <div class="step-buttons">
+          <button class="step-btn yes">Klingt vernünftig</button>
+          <button class="step-btn no">Nein, das geht zu weit</button>
+        </div>
+        <p class="step-escalation">Regionale Identität wird eingeführt. Aus einer Getränkepräferenz wird eine Frage von Selbstbestimmung.</p>
+      </div>
+    </div>
+
+    <div class="pipeline-step" id="step3">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <p class="step-post">🏔️ Wenn Bayern selbst entscheidet, sollte Limo dann durch Bier ersetzt werden? Für die Tradition!</p>
+        <div class="step-buttons">
+          <button class="step-btn yes">Ja, Tradition zuerst</button>
+          <button class="step-btn no">Das ist übertrieben</button>
+        </div>
+        <p class="step-escalation">Aus "Selbstbestimmung" wird Verdrängung. Limo-Liebhaber sind jetzt implizit das Problem.</p>
+      </div>
+    </div>
+
+    <div class="pipeline-step danger" id="step4">
+      <div class="step-number">4</div>
+      <div class="step-content">
+        <p class="step-post">😡 Bayern hat das Recht, Limo-Liebhaber mit einem Bierkrug zu erschlagen wenn sie nicht Bayrisch reden. Einverstanden?</p>
+        <div class="step-buttons">
+          <button class="step-btn yes">Ja</button>
+          <button class="step-btn no">Nein</button>
+        </div>
+        <p class="step-escalation">Aus einer harmlosen Getränkefrage wurde die Legitimation von Gewalt gegen eine Gruppe. Vier Schritte.</p>
+      </div>
+    </div>
+
+    <div class="pipeline-note">
+      <strong>Was gerade passiert ist:</strong> Jede Frage für sich wirkte harmlos oder zumindest diskutabel. Aber die Sequenz hat eine Logik: Identität aufbauen, Gegengruppe definieren, Konflikt normalisieren, Gewalt legitimieren. Genau so funktioniert es in echten Kampagnen – nur langsamer, mit mehr Schritten, und gegen echte Minderheiten.
+    </div>
+  </div>
+
+  <p>Das Beispiel ist absurd, weil ich es absichtlich komprimiert habe. In der Realität passiert das über Wochen, mit hunderten kleinen Interaktionen, eingebettet in Humor, Empörung und scheinbar neutrale Informationen. Am Ende hat der Algorithmus dich nicht zu einer Meinung gezwungen. Du hast sie selbst entwickelt. Angeblich.</p>
+
+  <h2>Social Media ist dafür gebaut</h2>
+
+  <p>Das ist kein Nebeneffekt, das ist das Produkt.</p>
+
+  <p>Soziale Medienplattformen finanzieren sich durch Aufmerksamkeit. Und Micro Compliance, besonders in ihrer polarisierenden Form, erzeugt maximale Aufmerksamkeit. Empörung, Zustimmung, Ablehnung, alles sind Interaktionen, die der Algorithmus als Engagement wertet und verstärkt. Ruhiger Diskurs erzeugt weniger Klicks. Also bekommst du weniger davon.</p>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <span class="stat-number">&gt;100k</span>
+      <span class="stat-desc">individuelle Anzeigenvarianten testete die Trump-Kampagne 2016 täglich auf Facebook</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">4</span>
+      <span class="stat-desc">Stufen von Grievance bis Dehumanisierung folgt digitale Radikalisierung durch Micro Compliance</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">50</span>
+      <span class="stat-desc">Micro-Compliance-Schritte reichen laut Chase Hughes um eine Person in totale Folgebereitschaft zu versetzen</span>
+    </div>
+  </div>
+
+  <p>Russische Bot-Netzwerke wie das 2024 aufgedeckte System "Meliorator" nutzen KI um tausende authentisch wirkende Profile zu steuern, die gezielt Micro-Interaktionen provozieren. Das Ziel ist nicht, dich von einer bestimmten Meinung zu überzeugen. Das Ziel ist, dich so zu desorientieren, dass du gar niemandem mehr vertraust. Einen Zustand den Forscher den "Liar's Dividend" nennen: wenn genug Lügen im Umlauf sind, zweifelt man auch an der Wahrheit.</p>
+
+  <div class="opinion-box">
+    <span class="opinion-label">Meine Meinung</span>
+    <p>Social Media ist eines der effektivsten Manipulationswerkzeuge der Welt. Nicht weil es böse ist, sondern weil es uns in Dauerempörung hält. Und Empörung verkauft sich.</p>
+    <p>Ich bin kein Moralapostel der sagt: schmeiss dein Handy weg. Aber ich frage mich selbst regelmäßig: Was zeigt mir mein Algorithmus gerade, und warum? Wessen Interessen bedient das? Meinen eigenen oder denen, die meine Aufmerksamkeit verkaufen?</p>
+    <p>Die sauberste Option ist eine konsequente Trennung: Social Media nur noch für Unterhaltung oder privaten Austausch nutzen, bewusst und zeitlich begrenzt. Keine politischen Themen, keine Empörungsspiralen, kein passives Scrollen. Oder gleich ganz weg damit. Beides ist eine legitime Wahl.</p>
+  </div>
+
+  <h2>Was du konkret tun kannst</h2>
+
+  <p>Prebunking funktioniert. Das haben Forscher gezeigt: wer die Mechanismen der Manipulation kennt bevor sie angewendet werden, ist deutlich resistenter. Du liest diesen Artikel, das zählt bereits.</p>
+
+  <p>Drei Fragen die sich lohnen wenn du das nächste Mal scrollst:</p>
+
+  <p><strong>Wer hat das gepostet, und warum?</strong> Jede Interaktion dient einem Zweck. Manchmal ist es Unterhaltung. Manchmal ist es etwas anderes.</p>
+
+  <p><strong>Welche Emotion soll das auslösen?</strong> Empörung, Zustimmung, Überlegenheitsgefühl? Das sind die stärksten Trigger für Micro Compliance weil sie rationales Denken kurzschließen.</p>
+
+  <p><strong>Hätte ich dieser Aussage vor einem Jahr noch zugestimmt?</strong> Wenn nicht, frag dich was dazwischen passiert ist.</p>
+
+  <div class="pullquote">
+    Der Algorithmus lernt von dir. Aber du kannst auch von ihm lernen. Was er dir zeigt, sagt mehr über die Absichten dahinter als über dich.
+  </div>
+
+  <p>Micro Compliance ist nicht neu. Manipulation ist nicht neu. Was neu ist: die Skalierung. Noch nie in der Geschichte konnten so wenige Menschen so viele so präzise und so günstig beeinflussen. Das ist kein Grund zur Paranoia. Aber es ist ein Grund zum Innehalten, bevor man auf "Ja" tippt.</p>
+
+  <div class="sources">
+    <span class="sources-label">Quellen & weiterführende Literatur</span>
+    <ol>
+      <li>Compliance (psychology) – Wikipedia</li>
+      <li>Chase Hughes: Manipulation Expert – The Diary of a CEO with Steven Bartlett (2026)</li>
+      <li>Chase Hughes: Six-Minute X-Ray – Verhaltensanalyse und Behavioral Engineering</li>
+      <li>Chase Hughes: The 4-Step Code to Influence (F.A.T.E.-Modell) – The Braintrust Podcast</li>
+      <li>CSIS: A Russian Bot Farm Used AI to Lie to Americans (Meliorator, 2024)</li>
+      <li>Bipartisan Policy Center: Digital Counterterrorism – Fighting Jihadists Online</li>
+      <li>US Secret Service: Microtargeting Unmasked</li>
+      <li>Mercy Corps: The Weaponization of Social Media (2019)</li>
+      <li>PMC: AI-Driven Disinformation – Policy Recommendations for Democratic Resilience</li>
+      <li>Schaefer Marketing Solutions: Rage Farms – The Hidden Industry Weaponizing Outrage Against Brands (2025)</li>
+    </ol>
+  </div>
+
+</article>
+
+<div class="author-bio">
+  <div class="author-bio-inner">
+    <div class="author-avatar">
+      <img src="../images/profil.jpg" alt="Dominik C. Daniels" style="width:56px;height:56px;border-radius:50%;object-fit:cover;">
+    </div>
+    <div class="author-bio-text">
+      <h4>Dominik C. „wie der Whisky" Daniels</h4>
+      <p>Staatl. geprüfter Kommunikationswirt und Marketing Manager. Ich mache Marketing, das Kunden nicht verarscht, und schreibe über alles, was mich in der Branche abf*ckt.</p>
+    </div>
+  </div>
+</div>
+
+<div class="next-posts">
+  <div style="max-width:780px; margin:0 auto;">
+    <span class="next-posts-label">Weitere Artikel</span>
+    <div class="next-grid">
+      <div class="next-card">
+        <span class="next-tag">Dark Patterns</span>
+        <p class="next-title"><a href="dark-patterns.html">Dark Patterns: Wie du als Nutzer täglich manipuliert wirst</a></p>
+        <span class="next-meta">März 2026 · 8 min</span>
+      </div>
+      <div class="next-card">
+        <span class="next-tag">Tools & KI</span>
+        <p class="next-title"><a href="synthid.html">SynthID: Googles unsichtbares Wasserzeichen gegen AI Slop</a></p>
+        <span class="next-meta">März 2026 · 4 min</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-copy">© 2026 Dominik C. Daniels. Alle Rechte vorbehalten.</span>
+  <div class="footer-links">
+    <a href="../impressum.html">Impressum</a>
+    <a href="../datenschutz.html">Datenschutz</a>
+  </div>
+</footer>
+
+<script>
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+
+  // Reading progress
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    document.getElementById('readProgress').style.width = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100) + '%';
+  });
+
+  // Pipeline Demo – Schritte aufhellen wenn gescrollt
+  const steps = document.querySelectorAll('.pipeline-step');
+  const pipelineObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = Array.from(steps).indexOf(entry.target);
+        steps.forEach((s, i) => {
+          if (i <= idx) s.classList.add('active');
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  steps.forEach(s => pipelineObserver.observe(s));
+</script>
+
+<!-- KLARO Cookie Manager -->
+<script>
+  var klaroConfig = {
+    version: 1, elementID: 'klaro',
+    styling: { theme: ['light', 'bottom', 'wide'] },
+    noAutoLoad: false, htmlTexts: true, embedded: false,
+    groupByPurpose: true, storageMethod: 'localStorage',
+    cookieName: 'klaro', cookieExpiresAfterDays: 365,
+    default: false, mustConsent: false, acceptAll: true,
+    hideDeclineAll: false, hideLearnMore: false,
+    noticeAsModal: false, showNoticeTitle: true,
+    showCloseButton: true, lang: 'de',
+    translations: {
+      de: {
+        privacyPolicyUrl: '/datenschutz.html',
+        consentmodal: { title: 'Cookies & Datenschutz', description: 'Ich nutze einige externe Dienste um diese Website zu betreiben und zu verbessern. Du entscheidest selbst welche du aktivierst.' },
+        consentNotice: { description: 'Ich nutze Cookies und externe Dienste. Du kannst selbst entscheiden welche du erlaubst. {purposes}', learnMore: 'Einstellungen' },
+        acceptAll: 'Alle akzeptieren', acceptSelected: 'Auswahl speichern',
+        decline: 'Ablehnen', close: 'Schließen', ok: 'OK',
+        purposes: { analytics: 'Analyse', marketing: 'Marketing' },
+      }
+    },
+    services: [
+      {
+        name: 'google-tag-manager', title: 'Google Tag Manager', purposes: ['analytics'], required: false,
+        onAccept: `gtag('consent','update',{'analytics_storage':'granted','ad_storage':'granted'});(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TT2MLMR5');`,
+        onDecline: `gtag('consent','update',{'analytics_storage':'denied','ad_storage':'denied'});`,
+        translations: { de: { description: 'Verwaltet alle anderen Tracking-Skripte auf dieser Website.' } }
+      },
+      {
+        name: 'google-analytics', title: 'Google Analytics 4', purposes: ['analytics'], required: false,
+        onAccept: `var ga=document.createElement('script');ga.async=true;ga.src='https://www.googletagmanager.com/gtag/js?id=G-QLXTZVP1FH';document.head.appendChild(ga);gtag('js',new Date());gtag('config','G-QLXTZVP1FH',{'anonymize_ip':true});`,
+        translations: { de: { description: 'Anonymisierte Auswertung der Seitenbesuche. IP-Anonymisierung ist aktiviert.' } }
+      }
+    ]
+  };
+</script>
+<style>
+  .klaro .cookie-notice, .klaro .cookie-modal .cm-modal { background: #C8A147 !important; color: #184233 !important; }
+  .klaro .cookie-notice .cn-title, .klaro .cookie-modal .cm-modal .cm-header h1, .klaro .cookie-modal .cm-modal .cm-header h2 { color: #184233 !important; }
+  .klaro .cookie-notice p, .klaro .cookie-modal p, .klaro .cookie-modal .cm-list-label, .klaro .cookie-modal .cm-list-description { color: #184233 !important; }
+  .klaro .cookie-notice .cn-btn.cm-btn-success, .klaro .cookie-modal .cm-btn.cm-btn-success { background: #184233 !important; color: #FAFAFA !important; border: none !important; }
+  .klaro .cookie-notice .cn-btn, .klaro .cookie-modal .cm-btn { background: transparent !important; border: 1px solid #184233 !important; color: #184233 !important; }
+  .klaro .cookie-notice .cn-btn:hover, .klaro .cookie-modal .cm-btn:hover { opacity: 0.75 !important; }
+  .klaro .cookie-notice a, .klaro .cookie-modal a { color: #184233 !important; text-decoration: underline !important; }
+  .klaro .cookie-modal .cm-toggle-all .slider, .klaro .cookie-modal .cm-list-input:checked + .cm-list-label .slider { background: #184233 !important; }
+  .klaro .cookie-modal .cm-modal .cm-header, .klaro .cookie-modal .cm-modal .cm-footer { background: #b8922e !important; border-color: rgba(24,66,51,0.2) !important; }
+</style>
+<script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
+<button id="cookieSettingsBtn" onclick="klaro.show()" title="Cookie-Einstellungen">🍪</button>
+<style>
+  #cookieSettingsBtn { position: fixed; bottom: 1.5rem; left: 1.5rem; width: 42px; height: 42px; border-radius: 50%; background: #C8A147; border: none; font-size: 1.1rem; cursor: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 998; transition: transform 0.2s, opacity 0.2s; opacity: 0.85; }
+  #cookieSettingsBtn:hover { transform: scale(1.1); opacity: 1; }
+</style>
+
+</body>
+</html>
