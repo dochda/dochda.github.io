@@ -159,10 +159,11 @@
     .newsletter-input:focus { border-color: var(--accent); }
     .newsletter-input::placeholder { color: rgba(250,250,250,0.3); }
     .newsletter-btn {
+      display: inline-block;
       background: var(--accent); border: none; color: var(--ink);
       font-family: var(--sans); font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 0.8rem 1.5rem; transition: opacity 0.2s; cursor: none;
+      letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+      padding: 0.9rem 2rem; transition: opacity 0.2s; cursor: none; white-space: nowrap; flex-shrink: 0;
     }
     .newsletter-btn:hover { opacity: 0.85; }
 
@@ -174,6 +175,22 @@
     .footer-links a:hover { color: var(--accent); }
 
     @media (max-width: 900px) {
+      .nav-links {
+        display: none; flex-direction: column; gap: 0;
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--ink); z-index: 99;
+        justify-content: center; align-items: center;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { border-bottom: 1px solid rgba(250,250,250,0.08); width: 100%; text-align: center; }
+      .nav-links a { display: block; padding: 1.5rem 2rem; font-size: 1rem; letter-spacing: 0.15em; color: var(--cream); }
+      .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+      .nav-links a::after { display: none; }
+      .hamburger { display: flex; flex-direction: column; justify-content: space-between; width: 24px; height: 16px; background: none; border: none; cursor: none; z-index: 100; position: relative; }
+      .hamburger span { display: block; height: 2px; background: var(--cream); transition: transform 0.3s ease, opacity 0.3s ease; transform-origin: center; }
+      .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--accent); }
+      .hamburger.open span:nth-child(2) { opacity: 0; }
+      .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--accent); }
       nav { padding: 1.5rem 1.5rem; }
       .blog-hero, .blog-featured, .blog-main, .blog-filter { padding-left: 1.5rem; padding-right: 1.5rem; }
       .blog-newsletter { margin: 0 1.5rem 3rem; padding: 2rem; }
@@ -185,6 +202,7 @@
       .newsletter-input { width: 100%; }
       footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
     }
+      @media (min-width: 901px) { .hamburger { display: none; } }
   </style>
 </head>
 <body>
@@ -287,10 +305,7 @@
       <h3>Neue Artikel direkt ins Postfach.</h3>
       <p>Kein Spam. Kein Newsletter-Marketing. Nur ein kurzes Mail wenn etwas Neues da ist.</p>
     </div>
-    <div class="newsletter-form">
-      <input class="newsletter-input" type="email" placeholder="deine@email.de" id="nlEmail" />
-      <button class="newsletter-btn" onclick="handleNewsletter()">Anmelden</button>
-    </div>
+    <a href="https://308acf86.sibforms.com/serve/MUIFAC3f-ukZ5g8TX_lPjobpSvIYDheq-mEG7j5u4FGV5fs3atFCO-VwU7URL7iRYqyOyNWGOpC0N_FxjETGwrN5GZro4rC6XGjPe865RgD7iuANj0QwNT-KebixKSHMbRd4LKnTjJDDC1iH_7W_NeDQ6teaiRTvr6h4GXLoK3zdBxqvjWIQZhw_gizawCdwrV_KnJVVHC8RjKso6Q==" target="_blank" class="newsletter-btn">Anmelden</a>
   </div>
 
   <!-- FOOTER -->
@@ -418,12 +433,14 @@
     .klaro .cookie-notice a, .klaro .cookie-modal a { color: #184233 !important; text-decoration: underline !important; }
     .klaro .cookie-modal .cm-toggle-all .slider, .klaro .cookie-modal .cm-list-input:checked + .cm-list-label .slider { background: #184233 !important; }
     .klaro .cookie-modal .cm-modal .cm-header, .klaro .cookie-modal .cm-modal .cm-footer { background: #b8922e !important; border-color: rgba(24,66,51,0.2) !important; }
+      @media (min-width: 901px) { .hamburger { display: none; } }
   </style>
   <script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
   <button id="cookieSettingsBtn" onclick="klaro.show()" title="Cookie-Einstellungen">🍪</button>
   <style>
     #cookieSettingsBtn { position: fixed; bottom: 1.5rem; left: 1.5rem; width: 42px; height: 42px; border-radius: 50%; background: #C8A147; border: none; font-size: 1.1rem; cursor: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 998; transition: transform 0.2s, opacity 0.2s; opacity: 0.85; }
     #cookieSettingsBtn:hover { transform: scale(1.1); opacity: 1; }
+      @media (min-width: 901px) { .hamburger { display: none; } }
   </style>
 
 </body>
