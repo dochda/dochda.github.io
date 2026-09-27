@@ -624,11 +624,6 @@
         name: 'google-analytics', title: 'Google Analytics 4', purposes: ['analytics'], required: false,
         onAccept: `var ga=document.createElement('script');ga.async=true;ga.src='https://www.googletagmanager.com/gtag/js?id=G-QLXTZVP1FH';document.head.appendChild(ga);gtag('js',new Date());gtag('config','G-QLXTZVP1FH',{'anonymize_ip':true});`,
         translations: { de: { description: 'Anonymisierte Auswertung der Seitenbesuche. IP-Anonymisierung ist aktiviert.' } }
-      },
-      {
-        name: 'hubspot', title: 'HubSpot', purposes: ['marketing'], required: false,
-        onAccept: `/* Portal-ID eintragen wenn vorhanden */`,
-        translations: { de: { description: 'CRM und Marketing-Tracking für Kontaktanfragen.' } }
       }
     ]
   };

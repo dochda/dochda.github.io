@@ -867,24 +867,6 @@
               description: 'Anonymisierte Auswertung der Seitenbesuche. IP-Anonymisierung ist aktiviert.'
             }
           }
-        },
-        {
-          name: 'hubspot',
-          title: 'HubSpot',
-          purposes: ['marketing'],
-          required: false,
-          onAccept: `
-            // Portal-ID hier eintragen sobald vorhanden:
-            // var hs = document.createElement('script');
-            // hs.src = '//js.hs-scripts.com/PORTAL-ID.js';
-            // hs.async = true; hs.defer = true;
-            // document.head.appendChild(hs);
-          `,
-          translations: {
-            de: {
-              description: 'CRM und Marketing-Tracking für Kontaktanfragen und Besucheranalyse.'
-            }
-          }
         }
       ]
     };
