@@ -1,0 +1,152 @@
+/* ==========================================================
+   Gemeinsame Navigation – dominikdaniels.com
+   Wird von allen Seiten geladen. Änderungen hier wirken überall.
+   Farben kommen aus den CSS-Variablen der jeweiligen Seite.
+   ========================================================== */
+
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.8rem 4rem;
+  border-bottom: 1px solid var(--line, #D6E2DC);
+  transition: padding 0.4s, border-color 0.4s;
+}
+/* Hintergrund und Weichzeichner liegen auf einer eigenen Ebene.
+   Direkt auf der Leiste würde backdrop-filter das mobile Vollbild-Menü einsperren. */
+.site-nav::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: rgba(250,250,250,0.95);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  transition: opacity 0.4s;
+}
+
+/* Startseite: transparent bis gescrollt wird */
+.site-nav.nav--hero { border-bottom-color: transparent; }
+.site-nav.nav--hero::before { opacity: 0; }
+.site-nav.nav--hero.scrolled { border-bottom-color: var(--line, #D6E2DC); padding: 1.2rem 4rem; }
+.site-nav.nav--hero.scrolled::before { opacity: 1; }
+
+.site-nav .nav-logo { display: block; text-decoration: none; line-height: 0; }
+.site-nav .nav-logo img { height: 32px; width: auto; display: block; }
+
+.site-nav .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; margin: 0; padding: 0; }
+
+.site-nav .nav-links a,
+.site-nav .nav-sub-toggle {
+  text-decoration: none; color: var(--ink-light, #4a7060);
+  font-family: inherit; font-size: 0.8rem; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  position: relative; transition: color 0.2s;
+}
+.site-nav .nav-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 1px; background: var(--accent, #C8A147); transition: width 0.3s ease;
+}
+.site-nav .nav-links a:hover,
+.site-nav .nav-sub-toggle:hover,
+.site-nav .nav-links a.active,
+.site-nav .nav-sub-toggle.active { color: var(--ink, #184233); }
+.site-nav .nav-links a:hover::after,
+.site-nav .nav-links a.active::after { width: 100%; }
+
+/* ---------- Untermenü „Tools“ ---------- */
+.site-nav .nav-sub { position: relative; }
+.site-nav .nav-sub-toggle {
+  appearance: none; -webkit-appearance: none; background: none; border: 0; padding: 0; margin: 0;
+  display: inline-flex; align-items: center; gap: 0.5rem; cursor: inherit;
+}
+.site-nav .nav-sub-toggle::after {
+  content: ''; width: 0.36rem; height: 0.36rem;
+  border-right: 1px solid currentColor; border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg); transition: transform 0.25s ease;
+}
+.site-nav .nav-sub.open .nav-sub-toggle::after { transform: translateY(1px) rotate(-135deg); }
+
+.site-nav .nav-sub-menu {
+  position: absolute; top: calc(100% + 1.2rem); left: 50%;
+  min-width: 15.5rem; list-style: none; margin: 0; padding: 0.45rem 0;
+  background: #ffffff;
+  border: 1px solid var(--line, #D6E2DC); border-top: 2px solid var(--accent, #C8A147);
+  box-shadow: 0 14px 36px rgba(24,66,51,0.09);
+  opacity: 0; visibility: hidden; transform: translate(-50%, 6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+/* unsichtbare Brücke, damit das Menü beim Hinüberfahren offen bleibt */
+.site-nav .nav-sub-menu::before { content: ''; position: absolute; left: 0; right: 0; top: -1.4rem; height: 1.4rem; }
+.site-nav .nav-sub:hover .nav-sub-menu,
+.site-nav .nav-sub.open .nav-sub-menu { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+
+.site-nav .nav-links .nav-sub-menu a {
+  display: flex; flex-direction: column; gap: 0.15rem;
+  padding: 0.8rem 1.3rem;
+  font-size: 0.92rem; letter-spacing: 0; text-transform: none; font-weight: 500;
+  color: var(--ink, #184233); white-space: nowrap;
+}
+.site-nav .nav-links .nav-sub-menu a::after { display: none; }
+.site-nav .nav-links .nav-sub-menu a small {
+  font-size: 0.72rem; font-weight: 400; letter-spacing: 0.02em; color: var(--ink-light, #4a7060);
+}
+.site-nav .nav-links .nav-sub-menu a:hover,
+.site-nav .nav-links .nav-sub-menu a.active { background: var(--accent-pale, #F5EDD0); }
+
+/* ---------- Hamburger ---------- */
+.site-nav .hamburger { display: none; }
+
+@media (max-width: 900px) {
+  .site-nav { padding: 1.5rem 2rem; }
+  .site-nav.nav--hero.scrolled { padding: 1rem 2rem; }
+
+  .site-nav .nav-links {
+    display: none; flex-direction: column; align-items: stretch; gap: 0;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--ink, #184233); z-index: 99;
+    justify-content: center; overflow-y: auto;
+  }
+  .site-nav .nav-links.open { display: flex; }
+  .site-nav .nav-links > li { border-bottom: 1px solid rgba(250,250,250,0.08); width: 100%; text-align: center; }
+  .site-nav .nav-links a {
+    display: block; padding: 1.5rem 2rem;
+    font-size: 1rem; letter-spacing: 0.15em; color: var(--cream, #FAFAFA);
+  }
+  .site-nav .nav-links a:hover,
+  .site-nav .nav-links a.active { color: var(--accent, #C8A147); }
+  .site-nav .nav-links a::after { display: none; }
+
+  /* Untermenü mobil: Einträge erscheinen als normale Menüpunkte */
+  .site-nav .nav-sub-toggle { display: none; }
+  .site-nav .nav-sub-menu {
+    position: static; transform: none; opacity: 1; visibility: visible;
+    min-width: 0; padding: 0; background: none; border: 0; box-shadow: none;
+  }
+  .site-nav .nav-sub-menu::before { display: none; }
+  .site-nav .nav-links .nav-sub-menu a {
+    display: block; padding: 1.5rem 2rem;
+    font-size: 1rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--cream, #FAFAFA);
+  }
+  .site-nav .nav-links .nav-sub-menu a small { display: none; }
+  .site-nav .nav-links .nav-sub-menu a:hover,
+  .site-nav .nav-links .nav-sub-menu a.active { background: none; color: var(--accent, #C8A147); }
+
+  .site-nav .hamburger {
+    display: flex; flex-direction: column; justify-content: space-between;
+    width: 24px; height: 16px; padding: 0; background: none; border: none;
+    position: relative; z-index: 100; cursor: inherit;
+  }
+  .site-nav .hamburger span {
+    display: block; height: 2px; background: var(--ink, #184233);
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s; transform-origin: center;
+  }
+  .site-nav .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--accent, #C8A147); }
+  .site-nav .hamburger.open span:nth-child(2) { opacity: 0; }
+  .site-nav .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--accent, #C8A147); }
+}
+
+.site-nav .nav-sub-toggle:focus-visible,
+.site-nav .hamburger:focus-visible,
+.site-nav .nav-links a:focus-visible,
+.site-nav .nav-logo:focus-visible { outline: 2px solid var(--accent, #C8A147); outline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav, .site-nav *, .site-nav *::before, .site-nav *::after { transition: none !important; }
+}

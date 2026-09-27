@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROAS-, ROI- & CAC-Rechner: Marketing-KPIs kostenlos berechnen – Dominik C. Daniels</title>
+  <meta name="description" content="Kostenloser Marketing-KPI-Rechner für B2B und B2C: ROAS, ROI, CAC, Customer Lifetime Value, TAM/SAM/SOM, Marktpotenzial und Break-even. Mit Einordnung, ob deine Werte gut sind." />
+  <link rel="canonical" href="https://dominikdaniels.com/kpi-rechner.html" />
+
+  <!--GTM-CONSENT-->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { 'analytics_storage': 'denied', 'ad_storage': 'denied', 'wait_for_update': 500 });
+  </script>
+  <!--/GTM-CONSENT-->
+
+  <!--FONTS-->
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,400i,700|inter:300,400,500,700&display=swap" rel="stylesheet" />
+  <!--/FONTS-->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥃</text></svg>">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAFAFA;
+      --ink: #184233;
+      --ink-deep: #11302A;
+      --ink-light: #4a7060;
+      --accent: #C8A147;
+      --accent-pale: #F5EDD0;
+      --line: #D6E2DC;
+      --white: #ffffff;
+      --red: #C0392B;
+      --good: #2F7D4F; --ok: #A9862F; --bad: #C0392B;
+      --good-d: #8FD6A4; --ok-d: #E2C06A; --bad-d: #F08A7C;
+      --serif: 'Libre Baskerville', Georgia, serif;
+      --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--ink); font-family: var(--sans); font-size: 1rem; line-height: 1.7; overflow-x: hidden; cursor: none; }
+
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+    #cursor.hover { width: 40px; height: 40px; opacity: 0.5; }
+    a, button, label { cursor: none; }
+    @media (hover: none) { #cursor { display: none; } body, a, button, label { cursor: auto; } }
+
+    /* NAV (identisch zum Blog) */
+
+    /* HEADER */
+    .tool-header { padding: 10rem 4rem 3rem; max-width: 1120px; margin: 0 auto; }
+    .eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; display: block; margin-bottom: 1rem;
+    }
+    .tool-title {
+      font-family: var(--serif); font-size: clamp(2.1rem, 5vw, 3.6rem);
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; max-width: 18ch;
+      text-wrap: balance;
+    }
+    .tool-title em { font-style: italic; font-weight: 400; color: var(--ink-light); }
+    .tool-lead { margin-top: 1.4rem; color: var(--ink-light); max-width: 60ch; font-size: 1.02rem; }
+
+    /* STEPS */
+    .tool { max-width: 1120px; margin: 0 auto; padding: 0 4rem 6rem; display: flex; flex-direction: column; gap: 3.5rem; }
+    .step-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+    .section-number { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+    .step-title { font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 700; line-height: 1.25; }
+    .section-line { width: 40px; height: 1px; background: var(--accent); margin-top: 0.9rem; }
+
+    /* MODE SWITCH */
+    .mode { display: inline-flex; border: 1px solid var(--ink); background: var(--white); }
+    .mode button {
+      appearance: none; border: 0; background: transparent; font-family: var(--sans);
+      padding: 0.9rem 1.6rem; min-width: 8.5rem; text-align: left; color: var(--ink);
+      display: flex; flex-direction: column; gap: 0.1rem; transition: background 0.2s, color 0.2s;
+    }
+    .mode button + button { border-left: 1px solid var(--ink); }
+    .mode b { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+    .mode small { font-size: 0.75rem; color: var(--ink-light); transition: color 0.2s; }
+    .mode button[aria-checked="true"] { background: var(--ink); color: var(--cream); }
+    .mode button[aria-checked="true"] small { color: var(--accent); }
+    .mode button:focus-visible, .q:focus-visible, .btn:focus-visible, .linkbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .mode-note { font-size: 0.85rem; color: var(--ink-light); max-width: 52ch; }
+
+    /* QUESTIONS */
+    .questions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .q {
+      appearance: none; background: var(--white); border: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      text-align: left; padding: 1.3rem 1.3rem 1.2rem; font-family: var(--sans); color: var(--ink);
+      display: flex; flex-direction: column; gap: 0.7rem; justify-content: space-between; min-height: 8.2rem;
+      position: relative; transition: background 0.2s, color 0.2s;
+    }
+    .q:hover { background: var(--accent-pale); }
+    .q .qq { font-size: 0.98rem; font-weight: 500; line-height: 1.35; }
+    .q .qk { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+    .q .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); flex: none; }
+    .dot.good { background: var(--good); } .dot.ok { background: var(--ok); } .dot.bad { background: var(--bad); }
+    .q[aria-selected="true"] { background: var(--ink); color: var(--cream); }
+    .q[aria-selected="true"]::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--accent); }
+    .q[aria-selected="true"] .dot.good { background: var(--good-d); } .q[aria-selected="true"] .dot.ok { background: var(--ok-d); } .q[aria-selected="true"] .dot.bad { background: var(--bad-d); }
+
+    /* WORKBENCH */
+    .bench { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); border: 1px solid var(--line); background: var(--white); }
+    .inputs { padding: 2.2rem; }
+    .calc-name { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; line-height: 1.25; }
+    .calc-desc { color: var(--ink-light); font-size: 0.9rem; margin-top: 0.5rem; }
+    .fields { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 1.8rem; }
+    .field label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+    .field .hint { color: var(--ink-light); font-weight: 400; }
+    .inp { display: flex; align-items: stretch; border: 1px solid var(--line); background: var(--cream); transition: border-color 0.2s, box-shadow 0.2s; }
+    .inp:focus-within { border-color: var(--ink); box-shadow: 0 0 0 3px var(--accent-pale); }
+    .inp.err { border-color: var(--red); }
+    .inp input {
+      flex: 1; min-width: 0; border: 0; background: transparent; outline: none;
+      padding: 0.8rem 0.9rem; font: 500 1.05rem/1.2 var(--sans); color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .inp span { display: flex; align-items: center; padding: 0 0.9rem; font-size: 0.8rem; color: var(--ink-light); border-left: 1px solid var(--line); background: var(--white); white-space: nowrap; }
+    .inputs-foot { margin-top: 1.6rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; font-size: 0.78rem; color: var(--ink-light); }
+    .linkbtn { appearance: none; background: none; border: 0; font: inherit; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--accent); }
+    .linkbtn:hover { color: var(--accent); }
+
+    /* RESULT */
+    .result { background: var(--ink); color: var(--cream); padding: 2.2rem; position: relative; overflow: hidden; }
+    .result-top { display: flex; gap: 1.6rem; align-items: center; }
+    .glass { width: 92px; height: 104px; flex: none; overflow: visible; }
+    .glass .rim { fill: none; stroke: rgba(250,250,250,0.75); stroke-width: 2.5; stroke-linejoin: round; }
+    .glass .liquid { fill: var(--accent); transition: y 0.9s cubic-bezier(.3,1.3,.5,1), height 0.9s cubic-bezier(.3,1.3,.5,1); }
+    .glass .shine { fill: rgba(255,255,255,0.18); }
+    .glass .ice { fill: rgba(250,250,250,0.55); stroke: rgba(250,250,250,0.9); stroke-width: 1.2; transition: opacity 0.5s, transform 0.9s cubic-bezier(.3,1.3,.5,1); }
+    .glass .crack { fill: none; stroke: var(--bad-d); stroke-width: 2; stroke-linecap: round; opacity: 0; transition: opacity 0.4s; }
+    .glass .spark { fill: var(--accent); opacity: 0; transform-box: fill-box; transform-origin: center; }
+    .glass-wrap { transform-origin: 50% 100%; }
+    .glass.good .glass-wrap { animation: cheers 2.4s ease-in-out infinite; }
+    .glass.good .spark { animation: spark 2.4s ease-in-out infinite; }
+    .glass.good .spark.s2 { animation-delay: .6s; } .glass.good .spark.s3 { animation-delay: 1.2s; }
+    .glass.bad .crack { opacity: 1; }
+    .glass.bad .glass-wrap { animation: droop 3.2s ease-in-out infinite; }
+    @keyframes cheers { 0%, 100% { transform: rotate(0deg); } 20% { transform: rotate(-8deg) translateY(-3px); } 40% { transform: rotate(4deg); } 60% { transform: rotate(0deg); } }
+    @keyframes spark { 0%, 100% { opacity: 0; transform: scale(.3); } 40% { opacity: 1; transform: scale(1); } 70% { opacity: 0; transform: scale(.6); } }
+    @keyframes droop { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(3deg) translateY(2px); } }
+
+    .r-label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+    .r-num { font-family: var(--serif); font-weight: 700; font-size: clamp(2.3rem, 5vw, 3.4rem); line-height: 1.05; margin-top: 0.4rem; font-variant-numeric: tabular-nums; word-break: break-word; }
+    .r-num small { font-family: var(--sans); font-size: 0.38em; font-weight: 500; color: rgba(250,250,250,0.6); margin-left: 0.3rem; }
+    .chip { display: inline-block; margin-top: 0.8rem; padding: 0.3rem 0.7rem; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; border: 1px solid currentColor; }
+    .chip.good { color: var(--good-d); } .chip.ok { color: var(--ok-d); } .chip.bad { color: var(--bad-d); } .chip.none { color: rgba(250,250,250,0.5); }
+    .verdict { margin-top: 1.4rem; font-size: 0.95rem; line-height: 1.65; color: rgba(250,250,250,0.9); max-width: 58ch; }
+
+    .meter { margin-top: 1.8rem; }
+    .meter-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,250,250,0.5); margin-bottom: 0.7rem; }
+    .mwrap { position: relative; }
+    .bar { display: flex; height: 8px; background: rgba(250,250,250,0.1); }
+    .bar div { height: 100%; }
+    .seg-good { background: var(--good-d); } .seg-ok { background: var(--ok-d); } .seg-bad { background: var(--bad-d); }
+    .marker { position: absolute; top: -7px; width: 3px; height: 22px; background: var(--cream); transform: translateX(-50%); box-shadow: 0 0 0 3px var(--ink); transition: left 0.7s cubic-bezier(.3,1.4,.5,1); }
+    .ticks { position: relative; height: 1.2rem; margin-top: 0.5rem; font-size: 0.72rem; color: rgba(250,250,250,0.55); font-variant-numeric: tabular-nums; }
+    .ticks span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); margin-top: 1.8rem; border-top: 1px solid rgba(250,250,250,0.12); border-left: 1px solid rgba(250,250,250,0.12); }
+    .stat { padding: 0.9rem 1rem; border-right: 1px solid rgba(250,250,250,0.12); border-bottom: 1px solid rgba(250,250,250,0.12); }
+    .stat .k { font-size: 0.72rem; color: rgba(250,250,250,0.55); line-height: 1.4; }
+    .stat .v { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; margin-top: 0.2rem; color: var(--cream); font-variant-numeric: tabular-nums; }
+    .viz { margin-top: 1.6rem; }
+    .viz svg { display: block; width: 100%; height: auto; max-width: 100%; }
+    .viz text { font-family: var(--sans); font-size: 12px; fill: rgba(250,250,250,0.65); }
+    .viz .ts { fill: var(--cream); font-weight: 700; }
+    .formula { margin-top: 1.6rem; padding: 1rem 1.2rem; border-left: 3px solid var(--accent); background: rgba(0,0,0,0.15); font-size: 0.82rem; line-height: 1.8; color: rgba(250,250,250,0.7); }
+    .formula b { color: var(--cream); font-weight: 600; }
+    .result-foot { margin-top: 1.8rem; display: flex; justify-content: flex-end; }
+    .btn { appearance: none; border: 0; font-family: var(--sans); display: inline-block; padding: 0.85rem 2rem; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; transition: background 0.25s, color 0.25s; }
+    .btn-gold { background: var(--accent); color: var(--ink); }
+    .btn-gold:hover { background: var(--cream); }
+
+    .result.shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97); }
+    @keyframes shake { 10%, 90% { transform: translateX(-2px); } 20%, 80% { transform: translateX(4px); } 30%, 50%, 70% { transform: translateX(-7px); } 40%, 60% { transform: translateX(7px); } }
+    .result.pop .r-num { animation: pop 0.6s cubic-bezier(.3,1.6,.5,1); }
+    @keyframes pop { 40% { transform: scale(1.06); } }
+
+    /* FX */
+    #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 150; }
+    #storm { position: fixed; inset: 0; pointer-events: none; z-index: 149; background: rgba(8,26,20,0); transition: background 0.4s; }
+    #storm.on { background: rgba(8,26,20,0.5); }
+    #flash { position: fixed; inset: 0; pointer-events: none; z-index: 151; background: #fff; opacity: 0; }
+    #flash.go { animation: flash 0.9s ease-out; }
+    @keyframes flash { 0% { opacity: 0; } 8% { opacity: 0.8; } 14% { opacity: 0.1; } 22% { opacity: 0.6; } 100% { opacity: 0; } }
+    .boltfx { position: fixed; top: 0; z-index: 152; pointer-events: none; filter: drop-shadow(0 0 10px #d9ecff) drop-shadow(0 0 28px #8fc4ff); animation: boltfx 0.9s ease-out forwards; }
+    @keyframes boltfx { 0% { opacity: 0; } 6% { opacity: 1; } 14% { opacity: 0.2; } 22% { opacity: 1; } 100% { opacity: 0; } }
+    .toast { position: fixed; left: 50%; bottom: 2rem; transform: translate(-50%, 20px); z-index: 160; padding: 0.9rem 1.6rem; font-family: var(--serif); font-weight: 700; font-size: 1rem; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .toast.good { background: var(--accent); color: var(--ink); } .toast.ok { background: var(--cream); color: var(--ink); border: 1px solid var(--line); } .toast.bad { background: var(--red); color: var(--cream); }
+
+    /* EXPLAINER / FAQ */
+    .explain { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; border-top: 1px solid var(--line); padding-top: 3.5rem; }
+    .faq { display: flex; flex-direction: column; }
+    .faq details { border-bottom: 1px solid var(--line); }
+    .faq details:first-child { border-top: 1px solid var(--line); }
+    .faq summary { list-style: none; padding: 1.2rem 2rem 1.2rem 0; font-weight: 500; position: relative; cursor: none; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: '+'; position: absolute; right: 0.2rem; top: 1.05rem; font-family: var(--serif); font-size: 1.3rem; color: var(--accent); transition: transform 0.2s; }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq p { padding: 0 0 1.3rem; color: var(--ink-light); font-size: 0.93rem; max-width: 64ch; }
+    .explain-side p { color: var(--ink-light); font-size: 0.93rem; margin-top: 1.2rem; }
+    .explain-side a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+    .explain-side a:hover { color: var(--accent); }
+
+    footer { background: var(--ink); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 0.75rem; color: rgba(250,250,250,0.3); }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.75rem; color: rgba(250,250,250,0.3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    @media (max-width: 1000px) {
+      .questions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bench { grid-template-columns: 1fr; }
+      .explain { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    @media (max-width: 900px) {
+      .tool-header { padding: 8rem 1.5rem 2rem; }
+      .tool { padding: 0 1.5rem 4rem; gap: 2.8rem; }
+      .inputs, .result { padding: 1.6rem 1.4rem; }
+      footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
+    }
+    @media (max-width: 520px) {
+      .mode { display: flex; width: 100%; }
+      .mode button { flex: 1; min-width: 0; padding: 0.8rem 1rem; }
+      .q { min-height: 7.4rem; padding: 1rem; }
+      .q .qq { font-size: 0.9rem; }
+      .result-top { gap: 1rem; }
+      .glass { width: 68px; height: 78px; }
+      .toast { white-space: normal; width: calc(100% - 2rem); text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/nav.css" />
+  <script src="assets/nav.js" defer></script>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<nav class="site-nav" id="navbar" aria-label="Hauptnavigation">
+    <a class="nav-logo" href="index.html"><img src="images/logo.svg" alt="Dominik C. Daniels – Startseite"></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#about">Über mich</a></li>
+      <li><a href="leistungen.html">Leistungen</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li class="nav-sub">
+        <button type="button" class="nav-sub-toggle active" aria-expanded="false" aria-controls="navTools">Tools</button>
+        <ul class="nav-sub-menu" id="navTools">
+          <li><a href="kpi-rechner.html" class="active" aria-current="page">Marketing-Rechner<small>ROAS, ROI, CAC und mehr berechnen</small></a></li>
+        </ul>
+      </li>
+      <li><a href="index.html#contact">Kontakt</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </nav>
+
+<header class="tool-header">
+  <span class="eyebrow">Kostenloses Tool · Marketing-KPIs</span>
+  <h1 class="tool-title">Rechnet sich dein Marketing? <em>Jetzt nachrechnen.</em></h1>
+  <p class="tool-lead">ROAS, ROI, Kundenakquisekosten, Customer Lifetime Value, Marktgröße und Break-even. Wähl aus, was du wissen willst, trag deine Zahlen ein und sieh sofort, ob das Ergebnis gut ist. Alles wird nur in deinem Browser berechnet.</p>
+</header>
+
+<main class="tool">
+
+  <section aria-labelledby="s1">
+    <div class="step-head">
+      <div>
+        <span class="section-number">01 — Geschäftsmodell</span>
+        <h2 class="step-title" id="s1">Verkaufst du an Firmen oder an Privatkunden?</h2>
+      </div>
+    </div>
+    <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
+      <div class="mode" role="radiogroup" aria-label="Geschäftsmodell">
+        <button type="button" role="radio" id="mode-b2b" data-mode="b2b" aria-checked="true"><b>B2B</b><small>Firmenkunden</small></button>
+        <button type="button" role="radio" id="mode-b2c" data-mode="b2c" aria-checked="false"><b>B2C</b><small>Privatkunden</small></button>
+      </div>
+      <p class="mode-note" id="modeNote"></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="s2">
+    <div class="step-head">
+      <div>
+        <span class="section-number">02 — Fragestellung</span>
+        <h2 class="step-title" id="s2">Was willst du herausfinden?</h2>
+      </div>
+    </div>
+    <div class="questions" id="questions" role="tablist" aria-label="Kennzahl wählen"></div>
+  </section>
+
+  <section aria-labelledby="s3">
+    <div class="step-head">
+      <div>
+        <span class="section-number">03 — Deine Zahlen</span>
+        <h2 class="step-title" id="s3">Eintragen, auswerten, fertig.</h2>
+      </div>
+    </div>
+    <div class="bench">
+      <div class="inputs">
+        <h3 class="calc-name" id="calcName"></h3>
+        <p class="calc-desc" id="calcDesc"></p>
+        <form class="fields" id="fields" novalidate></form>
+        <div class="inputs-foot">
+          <span>Vorausgefüllt mit Beispielwerten.</span>
+          <button class="linkbtn" type="button" id="resetBtn">Beispielwerte zurücksetzen</button>
+        </div>
+      </div>
+      <div class="result" id="result" aria-live="polite">
+        <div class="result-top">
+          <svg class="glass" id="glass" viewBox="0 0 92 104" role="img" aria-label="Bewertung">
+            <defs><clipPath id="glassClip"><path d="M12 22 L80 22 L74 96 L18 96 Z"/></clipPath></defs>
+            <path class="spark s1" d="M8 8 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>
+            <path class="spark s2" d="M84 4 l1.5 4 4 1.5 -4 1.5 -1.5 4 -1.5 -4 -4 -1.5 4 -1.5z"/>
+            <path class="spark s3" d="M86 40 l1.5 3.5 3.5 1.5 -3.5 1.5 -1.5 3.5 -1.5 -3.5 -3.5 -1.5 3.5 -1.5z"/>
+            <g class="glass-wrap">
+              <g clip-path="url(#glassClip)">
+                <rect class="liquid" id="liquid" x="0" y="96" width="92" height="0"/>
+                <rect class="ice" id="ice" x="34" y="60" width="20" height="20" rx="3" transform="rotate(14 44 70)"/>
+                <path class="shine" d="M20 26 L28 26 L25 92 L21 92 Z"/>
+              </g>
+              <path class="rim" d="M12 22 L80 22 L74 96 L18 96 Z"/>
+              <path class="rim" d="M18 90 L74 90" style="stroke-width:1.2; opacity:.5"/>
+              <path class="crack" d="M58 26 L52 40 L60 48 L50 64 L55 72"/>
+            </g>
+          </svg>
+          <div style="min-width:0">
+            <div class="r-label" id="rLabel"></div>
+            <div class="r-num" id="rNum">–</div>
+            <span class="chip none" id="chip">Werte fehlen</span>
+          </div>
+        </div>
+        <p class="verdict" id="verdict"></p>
+        <div class="meter" id="meter">
+          <div class="meter-label" id="meterLabel"></div>
+          <div class="mwrap"><div class="bar" id="bar"></div><div class="marker" id="marker"></div></div>
+          <div class="ticks" id="ticks"></div>
+        </div>
+        <div class="viz" id="viz"></div>
+        <div class="stats" id="stats"></div>
+        <div class="formula" id="formula"></div>
+        <div class="result-foot"><button class="btn btn-gold" type="button" id="evalBtn">Auswerten</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="explain" aria-labelledby="s4">
+    <div class="explain-side">
+      <span class="section-number">04 — Einordnung</span>
+      <h2 class="step-title" id="s4">Was die Zahlen sagen und was nicht</h2>
+      <div class="section-line"></div>
+      <p>Die Bewertung basiert auf gängigen Faustregeln. Deine Branche, dein Vertriebszyklus und deine Kostenstruktur können andere Maßstäbe rechtfertigen. Nimm das Ergebnis als Gesprächsgrundlage, nicht als Urteil.</p>
+      <p>Wenn die Zahlen nicht zusammenpassen und du nicht weißt, woran es liegt: <a href="leistungen.html">Dafür gibt es das Marketing-Audit.</a></p>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Was ist ein guter ROAS?</summary>
+        <p>Das hängt von deiner Marge ab. Der Break-even-ROAS liegt bei 1 geteilt durch die Bruttomarge. Bei 40 % Marge brauchst du also mindestens einen ROAS von 2,5, damit sich die Werbung überhaupt trägt. Alles darunter kostet dich Geld, auch wenn der Umsatz gut aussieht.</p>
+      </details>
+      <details>
+        <summary>Was ist der Unterschied zwischen ROAS und ROI?</summary>
+        <p>ROAS setzt Umsatz ins Verhältnis zu den Werbekosten. ROI setzt Gewinn ins Verhältnis zu den gesamten Kosten. Ein ROAS von 3 kann deshalb ein negativer ROI sein: Bei 30 % Marge bleiben von 3 € Umsatz nur 0,90 € Rohertrag für 1 € Werbung.</p>
+      </details>
+      <details>
+        <summary>Welches Verhältnis von CLV zu CAC ist gesund?</summary>
+        <p>Als Faustregel gilt 3 : 1. Ein Kunde sollte über seine gesamte Kundenbeziehung mindestens dreimal so viel Rohertrag bringen, wie seine Gewinnung gekostet hat. Unter 1 : 1 verlierst du an jedem neuen Kunden Geld.</p>
+      </details>
+      <details>
+        <summary>Was bedeuten TAM, SAM und SOM?</summary>
+        <p>TAM (Total Addressable Market) ist der gesamte theoretische Markt. SAM (Serviceable Available Market) ist der Teil, den du mit deinem Angebot, deinen Kanälen und in deiner Region tatsächlich bedienen kannst. SOM (Serviceable Obtainable Market) ist der Anteil davon, den du realistisch gewinnen kannst.</p>
+      </details>
+      <details>
+        <summary>Was ändert der Schalter zwischen B2B und B2C?</summary>
+        <p>B2B rechnet mit Leads, Abschlussquoten und Aufträgen, weil Kaufentscheidungen dort länger dauern und über mehrere Stufen laufen. B2C rechnet direkt mit Käufen und Warenkörben. Die Formeln bleiben gleich, Eingabefelder und Beispielwerte passen sich an.</p>
+      </details>
+      <details>
+        <summary>Werden meine Eingaben gespeichert?</summary>
+        <p>Nein. Alle Berechnungen laufen lokal in deinem Browser. Es werden keine Zahlen an einen Server übertragen.</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-copy">© 2026 Dominik C. Daniels. Alle Rechte vorbehalten.</span>
+  <div class="footer-links">
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+  </div>
+</footer>
+
+<div id="storm"></div>
+<canvas id="fx"></canvas>
+<div id="flash"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest('a, button, summary, label, input')) cursor.classList.add('hover');
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('a, button, summary, label, input')) cursor.classList.remove('hover');
+  });
+</script>
+
+<script>
+/* ================= KPI-RECHNER ================= */
+(function(){
+const $ = s => document.querySelector(s);
+const nf = d => new Intl.NumberFormat('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d });
+const N0 = nf(0), N1 = nf(1), N2 = nf(2);
+function eur(v, dec){ if(!isFinite(v)) return '–'; const a = Math.abs(v);
+  if(a >= 1e9) return N1.format(v/1e9) + ' Mrd. €'; if(a >= 1e6) return N1.format(v/1e6) + ' Mio. €';
+  return (dec ? N2 : N0).format(v) + ' €'; }
+function eurParts(v){ const a = Math.abs(v);
+  if(a >= 1e9) return [N1.format(v/1e9), 'Mrd. €']; if(a >= 1e6) return [N1.format(v/1e6), 'Mio. €'];
+  if(a < 100) return [N2.format(v), '€']; return [N0.format(v), '€']; }
+const pct = (v, d = 1) => isFinite(v) ? nf(d).format(v) + ' %' : '–';
+function parse(s){ s = String(s).trim().replace(/\s|€|%/g, ''); if(!s) return NaN;
+  if(s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+  else if(/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, '');
+  return Number(s); }
+
+let mode = 'b2b';
+const L = x => (x && typeof x === 'object') ? x[mode] : x;
+const MODE_NOTE = {
+  b2b: 'Rechnet mit Leads, Abschlussquoten und Aufträgen. Typisch für längere Verkaufszyklen mit mehreren Entscheidern.',
+  b2c: 'Rechnet direkt mit Käufen und Warenkörben. Typisch für Onlineshops und Endkundengeschäft.'
+};
+
+/* ---------- Rechner ---------- */
+const calcs = [
+{ id: 'roas', q: 'Lohnt sich meine Werbung?', kpi: 'ROAS',
+  name: 'ROAS-Rechner',
+  desc: { b2b: 'Wie viel Umsatz jeder Werbe-Euro bringt. Rechne im B2B mit dem Umsatz aus Aufträgen, die der Kampagne zugeordnet sind, auch wenn sie erst Monate später abgeschlossen wurden.',
+          b2c: 'Wie viel Umsatz jeder Werbe-Euro bringt, gemessen an deinem Break-even-ROAS aus der Marge.' },
+  inputs: [
+    { id: 'rev', label: { b2b: 'Umsatz aus zugeordneten Aufträgen', b2c: 'Umsatz aus Werbung' }, unit: '€', val: { b2b: 36000, b2c: 18000 } },
+    { id: 'spend', label: 'Werbekosten', unit: '€', val: { b2b: 6000, b2c: 4500 } },
+    { id: 'margin', label: 'Bruttomarge', unit: '%', val: { b2b: 45, b2c: 40 }, hint: 'für den Break-even-ROAS' } ],
+  compute(v){
+    if(!(v.spend > 0) || !(v.margin > 0)) return null;
+    const r = v.rev / v.spend, be = 100 / v.margin, db = v.rev * v.margin / 100 - v.spend;
+    const score = r >= be * 1.5 ? 'good' : r >= be ? 'ok' : 'bad';
+    const max = Math.max(be * 2.5, r * 1.1);
+    return { label: 'Return on Ad Spend', main: [N2.format(r), '×'], score,
+      text: score === 'good' ? `Jeder Werbe-Euro bringt ${eur(r, 1)} Umsatz. Das liegt klar über deinem Break-even-ROAS von ${N2.format(be)}. Hier darfst du skalieren.`
+          : score === 'ok' ? `Profitabel, aber knapp über dem Break-even-ROAS von ${N2.format(be)}. Wenig Puffer für Rabatte, Retouren oder steigende Klickpreise.`
+          : `Unter dem Break-even-ROAS von ${N2.format(be)}. Nach Abzug des Wareneinsatzes bleibt weniger übrig, als die Werbung kostet.`,
+      meter: { min: 0, max, segs: [[0, be, 'bad'], [be, be * 1.5, 'ok'], [be * 1.5, max, 'good']], value: r, fmt: x => N1.format(x) },
+      meterLabel: 'ROAS im Verhältnis zum Break-even',
+      stats: [['ROAS in Prozent', pct(r * 100, 0)], ['Break-even-ROAS', N2.format(be)], ['Deckungsbeitrag nach Werbung', eur(db)]],
+      formula: '<b>ROAS</b> = Werbeumsatz ÷ Werbekosten<br><b>Break-even-ROAS</b> = 1 ÷ Bruttomarge' };
+  }},
+{ id: 'roi', q: 'Verdiene ich an meiner Kampagne?', kpi: 'Marketing-ROI',
+  name: 'ROI-Rechner',
+  desc: 'Anders als der ROAS rechnet der ROI mit dem Rohertrag. Also mit dem, was nach Wareneinsatz und allen Kampagnenkosten wirklich übrig bleibt.',
+  inputs: [
+    { id: 'rev', label: 'Umsatz durch die Kampagne', unit: '€', val: { b2b: 36000, b2c: 18000 } },
+    { id: 'margin', label: 'Bruttomarge', unit: '%', val: { b2b: 45, b2c: 40 } },
+    { id: 'cost', label: 'Kampagnenkosten gesamt', unit: '€', val: { b2b: 9500, b2c: 5200 }, hint: 'Media, Agentur, Produktion' } ],
+  compute(v){
+    if(!(v.cost > 0)) return null;
+    const profit = v.rev * v.margin / 100 - v.cost, roi = profit / v.cost * 100;
+    const score = roi >= 50 ? 'good' : roi >= 0 ? 'ok' : 'bad';
+    const max = Math.max(200, roi * 1.1), min = Math.min(-100, roi * 1.1);
+    return { label: 'Return on Investment', main: [N0.format(roi), '%'], score,
+      text: score === 'good' ? `Aus jedem investierten Euro werden ${eur(1 + roi / 100, 2)}. Die Kampagne verdient echtes Geld.`
+          : score === 'ok' ? `Knapp im Plus mit ${eur(profit)} Gewinn. Solide, aber noch kein Selbstläufer.`
+          : `Die Kampagne kostet dich ${eur(-profit)}. Der Rohertrag deckt die Kosten nicht.`,
+      meter: { min, max, segs: [[min, 0, 'bad'], [0, 50, 'ok'], [50, max, 'good']], value: roi, fmt: x => N0.format(x) + ' %' },
+      meterLabel: 'ROI',
+      stats: [['Rohertrag', eur(v.rev * v.margin / 100)], ['Gewinn nach Kampagne', eur(profit)], ['ROAS zum Vergleich', N2.format(v.rev / v.cost)]],
+      formula: '<b>ROI</b> = (Umsatz × Bruttomarge − Kosten) ÷ Kosten × 100' };
+  }},
+{ id: 'cac', q: 'Was kostet mich ein neuer Kunde?', kpi: 'CAC',
+  name: 'CAC-Rechner',
+  desc: { b2b: 'Customer Acquisition Cost: Alle Marketing- und Vertriebskosten geteilt durch die Kunden, die daraus wirklich unterschrieben haben.',
+          b2c: 'Customer Acquisition Cost: Alle Marketingkosten geteilt durch die Neukunden, die im gleichen Zeitraum gekauft haben.' },
+  inputs: [
+    { id: 'cost', label: { b2b: 'Marketing- und Vertriebskosten', b2c: 'Marketingkosten' }, unit: '€', val: { b2b: 24000, b2c: 15000 } },
+    { id: 'leads', label: 'Qualifizierte Leads', unit: 'Leads', val: { b2b: 80 }, modes: ['b2b'] },
+    { id: 'close', label: 'Abschlussquote', unit: '%', val: { b2b: 15 }, modes: ['b2b'], hint: 'Lead zu Kunde' },
+    { id: 'cust', label: 'Neukunden', unit: 'Kunden', val: { b2c: 500 }, modes: ['b2c'] },
+    { id: 'max', label: 'Maximal vertretbarer CAC', unit: '€', val: { b2b: 2800, b2c: 35 }, hint: 'z. B. Rohertrag der ersten 12 Monate' } ],
+  compute(v){
+    const cust = mode === 'b2b' ? v.leads * v.close / 100 : v.cust;
+    if(!(cust > 0) || !(v.cost > 0) || !(v.max > 0)) return null;
+    const cac = v.cost / cust, r = cac / v.max;
+    const score = r <= 0.8 ? 'good' : r <= 1 ? 'ok' : 'bad';
+    const max = Math.max(v.max * 2, cac * 1.1);
+    const stats = mode === 'b2b'
+      ? [['Neukunden', N1.format(cust)], ['Kosten pro Lead', eur(v.cost / v.leads, 1)], ['Spielraum bis Limit', eur(v.max - cac)]]
+      : [['Kosten pro Neukunde', eur(cac, 1)], ['Spielraum bis Limit', eur(v.max - cac, 1)], ['Anteil am Limit', pct(r * 100, 0)]];
+    return { label: 'Customer Acquisition Cost', main: eurParts(cac), score,
+      text: score === 'good' ? `Ein Neukunde kostet dich ${eur(cac, cac < 100)}, ${pct((1 - r) * 100, 0)} unter deinem Limit. Da ist Luft für mehr Budget.`
+          : score === 'ok' ? `Du bleibst im Limit, aber knapp. Schon kleine Kostensteigerungen kippen das.`
+          : `Ein Neukunde kostet ${pct((r - 1) * 100, 0)} mehr, als er dir wert sein darf. ${mode === 'b2b' ? 'Prüf Leadqualität und Abschlussquote zuerst.' : 'Prüf Conversion Rate und Kanäle zuerst.'}`,
+      meter: { min: 0, max, segs: [[0, v.max * 0.8, 'good'], [v.max * 0.8, v.max, 'ok'], [v.max, max, 'bad']], value: cac, fmt: x => eur(x) },
+      meterLabel: 'CAC im Verhältnis zu deinem Limit',
+      stats,
+      formula: mode === 'b2b' ? '<b>Neukunden</b> = Leads × Abschlussquote<br><b>CAC</b> = Marketing- und Vertriebskosten ÷ Neukunden' : '<b>CAC</b> = Marketingkosten ÷ Neukunden' };
+  }},
+{ id: 'clv', q: 'Ist ein Kunde seine Akquise wert?', kpi: 'CLV : CAC',
+  name: 'CLV-Rechner',
+  desc: 'Die wichtigste Frage für nachhaltiges Wachstum: Bringt ein Kunde über die gesamte Kundenbeziehung mehr Rohertrag, als seine Gewinnung gekostet hat?',
+  inputs: [
+    { id: 'aov', label: { b2b: 'Ø Auftragswert', b2c: 'Ø Warenkorb' }, unit: '€', val: { b2b: 4800, b2c: 65 } },
+    { id: 'freq', label: { b2b: 'Aufträge pro Jahr', b2c: 'Käufe pro Jahr' }, unit: '×', val: { b2b: 2, b2c: 3 } },
+    { id: 'years', label: 'Ø Kundenbeziehung', unit: 'Jahre', val: { b2b: 4, b2c: 2 } },
+    { id: 'margin', label: 'Bruttomarge', unit: '%', val: { b2b: 40, b2c: 45 } },
+    { id: 'cac', label: 'CAC pro Neukunde', unit: '€', val: { b2b: 2000, b2c: 30 }, hint: 'aus dem CAC-Rechner' } ],
+  compute(v){
+    if(!(v.cac > 0)) return null;
+    const clv = v.aov * v.freq * v.years * v.margin / 100, r = clv / v.cac;
+    const monthly = v.aov * v.freq * v.margin / 100 / 12, payback = monthly > 0 ? v.cac / monthly : Infinity;
+    const score = r >= 3 ? 'good' : r >= 1 ? 'ok' : 'bad';
+    const max = Math.max(6, r * 1.1);
+    return { label: 'Verhältnis CLV zu CAC', main: [N1.format(r), ': 1'], score,
+      text: score === 'good' ? `Ein Kunde bringt ${N1.format(r)}-mal so viel Rohertrag, wie er kostet. Gesundes Wachstum, das auch mehr Budget verträgt.`
+          : score === 'ok' ? `Kunden rechnen sich, liegen aber unter der 3 : 1-Faustregel. Die Akquise hat sich erst nach ${isFinite(payback) ? N0.format(payback) + ' Monaten' : 'sehr langer Zeit'} bezahlt gemacht.`
+          : `Jeder Neukunde kostet mehr, als er je einbringt. Erst Kundenbindung oder Marge verbessern, dann skalieren.`,
+      meter: { min: 0, max, segs: [[0, 1, 'bad'], [1, 3, 'ok'], [3, max, 'good']], value: r, fmt: x => N0.format(x) + ' : 1' },
+      meterLabel: 'CLV : CAC',
+      stats: [['Customer Lifetime Value', eur(clv)], ['CAC', eur(v.cac)], ['Amortisation', isFinite(payback) ? N1.format(payback) + ' Monate' : '–']],
+      formula: '<b>CLV</b> = Ø Wert × Käufe pro Jahr × Jahre × Bruttomarge<br><b>Amortisation</b> = CAC ÷ monatlicher Rohertrag pro Kunde' };
+  }},
+{ id: 'funnel', q: 'Wo verliert mein Funnel?', kpi: 'CTR · CR · CPA',
+  name: 'Funnel-Rechner',
+  desc: { b2b: 'Von der Anzeige bis zur Anfrage: Wo springen Leute ab, und was kostet dich ein Lead?',
+          b2c: 'Von der Anzeige bis zum Kauf: Wo springen Leute ab, und was kostet dich ein Kauf?' },
+  inputs: [
+    { id: 'imp', label: 'Impressionen', unit: '', val: { b2b: 80000, b2c: 250000 } },
+    { id: 'clk', label: 'Klicks', unit: '', val: { b2b: 1200, b2c: 3750 } },
+    { id: 'conv', label: { b2b: 'Leads (Anfragen, Formulare)', b2c: 'Käufe' }, unit: '', val: { b2b: 36, b2c: 150 } },
+    { id: 'cost', label: 'Kosten', unit: '€', val: { b2b: 4200, b2c: 6000 } },
+    { id: 'target', label: { b2b: 'Zielkosten pro Lead (CPL)', b2c: 'Zielkosten pro Kauf (CPA)' }, unit: '€', val: { b2b: 150, b2c: 45 } } ],
+  compute(v){
+    if(!(v.imp > 0) || !(v.clk > 0) || !(v.conv > 0) || !(v.target > 0)) return null;
+    const ctr = v.clk / v.imp * 100, cr = v.conv / v.clk * 100, cpc = v.cost / v.clk, cpa = v.cost / v.conv, t = v.target;
+    const score = cpa <= t * 0.8 ? 'good' : cpa <= t ? 'ok' : 'bad';
+    const max = Math.max(t * 2, cpa * 1.1);
+    const unitName = mode === 'b2b' ? 'Lead' : 'Kauf';
+    return { label: mode === 'b2b' ? 'Kosten pro Lead' : 'Kosten pro Kauf', main: eurParts(cpa), score,
+      text: score === 'good' ? `${eur(cpa, 1)} pro ${unitName}, ${pct((1 - cpa / t) * 100, 0)} unter Ziel. Der Funnel arbeitet effizient.`
+          : score === 'ok' ? `Im Ziel, aber knapp. Der größte Hebel ist meist die Conversion Rate von ${pct(cr, 1)} auf der Zielseite.`
+          : `${pct((cpa / t - 1) * 100, 0)} über Ziel. Prüf zuerst ${ctr < 1 ? 'die Klickrate, also Anzeigen und Zielgruppe' : 'die Conversion Rate, also Zielseite und Angebot'}.`,
+      meter: { min: 0, max, segs: [[0, t * 0.8, 'good'], [t * 0.8, t, 'ok'], [t, max, 'bad']], value: cpa, fmt: x => N0.format(x) + ' €' },
+      meterLabel: 'Kosten im Verhältnis zum Ziel',
+      stats: [['Klickrate (CTR)', pct(ctr, 2)], ['Conversion Rate', pct(cr, 2)], ['Kosten pro Klick', eur(cpc, 1)], ['Tausenderkontaktpreis', eur(v.cost / v.imp * 1000, 1)]],
+      viz: funnelViz(v.imp, v.clk, v.conv, mode === 'b2b' ? 'Leads' : 'Käufe'),
+      formula: '<b>CTR</b> = Klicks ÷ Impressionen · <b>CR</b> = Conversions ÷ Klicks<br><b>CPC</b> = Kosten ÷ Klicks · <b>CPA/CPL</b> = Kosten ÷ Conversions' };
+  }},
+{ id: 'tam', q: 'Wie groß ist mein Markt?', kpi: 'TAM · SAM · SOM',
+  name: 'Marktgrößen-Rechner',
+  desc: 'Vom theoretischen Gesamtmarkt zu dem Umsatz, den du realistisch holen kannst. Und ob das für dein Ziel reicht.',
+  inputs: [
+    { id: 'cust', label: { b2b: 'Potenzielle Kundenunternehmen', b2c: 'Potenzielle Kunden (Personen)' }, unit: { b2b: 'Firmen', b2c: 'Personen' }, val: { b2b: 40000, b2c: 3000000 } },
+    { id: 'arpu', label: 'Ø Ausgaben pro Kunde und Jahr', unit: '€', val: { b2b: 5000, b2c: 90 }, hint: 'für deine Produktkategorie' },
+    { id: 'sam', label: 'Davon mit deinem Angebot erreichbar', unit: '%', val: { b2b: 30, b2c: 20 }, hint: 'SAM' },
+    { id: 'som', label: 'Davon realistisch gewinnbar', unit: '%', val: { b2b: 2, b2c: 1 }, hint: 'SOM, in 3 Jahren' },
+    { id: 'goal', label: 'Dein Umsatzziel pro Jahr', unit: '€', val: { b2b: 1000000, b2c: 450000 } } ],
+  compute(v){
+    if(!(v.cust > 0) || !(v.arpu > 0) || !(v.goal > 0)) return null;
+    const tam = v.cust * v.arpu, sam = tam * v.sam / 100, som = sam * v.som / 100, r = som / v.goal;
+    const score = r >= 1.2 ? 'good' : r >= 1 ? 'ok' : 'bad';
+    const max = Math.max(3, r * 1.1);
+    return { label: 'SOM · realistisch erreichbar', main: eurParts(som), score,
+      text: score === 'good' ? `Dein realistisch erreichbarer Markt deckt das Ziel ${N1.format(r)}-fach. Da ist Luft nach oben.`
+          : score === 'ok' ? `Das Ziel ist machbar, aber du brauchst fast jeden Kunden, den du realistisch gewinnen kannst.`
+          : `Der erreichbare Markt deckt nur ${pct(r * 100, 0)} deines Ziels. Entweder den bedienbaren Markt erweitern oder das Ziel anpassen.`,
+      meter: { min: 0, max, segs: [[0, 1, 'bad'], [1, 1.2, 'ok'], [1.2, max, 'good']], value: r, fmt: x => N1.format(x) + '×' },
+      meterLabel: 'SOM im Verhältnis zu deinem Umsatzziel',
+      stats: [['TAM · Gesamtmarkt', eur(tam)], ['SAM · bedienbar', eur(sam)], ['Zielabdeckung', pct(r * 100, 0)]],
+      viz: tamViz(tam, sam, som),
+      formula: '<b>TAM</b> = Kunden × Ø Ausgaben<br><b>SAM</b> = TAM × erreichbarer Anteil<br><b>SOM</b> = SAM × realistischer Anteil' };
+  }},
+{ id: 'pot', q: 'Wie viel Wachstum steckt im Markt?', kpi: 'Marktpotenzial',
+  name: 'Marktpotenzial-Rechner',
+  desc: 'Wie viel vom theoretisch möglichen Markt ist schon verteilt, und wie stark stehst du darin?',
+  inputs: [
+    { id: 'pot', label: 'Marktpotenzial', unit: '€', val: { b2b: 800000000, b2c: 1200000000 }, hint: 'maximal mögliches Volumen' },
+    { id: 'vol', label: 'Marktvolumen', unit: '€', val: { b2b: 520000000, b2c: 1050000000 }, hint: 'tatsächlicher Branchenumsatz' },
+    { id: 'own', label: 'Dein Umsatz', unit: '€', val: { b2b: 6500000, b2c: 4200000 } },
+    { id: 'comp', label: 'Umsatz des größten Wettbewerbers', unit: '€', val: { b2b: 48000000, b2c: 210000000 } } ],
+  compute(v){
+    if(!(v.pot > 0) || !(v.vol > 0)) return null;
+    const sat = v.vol / v.pot * 100, free = v.pot - v.vol, share = v.own / v.vol * 100, rel = v.comp > 0 ? v.own / v.comp : NaN;
+    const score = sat < 60 ? 'good' : sat <= 85 ? 'ok' : 'bad';
+    return { label: 'Ungenutztes Marktpotenzial', main: eurParts(free), score,
+      text: score === 'good' ? `Erst ${pct(sat, 0)} des Potenzials sind erschlossen. Wachstumsmarkt: Neue Kunden kommen, ohne dass du sie anderen wegnehmen musst.`
+          : score === 'ok' ? `Der Markt ist zu ${pct(sat, 0)} gesättigt. Wachstum ist noch drin, aber der Wettbewerb um Kunden wird härter.`
+          : `${pct(sat, 0)} Sättigung: ein Verdrängungsmarkt. Wachstum gibt es fast nur noch über Marktanteile der Konkurrenz.`,
+      meter: { min: 0, max: 100, segs: [[0, 60, 'good'], [60, 85, 'ok'], [85, 100, 'bad']], value: Math.min(sat, 100), fmt: x => N0.format(x) + ' %' },
+      meterLabel: 'Sättigungsgrad des Marktes',
+      stats: [['Sättigungsgrad', pct(sat, 0)], ['Dein Marktanteil', pct(share, 2)], ['Relativer Marktanteil', isFinite(rel) ? N2.format(rel) : '–']],
+      formula: '<b>Sättigungsgrad</b> = Marktvolumen ÷ Marktpotenzial<br><b>Marktanteil</b> = eigener Umsatz ÷ Marktvolumen<br><b>Relativer Marktanteil</b> = eigener Umsatz ÷ Umsatz des größten Wettbewerbers' };
+  }},
+{ id: 'be', q: 'Ab wann rechnet sich das?', kpi: 'Break-even',
+  name: 'Break-even-Rechner',
+  desc: { b2b: 'Wie viele Aufträge brauchst du, bis eine Kampagne oder ein neues Angebot die Fixkosten eingespielt hat?',
+          b2c: 'Wie viele Verkäufe brauchst du, bis eine Kampagne oder ein Produktlaunch die Fixkosten eingespielt hat?' },
+  inputs: [
+    { id: 'fix', label: 'Fixkosten (Kampagne, Launch)', unit: '€', val: { b2b: 20000, b2c: 15000 } },
+    { id: 'price', label: { b2b: 'Ø Auftragswert', b2c: 'Verkaufspreis pro Stück' }, unit: '€', val: { b2b: 4800, b2c: 49 } },
+    { id: 'var', label: { b2b: 'Variable Kosten pro Auftrag', b2c: 'Variable Kosten pro Stück' }, unit: '€', val: { b2b: 3100, b2c: 22 } },
+    { id: 'exp', label: { b2b: 'Erwartete Aufträge', b2c: 'Erwarteter Absatz' }, unit: { b2b: 'Aufträge', b2c: 'Stück' }, val: { b2b: 18, b2c: 700 } } ],
+  compute(v){
+    const db = v.price - v.var;
+    if(!(db > 0) || !(v.fix >= 0) || !(v.exp > 0)) return null;
+    const be = v.fix / db, r = v.exp / be, gain = v.exp * db - v.fix, safety = (v.exp - be) / v.exp * 100;
+    const u = mode === 'b2b' ? 'Aufträge' : 'Stück';
+    const score = r >= 1.3 ? 'good' : r >= 1 ? 'ok' : 'bad';
+    const max = Math.max(2.5, r * 1.1);
+    return { label: 'Break-even-Menge', main: [N0.format(Math.ceil(be)), u], score,
+      text: score === 'good' ? `Nach ${N0.format(Math.ceil(be))} ${u} bist du im Plus. Deine Erwartung liegt ${pct(safety, 0)} darüber. Komfortabel.`
+          : score === 'ok' ? `Du erreichst die Gewinnschwelle, aber mit nur ${pct(safety, 0)} Sicherheitsabstand.`
+          : `Mit ${N0.format(v.exp)} ${u} fehlen ${N0.format(Math.ceil(be - v.exp))} bis zur Gewinnschwelle. Preis, Kosten oder Absatzplan überdenken.`,
+      meter: { min: 0, max, segs: [[0, 1, 'bad'], [1, 1.3, 'ok'], [1.3, max, 'good']], value: r, fmt: x => N1.format(x) + '×' },
+      meterLabel: 'Erwartung im Verhältnis zum Break-even',
+      stats: [[mode === 'b2b' ? 'Deckungsbeitrag pro Auftrag' : 'Deckungsbeitrag pro Stück', eur(db, db < 100)], ['Erwarteter Gewinn', eur(gain)], ['Sicherheitsabstand', pct(safety, 0)]],
+      formula: '<b>Break-even-Menge</b> = Fixkosten ÷ (Preis − variable Kosten)' };
+  }}
+];
+
+function tamViz(tam, sam, som){
+  const W = 440, H = 190, cx = 100, cy = 95, R = 86;
+  const r2 = R * Math.sqrt(sam / tam), r3 = Math.max(3, R * Math.sqrt(som / tam));
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="TAM, SAM und SOM als verschachtelte Kreise">
+  <circle cx="${cx}" cy="${cy}" r="${R}" fill="rgba(200,161,71,0.12)" stroke="rgba(200,161,71,0.6)"/>
+  <circle cx="${cx}" cy="${cy + R - r2}" r="${r2}" fill="rgba(200,161,71,0.35)" stroke="#C8A147"/>
+  <circle cx="${cx}" cy="${cy + R - r3}" r="${r3}" fill="#C8A147"/>
+  <line x1="${cx + R * 0.72}" y1="${cy - R * 0.69}" x2="215" y2="30" stroke="rgba(250,250,250,0.25)"/>
+  <line x1="${cx + r2 * 0.72}" y1="${cy + R - r2 - r2 * 0.69}" x2="215" y2="95" stroke="rgba(250,250,250,0.25)"/>
+  <line x1="${cx + r3}" y1="${cy + R - r3}" x2="215" y2="160" stroke="rgba(250,250,250,0.25)"/>
+  <text x="222" y="28" class="ts">TAM</text><text x="222" y="45">${eur(tam)}</text>
+  <text x="222" y="93" class="ts">SAM</text><text x="222" y="110">${eur(sam)}</text>
+  <text x="222" y="158" class="ts">SOM</text><text x="222" y="175">${eur(som)}</text></svg>`;
+}
+function funnelViz(i, c, v, lastName){
+  const W = 440, rows = [['Impressionen', i], ['Klicks', c], [lastName, v]];
+  const sc = x => Math.max(6, 260 * Math.log10(Math.max(x, 1)) / Math.log10(Math.max(i, 10)));
+  let y = 4, out = '';
+  rows.forEach(([k, n], idx) => { const w = sc(n);
+    out += `<rect x="0" y="${y}" width="${w}" height="24" fill="#C8A147" fill-opacity="${1 - idx * 0.28}"/>
+    <text x="${w + 10}" y="${y + 16}"><tspan class="ts">${N0.format(n)}</tspan> ${k}</text>`; y += 34; });
+  return `<svg viewBox="0 0 ${W} ${y}" role="img" aria-label="Funnel">${out}</svg><div style="font-size:.7rem;color:rgba(250,250,250,.45);margin-top:.3rem">Balken logarithmisch skaliert</div>`;
+}
+
+/* ---------- State ---------- */
+const state = { b2b: {}, b2c: {} };
+function defaults(m, c){ const o = {}; c.inputs.forEach(f => { if(f.val && f.val[m] !== undefined) o[f.id] = f.val[m]; }); return o; }
+['b2b', 'b2c'].forEach(m => calcs.forEach(c => state[m][c.id] = defaults(m, c)));
+const lastScore = { b2b: {}, b2c: {} };
+let cur = calcs[0], debounce;
+
+const qWrap = $('#questions');
+calcs.forEach(c => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'q'; b.id = 'q-' + c.id; b.setAttribute('role', 'tab');
+  b.innerHTML = `<span class="qq">${c.q}</span><span class="qk">${c.kpi}<span class="dot" id="dot-${c.id}"></span></span>`;
+  b.addEventListener('click', () => { select(c.id, true); if(innerWidth < 1000) $('#s3').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  qWrap.appendChild(b);
+});
+
+document.querySelectorAll('.mode button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+function setMode(m){
+  mode = m;
+  document.querySelectorAll('.mode button').forEach(b => b.setAttribute('aria-checked', b.dataset.mode === m));
+  $('#modeNote').textContent = MODE_NOTE[m];
+  try { localStorage.setItem('kpi-mode', m); } catch(e) {}
+  select(cur.id, false);
+}
+
+function fmtInput(v){ return isFinite(v) ? new Intl.NumberFormat('de-DE', { maximumFractionDigits: 4 }).format(v) : ''; }
+function select(id, user){
+  cur = calcs.find(c => c.id === id) || calcs[0];
+  document.querySelectorAll('.q').forEach(b => b.setAttribute('aria-selected', b.id === 'q-' + cur.id));
+  $('#calcName').textContent = cur.name;
+  $('#calcDesc').textContent = L(cur.desc);
+  const f = $('#fields'); f.innerHTML = '';
+  cur.inputs.filter(inp => !inp.modes || inp.modes.includes(mode)).forEach(inp => {
+    const d = document.createElement('div'); d.className = 'field';
+    const fid = `in-${cur.id}-${inp.id}`;
+    const unit = L(inp.unit);
+    d.innerHTML = `<label for="${fid}">${L(inp.label)}${inp.hint ? ` <span class="hint">· ${inp.hint}</span>` : ''}</label>
+      <div class="inp"><input id="${fid}" inputmode="decimal" autocomplete="off" value="${fmtInput(state[mode][cur.id][inp.id])}">${unit ? `<span>${unit}</span>` : ''}</div>`;
+    const el = d.querySelector('input');
+    el.addEventListener('input', () => {
+      const n = parse(el.value); state[mode][cur.id][inp.id] = n;
+      el.parentElement.classList.toggle('err', el.value.trim() !== '' && !isFinite(n));
+      render(); clearTimeout(debounce); debounce = setTimeout(maybeCelebrate, 900);
+    });
+    f.appendChild(d);
+  });
+  if(user){ try { history.replaceState(null, '', '#' + cur.id); } catch(e) {} }
+  render();
+}
+
+const LEVEL = { good: { y: 34, h: 62, ice: 1 }, ok: { y: 58, h: 38, ice: 1 }, bad: { y: 88, h: 8, ice: 0 }, none: { y: 96, h: 0, ice: 0 } };
+const CHIP = { good: 'Stark', ok: 'Okay, mit Luft nach oben', bad: 'Kritisch', none: 'Werte fehlen' };
+
+function scoreOf(c, m){ const saved = mode; mode = m; const r = c.compute(state[m][c.id]); mode = saved; return r ? r.score : 'none'; }
+function render(){
+  const res = cur.compute(state[mode][cur.id]);
+  calcs.forEach(c => { $('#dot-' + c.id).className = 'dot ' + scoreOf(c, mode); });
+  const s = res ? res.score : 'none';
+  if(lastScore[mode][cur.id] === undefined) lastScore[mode][cur.id] = s;
+  const g = $('#glass'); g.setAttribute('class', 'glass ' + s); g.setAttribute('aria-label', 'Bewertung: ' + CHIP[s]);
+  const lv = LEVEL[s], liq = $('#liquid');
+  liq.setAttribute('y', lv.y); liq.setAttribute('height', lv.h); liq.style.y = lv.y + 'px'; liq.style.height = lv.h + 'px';
+  const ice = $('#ice'); ice.style.opacity = lv.ice; ice.setAttribute('y', lv.y + 4);
+  const chip = $('#chip'); chip.className = 'chip ' + s; chip.textContent = CHIP[s];
+  if(!res){
+    $('#rLabel').textContent = cur.kpi; $('#rNum').innerHTML = '–';
+    $('#verdict').textContent = 'Bitte alle Felder mit Zahlen größer als 0 füllen.';
+    $('#meter').hidden = true; $('#stats').innerHTML = ''; $('#viz').innerHTML = ''; $('#formula').innerHTML = '';
+    return;
+  }
+  $('#rLabel').textContent = res.label;
+  $('#rNum').innerHTML = `${res.main[0]}<small>${res.main[1]}</small>`;
+  $('#verdict').textContent = res.text;
+  $('#meter').hidden = false; drawMeter(res.meter); $('#meterLabel').textContent = res.meterLabel || '';
+  $('#viz').innerHTML = res.viz || '';
+  $('#stats').innerHTML = res.stats.map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+  $('#formula').innerHTML = res.formula;
+}
+function drawMeter(m){
+  const span = m.max - m.min, p = x => Math.min(100, Math.max(0, (x - m.min) / span * 100));
+  $('#bar').innerHTML = m.segs.map(([a, b, s]) => `<div class="seg-${s}" style="width:${p(b) - p(a)}%"></div>`).join('');
+  $('#marker').style.left = p(m.value) + '%';
+  const th = [...new Set(m.segs.slice(1).map(s => s[0]))];
+  $('#ticks').innerHTML = th.map(x => `<span style="left:${p(x)}%">${m.fmt(x)}</span>`).join('');
+}
+
+/* ---------- Animationen ---------- */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv = $('#fx'), ctx = cv.getContext('2d'); let parts = [], raf = null;
+function size(){ cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; }
+size(); addEventListener('resize', size);
+function loop(){
+  const dpr = devicePixelRatio; ctx.clearRect(0, 0, cv.width, cv.height);
+  parts = parts.filter(p => p.life > 0 && p.y < innerHeight + 40);
+  parts.forEach(p => {
+    p.life--; p.vy += p.g; p.vx *= p.drag; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+    ctx.save(); ctx.translate(p.x * dpr, p.y * dpr); ctx.globalAlpha = Math.min(1, p.life / 30);
+    if(p.rain){ ctx.strokeStyle = 'rgba(190,215,235,.7)'; ctx.lineWidth = 1.4 * dpr; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(p.vx * 2 * dpr, p.vy * 2 * dpr); ctx.stroke(); }
+    else { ctx.rotate(p.rot); ctx.fillStyle = p.c;
+      if(p.shape) ctx.fillRect(-p.s * dpr / 2, -p.s * dpr / 4, p.s * dpr, p.s * dpr / 2);
+      else { ctx.beginPath(); ctx.arc(0, 0, p.s * dpr / 2.6, 0, 7); ctx.fill(); } }
+    ctx.restore();
+  });
+  if(parts.length) raf = requestAnimationFrame(loop); else { raf = null; ctx.clearRect(0, 0, cv.width, cv.height); }
+}
+function run(){ if(!raf) raf = requestAnimationFrame(loop); }
+function confetti(){
+  const cols = ['#C8A147', '#E2C06A', '#F5EDD0', '#184233', '#4a7060', '#FAFAFA'];
+  const gb = $('#glass').getBoundingClientRect();
+  const origins = [[gb.left + gb.width / 2, gb.top + gb.height / 3], [0, innerHeight * 0.75], [innerWidth, innerHeight * 0.75]];
+  origins.forEach(([ox, oy], oi) => {
+    for(let i = 0; i < (oi ? 70 : 55); i++){
+      const a = oi === 0 ? Math.random() * Math.PI * 2 : (oi === 1 ? -Math.PI / 2 + Math.random() * 0.9 : -Math.PI / 2 - Math.random() * 0.9);
+      const sp = oi === 0 ? 4 + Math.random() * 7 : 10 + Math.random() * 9;
+      parts.push({ x: ox, y: oy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, g: 0.22, drag: 0.985, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 0.4,
+        s: 7 + Math.random() * 7, c: cols[i % cols.length], shape: i % 3, life: 150 + Math.random() * 60 });
+    }
+  }); run();
+}
+function rain(){
+  for(let i = 0; i < 220; i++) parts.push({ rain: 1, x: Math.random() * innerWidth * 1.2 - 40, y: -Math.random() * innerHeight, vx: -1.6, vy: 14 + Math.random() * 6, g: 0, drag: 1, rot: 0, vr: 0, life: 120 });
+  run();
+}
+function bolt(x, h){
+  const NS = 'http://www.w3.org/2000/svg', s = document.createElementNS(NS, 'svg'), w = 160;
+  s.setAttribute('viewBox', `0 0 ${w} ${h}`); s.setAttribute('width', w); s.setAttribute('height', h);
+  s.setAttribute('class', 'boltfx'); s.style.left = (x - w / 2) + 'px';
+  let px = w / 2, py = 0, d = `M${px} ${py}`;
+  while(py < h){ px += (Math.random() - 0.5) * 60; px = Math.max(10, Math.min(w - 10, px)); py += 20 + Math.random() * 40; d += ` L${px.toFixed(1)} ${py.toFixed(1)}`; }
+  const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.setAttribute('fill', 'none');
+  p.setAttribute('stroke', '#EEF7FF'); p.setAttribute('stroke-width', '4'); p.setAttribute('stroke-linejoin', 'round');
+  s.appendChild(p); document.body.appendChild(s); setTimeout(() => s.remove(), 950);
+}
+function storm(){
+  const st = $('#storm'); st.classList.add('on'); rain();
+  const rc = $('#result').getBoundingClientRect();
+  const strike = (x, delay) => setTimeout(() => {
+    bolt(x, Math.max(120, rc.top + 60 + Math.random() * 120));
+    const f = $('#flash'); f.classList.remove('go'); void f.offsetWidth; f.classList.add('go');
+    const r = $('#result'); r.classList.remove('shake'); void r.offsetWidth; r.classList.add('shake');
+  }, delay);
+  strike(rc.left + rc.width * 0.3, 150); strike(rc.left + rc.width * 0.75, 900); strike(Math.random() * innerWidth, 1700);
+  setTimeout(() => st.classList.remove('on'), 2600);
+}
+function toast(s){
+  const t = $('#toast'); t.className = 'toast ' + s;
+  t.textContent = s === 'good' ? 'Prost! Starke Zahlen.' : s === 'bad' ? 'Autsch. Da zieht ein Gewitter auf.' : 'Geht so. Da ist noch Luft.';
+  requestAnimationFrame(() => t.classList.add('show')); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2400);
+}
+function play(s){
+  if(s === 'none') return;
+  toast(s);
+  try { window.dataLayer && window.dataLayer.push({ event: 'kpi_calculated', kpi: cur.id, business_model: mode, rating: s }); } catch(e) {}
+  if(reduce) return;
+  const r = $('#result');
+  if(s === 'bad') storm();
+  else { if(s === 'good') confetti(); r.classList.remove('pop'); void r.offsetWidth; r.classList.add('pop'); }
+}
+function maybeCelebrate(){
+  const res = cur.compute(state[mode][cur.id]); const s = res ? res.score : 'none';
+  if(s !== lastScore[mode][cur.id]){ lastScore[mode][cur.id] = s; play(s); }
+}
+$('#evalBtn').addEventListener('click', () => { const res = cur.compute(state[mode][cur.id]); const s = res ? res.score : 'none'; lastScore[mode][cur.id] = s; play(s); });
+$('#resetBtn').addEventListener('click', () => { state[mode][cur.id] = defaults(mode, cur); lastScore[mode][cur.id] = undefined; select(cur.id, false); });
+
+/* ---------- Start ---------- */
+try { const m = localStorage.getItem('kpi-mode'); if(m === 'b2b' || m === 'b2c') mode = m; } catch(e) {}
+const h = location.hash.slice(1); if(calcs.some(c => c.id === h)) cur = calcs.find(c => c.id === h);
+setMode(mode);
+})();
+</script>
+
+<!--KLARO-->
+<!-- KLARO Cookie Manager -->
+<script>
+  var klaroConfig = {
+    version: 1, elementID: 'klaro',
+    styling: { theme: ['light', 'bottom', 'wide'] },
+    noAutoLoad: false, htmlTexts: true, embedded: false,
+    groupByPurpose: true, storageMethod: 'localStorage',
+    cookieName: 'klaro', cookieExpiresAfterDays: 365,
+    default: false, mustConsent: false, acceptAll: true,
+    hideDeclineAll: false, hideLearnMore: false,
+    noticeAsModal: false, showNoticeTitle: true,
+    showCloseButton: true, lang: 'de',
+    translations: {
+      de: {
+        privacyPolicyUrl: '/datenschutz.html',
+        consentmodal: { title: 'Cookies & Datenschutz', description: 'Ich nutze einige externe Dienste um diese Website zu betreiben und zu verbessern. Du entscheidest selbst welche du aktivierst.' },
+        consentNotice: { description: 'Ich nutze Cookies und externe Dienste. Du kannst selbst entscheiden welche du erlaubst. {purposes}', learnMore: 'Einstellungen' },
+        acceptAll: 'Alle akzeptieren', acceptSelected: 'Auswahl speichern',
+        decline: 'Ablehnen', close: 'Schließen', ok: 'OK',
+        purposes: { analytics: 'Analyse', marketing: 'Marketing' },
+      }
+    },
+    services: [
+      {
+        name: 'google-tag-manager', title: 'Google Analytics 4 (über Google Tag Manager)', purposes: ['analytics'], required: false,
+        onAccept: `gtag('consent','update',{'analytics_storage':'granted','ad_storage':'denied'});(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TT2MLMR5');`,
+        onDecline: `gtag('consent','update',{'analytics_storage':'denied','ad_storage':'denied'});`,
+        translations: { de: { description: 'Anonymisierte Auswertung der Seitenaufrufe und Kontaktanfragen mit Google Analytics 4. Wird über den Google Tag Manager geladen. Keine Werbe-Cookies.' } }
+      }
+    ]
+  };
+</script>
+<style>
+  .klaro .cookie-notice, .klaro .cookie-modal .cm-modal { background: #C8A147 !important; color: #184233 !important; }
+  .klaro .cookie-notice .cn-title, .klaro .cookie-modal .cm-modal .cm-header h1, .klaro .cookie-modal .cm-modal .cm-header h2 { color: #184233 !important; }
+  .klaro .cookie-notice p, .klaro .cookie-modal p, .klaro .cookie-modal .cm-list-label, .klaro .cookie-modal .cm-list-description { color: #184233 !important; }
+  .klaro .cookie-notice .cn-btn.cm-btn-success, .klaro .cookie-modal .cm-btn.cm-btn-success { background: #184233 !important; color: #FAFAFA !important; border: none !important; }
+  .klaro .cookie-notice .cn-btn, .klaro .cookie-modal .cm-btn { background: transparent !important; border: 1px solid #184233 !important; color: #184233 !important; }
+  .klaro .cookie-notice .cn-btn:hover, .klaro .cookie-modal .cm-btn:hover { opacity: 0.75 !important; }
+  .klaro .cookie-notice a, .klaro .cookie-modal a { color: #184233 !important; text-decoration: underline !important; }
+  .klaro .cookie-modal .cm-toggle-all .slider, .klaro .cookie-modal .cm-list-input:checked + .cm-list-label .slider { background: #184233 !important; }
+  .klaro .cookie-modal .cm-modal .cm-header, .klaro .cookie-modal .cm-modal .cm-footer { background: #b8922e !important; border-color: rgba(24,66,51,0.2) !important; }
+</style>
+<script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
+<button id="cookieSettingsBtn" onclick="klaro.show()" title="Cookie-Einstellungen">🍪</button>
+<style>
+  #cookieSettingsBtn { position: fixed; bottom: 1.5rem; left: 1.5rem; width: 42px; height: 42px; border-radius: 50%; background: #C8A147; border: none; font-size: 1.1rem; cursor: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 998; transition: transform 0.2s, opacity 0.2s; opacity: 0.85; }
+  #cookieSettingsBtn:hover { transform: scale(1.1); opacity: 1; }
+</style>
+<!--/KLARO-->
+
+</body>
+</html>
