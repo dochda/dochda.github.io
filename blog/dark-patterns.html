@@ -615,15 +615,10 @@
     },
     services: [
       {
-        name: 'google-tag-manager', title: 'Google Tag Manager', purposes: ['analytics'], required: false,
-        onAccept: `gtag('consent','update',{'analytics_storage':'granted','ad_storage':'granted'});(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TT2MLMR5');`,
+        name: 'google-tag-manager', title: 'Google Analytics 4 (über Google Tag Manager)', purposes: ['analytics'], required: false,
+        onAccept: `gtag('consent','update',{'analytics_storage':'granted','ad_storage':'denied'});(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TT2MLMR5');`,
         onDecline: `gtag('consent','update',{'analytics_storage':'denied','ad_storage':'denied'});`,
-        translations: { de: { description: 'Verwaltet alle anderen Tracking-Skripte auf dieser Website.' } }
-      },
-      {
-        name: 'google-analytics', title: 'Google Analytics 4', purposes: ['analytics'], required: false,
-        onAccept: `var ga=document.createElement('script');ga.async=true;ga.src='https://www.googletagmanager.com/gtag/js?id=G-QLXTZVP1FH';document.head.appendChild(ga);gtag('js',new Date());gtag('config','G-QLXTZVP1FH',{'anonymize_ip':true});`,
-        translations: { de: { description: 'Anonymisierte Auswertung der Seitenbesuche. IP-Anonymisierung ist aktiviert.' } }
+        translations: { de: { description: 'Anonymisierte Auswertung der Seitenaufrufe und Kontaktanfragen mit Google Analytics 4. Wird über den Google Tag Manager geladen. Keine Werbe-Cookies.' } }
       }
     ]
   };
