@@ -1,0 +1,28 @@
+# Dominik C. Daniels
+
+> Persönliche Website von Dominik C. Daniels, Staatlich geprüfter Kommunikationswirt aus Kassel. Er schreibt über ehrliches Marketing, das Kunden nicht manipuliert, und nimmt ausgewählte Projekte an: ein Marketing-Audit für kleine B2B-Betriebe und einen Digitalen Neustart für lokale Betriebe. Alle Inhalte sind auf Deutsch.
+
+Dominik nimmt gelegentlich Projekte an, projektbasiert und selektiv, ohne Retainer. Anfragen laufen über das Kontaktformular auf der Startseite.
+
+## Leistungen
+
+- [Leistungen](https://dominikdaniels.com/leistungen.html): Marketing-Audit (Preis auf Anfrage) für Betriebe bis ca. 20 Mitarbeitende, in denen Marketing nebenher läuft. Ergebnis: ehrliche Einschätzung, priorisierte Baustellen, Vorlagen und ein Fahrplan zum Selbst-Weiterführen. Digitaler Neustart (einmaliger Festpreis 800 €, kein Folgevertrag) für Handwerk, Gewerbe und lokale Dienstleister: Google-Unternehmensprofil, einfache Landingpage oder Fix der bestehenden Website, einfaches CRM und Übergabe-Dokument zum Selbst-Weiterpflegen.
+
+## Tools
+
+- [Marketing-Rechner](https://dominikdaniels.com/kpi-rechner.html): Kostenloser Rechner für ROAS, ROI, CAC, Customer Lifetime Value, Funnel-Kennzahlen, TAM/SAM/SOM, Marktpotenzial und Break-even, jeweils für B2B oder B2C, mit Einordnung, ob ein Wert gut ist. Rechnet nur im Browser.
+
+## Blog
+
+- [Dark Patterns: Wie du täglich manipuliert wirst](https://dominikdaniels.com/blog/dark-patterns.html): Countdown-Timer, Confirmshaming, schwer kündbare Abos – die gängigsten Manipulationstricks im digitalen Marketing.
+- [Vertrauen als Wachstumsstrategie](https://dominikdaniels.com/blog/vertrauen-wachstumsstrategie.html): Warum ehrliches Marketing langfristig wirtschaftlicher ist als kurzfristige Tricks.
+- [Warum B2B-Marken so langweilig sind](https://dominikdaniels.com/blog/b2b-langweilig.html): Warum deutsche B2B-Weltmarktführer im Kopf ihrer Kunden unsichtbar bleiben und wie man das ändert.
+- [SynthID: Googles unsichtbares Wasserzeichen gegen AI Slop](https://dominikdaniels.com/blog/synthid.html): Was Googles Wasserzeichen für KI-Bilder kann und was nicht.
+- [Micro Compliance](https://dominikdaniels.com/blog/micro-compliance.html): Wie kleine Zustimmungen in sozialen Medien Einstellungen schrittweise verschieben.
+
+## Optional
+
+- [Startseite](https://dominikdaniels.com/): Über Dominik, Werdegang, Kontaktformular.
+- [Blog-Übersicht](https://dominikdaniels.com/blog.html)
+- [Impressum](https://dominikdaniels.com/impressum.html)
+- [Datenschutz](https://dominikdaniels.com/datenschutz.html)
